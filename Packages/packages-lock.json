@@ -1,5 +1,14 @@
 {
   "dependencies": {
+    "com.esotericsoftware.spine.urp-shaders": {
+      "version": "https://github.com/EsotericSoftware/spine-runtimes.git?path=spine-unity/Modules/com.esotericsoftware.spine.urp-shaders#4.1",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.render-pipelines.universal": "7.1.5"
+      },
+      "hash": "1cc01d6c6b4591ffdee82dbf31aea3ac8524298f"
+    },
     "com.unity.2d.animation": {
       "version": "9.0.3",
       "depth": 1,
