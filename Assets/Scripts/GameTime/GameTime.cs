@@ -109,8 +109,8 @@ namespace GameTime
                 }
             }
 
-            float decimalPartCurrentTime = currentTurnTime - closestStepTime;
-            if (decimalPartCurrentTime > 0f && decimalPartCurrentTime < _eps)
+            float decimalPartCurrentTime = Mathf.Abs(currentTurnTime - closestStepTime);
+            if (decimalPartCurrentTime < _eps)
             {
                 int step = Array.IndexOf(stepTimes, closestStepTime);
                 if (step == 0)
