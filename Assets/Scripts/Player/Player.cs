@@ -15,6 +15,9 @@ namespace Player
         [SerializeField] private float _attackSpeed;
         [SerializeField] private float _damage;
         [SerializeField] private float _movementEpsThreshold = 1f;
+        [SerializeField] private float _attackAngle;
+        [SerializeField] private float _attackRadius;
+        [SerializeField] private Transform _attackColliderTransform;
         private SkeletonAnimation _skeletonAnimation;
         private string _currentAnimName;
         private bool _isDash;
@@ -27,6 +30,7 @@ namespace Player
         {
             _rb = GetComponent<Rigidbody2D>();
             _skeletonAnimation = GetComponentInChildren<SkeletonAnimation>();
+            _attackColliderTransform.gameObject.SetActive(false);
         }
 
         private void Update()
@@ -70,7 +74,7 @@ namespace Player
         private void Dash()
         {
             _rb.AddForce((_movementInput == Vector3.zero ? transform.right : _movementInput.normalized) * _dashForce, ForceMode2D.Impulse);
-            Debug.Log($"Dash force: {((_movementInput == Vector3.zero ? transform.right : _movementInput.normalized) * _dashForce).magnitude}");
+            //Debug.Log($"Dash force: {((_movementInput == Vector3.zero ? transform.right : _movementInput.normalized) * _dashForce).magnitude}");
         }
 
         private void Attack()
@@ -84,8 +88,11 @@ namespace Player
                 transform.rotation = Quaternion.Euler(0f, 90f - 90f * attackDashDir.x / Mathf.Abs(attackDashDir.x), 0f);
             }
 
+            _attackColliderTransform.transform.right = attackDashDir;
+            _attackColliderTransform.gameObject.SetActive(true);
+
             _rb.AddForce(attackDashDir * _attackDashForce, ForceMode2D.Impulse);
-            Debug.Log($"Attack dash force: {(attackDashDir * _attackDashForce).magnitude}");
+            //Debug.Log($"Attack dash force: {(attackDashDir * _attackDashForce).magnitude}");
         }
 
         private void FixedUpdate()
@@ -129,7 +136,7 @@ namespace Player
                 _rb.drag = 0f;
                 _isAttack = true;
                 float attackDashTimeSec = _attackDashForce / (_rb.mass * _attackDashTimeScaleFactor);
-                Debug.Log($"Attack dash time sec: {attackDashTimeSec}");
+                //Debug.Log($"Attack dash time sec: {attackDashTimeSec}");
                 StartCoroutine(ResetAttackDashCoroutine(attackDashTimeSec));
                 Attack();
                 _rb.drag = oldDrag;
@@ -146,6 +153,8 @@ namespace Player
         {
             yield return new WaitForSeconds(time);
             _isAttack = false;
+            _attackColliderTransform.rotation = Quaternion.identity;
+            _attackColliderTransform.gameObject.SetActive(false);
         }
     }
 }
