@@ -205,7 +205,7 @@ namespace Player
             _movementInput = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0f);
             _movementInput = _movementInput.normalized;
 
-            if (Input.GetKeyDown(KeyCode.Space) && _canDash && !_isDash)
+            if (!_isAttack && Input.GetKeyDown(KeyCode.Space) && _canDash && !_isDash)
             {
                 float oldDrag = _rb.drag;
                 _rb.drag = 0f;
@@ -222,7 +222,7 @@ namespace Player
                 _rb.drag = oldDrag;
             }
 
-            if (Input.GetMouseButtonDown(0) && _canAttack)
+            if (!_isDash && Input.GetMouseButtonDown(0) && _canAttack)
             {
                 float oldDrag = _rb.drag;
                 _rb.drag = 0f;
