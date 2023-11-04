@@ -66,6 +66,7 @@ namespace GameTime
         private float _gameTimeSec;
 
         private bool _isClockStarted;
+        private bool _isEventFired;
 
         private void StartGameClock()
         {
@@ -112,12 +113,24 @@ namespace GameTime
             float decimalPartCurrentTime = Mathf.Abs(closestStepTime - currentTurnTime);
             if (decimalPartCurrentTime < _eps)
             {
+                //Debug.Log($"IsEventFired: {_isEventFired}");
+
                 int step = Array.IndexOf(stepTimes, closestStepTime);
-                if (step == 0)
+                if (step == 0 && !_isEventFired)
                 {
                     _eventBus.Invoke(new ClockFullTurnSignal());
+                    Debug.Log($"FULL TURN");
                 }
-                _eventBus.Invoke(new ClockStepSignal(step));
+                if (!_isEventFired)
+                {
+                    _eventBus.Invoke(new ClockStepSignal(step));
+                    _isEventFired = true;
+                    Debug.Log($"Clock step!");
+                }
+            }
+            else
+            {
+                _isEventFired = false;
             }
 
             _fullTurns = fullTurns;
