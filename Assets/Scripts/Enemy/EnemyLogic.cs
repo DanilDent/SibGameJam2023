@@ -6,7 +6,7 @@ namespace Enemy
     public class EnemyLogic
     {
         public EnemyConfig Config { get; private set; }
-        
+
         private int _currentHealth;
 
         public EnemyLogic(EnemyConfig config)
@@ -23,11 +23,11 @@ namespace Enemy
             _currentHealth -= damage;
             EventBusSingleton.Instance.Invoke(new TakeDamage(this, damage));
 
-            if(_currentHealth <= 0)
+            if (_currentHealth <= 0)
             {
                 EventBusSingleton.Instance.Invoke(new Die(this));
             }
-            
+
         }
 
         //in param must be Player
