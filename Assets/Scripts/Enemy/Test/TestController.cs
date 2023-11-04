@@ -1,0 +1,17 @@
+using UnityEngine;
+
+namespace Enemy
+{
+    public class TestController : MonoBehaviour
+    {
+        [SerializeField] private EnemySpawner _spawner;
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.W))
+            {
+                _spawner.SpawnEnemy();
+            }
+        }
+    }
+}

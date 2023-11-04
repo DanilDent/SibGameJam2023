@@ -1,18 +1,39 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyLogic : MonoBehaviour
+namespace Enemy
 {
-    // Start is called before the first frame update
-    void Start()
+    //add hashcode or override Equal for perfonce
+    public class EnemyLogic
     {
+        public EnemyConfig Config { get; private set; }
         
-    }
+        private int _currentHealth;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public EnemyLogic(EnemyConfig config)
+        {
+            Config = config;
+            _currentHealth = Config.Health;
+        }
+
+        public void TakeDamage(int damage)
+        {
+            if (damage <= 0)
+                throw new System.Exception("damage less than 0");
+
+            _currentHealth -= damage;
+            EventBusSingleton.Instance.Invoke(new TakeDamage(this, damage));
+
+            if(_currentHealth <= 0)
+            {
+                EventBusSingleton.Instance.Invoke(new Die(this));
+            }
+            
+        }
+
+        //in param must be Player
+        public void Attack()
+        {
+            MonoBehaviour.print("Attacked");
+        }
     }
 }
