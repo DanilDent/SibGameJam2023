@@ -1,40 +1,32 @@
 using UnityEngine;
-using System.Collections;
 using JHelpers;
+using Pathfinding;
 
 namespace Enemy
 {
     public class ChaseState : BaseStateOnSwitcher
     {
-        private Transform _target;
-        private EnemyPhysics _enemyPhysics;
-        private float _enemyMoveSpeed;
+        private EnemyAI _enemyAI;
 
-        public ChaseState(IStateSwitcher switcher, Transform target, EnemyPhysics enemy, float enemyMoveSpeed) : base(switcher)
+        public ChaseState(IStateSwitcher switcher, EnemyAI enemy) : base(switcher)
         {
-            _enemyMoveSpeed = enemyMoveSpeed;
-            _enemyPhysics = enemy;
-            _target = target;
+            _enemyAI = enemy;
         }
 
-        public override void Enter() { }
+        public override void Enter() 
+        {
+            MonoBehaviour.print("InChase");
+        }
 
         public override void Exit() { }
 
         public override void FixedUpdate()
         {
-            if (CheckDistance())
-            {
+            if (_enemyAI.ReachedEndOfPath)
                 _switcher.SwitchState<AttackState>();
-                return;
-            }
-            
-            _enemyPhysics.RB.AddForce((_target.transform.position - _enemyPhysics.transform.position) * _enemyMoveSpeed, ForceMode2D.Force);
-        }
 
-        private bool CheckDistance()
-        {
-            return Vector3.Distance(_enemyPhysics.transform.position, _target.position) <= 1f;
+            MonoBehaviour.print("chase");
+            _enemyAI.UpdatePos();
         }
     }
 }

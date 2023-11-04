@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1833637629190664809}
   - component: {fileID: 8570311592419546054}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: EnemyVisual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99,7 +99,9 @@ GameObject:
   - component: {fileID: 2818515723516537053}
   - component: {fileID: 7176609060909455521}
   - component: {fileID: 8756997849035815152}
-  m_Layer: 0
+  - component: {fileID: 7399528948524648820}
+  - component: {fileID: 2665210145882628892}
+  m_Layer: 6
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -137,6 +139,8 @@ MonoBehaviour:
   EnemyPhysics: {fileID: 3293656736462834252}
   EnemyView: {fileID: 8493306137483299548}
   StateMachine: {fileID: 8756997849035815152}
+  EnemyAI: {fileID: 2665210145882628892}
+  Seeker: {fileID: 7399528948524648820}
 --- !u!114 &8493306137483299548
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -221,8 +225,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0017812848, y: 0.0021384954}
-  m_Size: {x: 0.9880787, y: 1.9875596}
+  m_Offset: {x: 0.0017812848, y: 0.0054893494}
+  m_Size: {x: 0.9880787, y: 1.9942613}
   m_Direction: 0
 --- !u!114 &8756997849035815152
 MonoBehaviour:
@@ -234,5 +238,45 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3757f99fa1c87d948bbdfe89cfe42811, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7399528948524648820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6804852395791695763}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 373b52eb9bf8c40f785bb6947a1aee66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 1
+  drawGizmos: 1
+  detailedGizmos: 0
+  startEndModifier:
+    addPoints: 0
+    exactStartPoint: 3
+    exactEndPoint: 3
+    useRaycasting: 0
+    mask:
+      serializedVersion: 2
+      m_Bits: 4294967295
+    useGraphRaycasting: 0
+  traversableTags: -1
+  tagPenalties: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  graphMask:
+    value: -1
+--- !u!114 &2665210145882628892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6804852395791695763}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 690434ad49e8ccc4396b519425d06748, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
