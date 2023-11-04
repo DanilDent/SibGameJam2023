@@ -88,20 +88,20 @@ namespace GameTime
 
         private void CheckForSteps()
         {
-            _fullTurns = Mathf.FloorToInt(_gameTimeSec / _clockFullTurnSec);
+            int fullTurns = Mathf.FloorToInt(_gameTimeSec / _clockFullTurnSec);
             float currentTurnTime = _gameTimeSec - _fullTurns * _clockFullTurnSec;
 
             float[] stepTimes = new float[_numberOfSteps];
             for (int i = 0; i < _numberOfSteps; ++i)
             {
-                stepTimes[i] = (_clockFullTurnSec / _numberOfSteps) * i;
+                stepTimes[i] = (_clockFullTurnSec / _numberOfSteps) * (_numberOfSteps - i);
             }
 
             float closestStepTime = stepTimes[0];
             float decimPart = float.MaxValue;
             for (int i = 0; i < _numberOfSteps; ++i)
             {
-                float curDecimPart = Mathf.Abs(currentTurnTime - stepTimes[i]);
+                float curDecimPart = Mathf.Abs(stepTimes[i] - currentTurnTime);
                 if (curDecimPart < decimPart)
                 {
                     decimPart = curDecimPart;
@@ -109,7 +109,7 @@ namespace GameTime
                 }
             }
 
-            float decimalPartCurrentTime = Mathf.Abs(currentTurnTime - closestStepTime);
+            float decimalPartCurrentTime = Mathf.Abs(closestStepTime - currentTurnTime);
             if (decimalPartCurrentTime < _eps)
             {
                 int step = Array.IndexOf(stepTimes, closestStepTime);
@@ -119,6 +119,8 @@ namespace GameTime
                 }
                 _eventBus.Invoke(new ClockStepSignal(step));
             }
+
+            _fullTurns = fullTurns;
         }
     }
 }
