@@ -48,6 +48,7 @@ namespace Player
             _attackSpeed = config.AttackSpeed;
             _damage = config.Damage;
             _currentHealth = config.Health;
+            _dashDelaySec = config.DashDelaySec;
         }
 
         public enum BeatEffect
@@ -70,6 +71,7 @@ namespace Player
         [SerializeField] private float _movementEpsThreshold = 1f;
         [SerializeField] private Transform _attackColliderTransform;
         [SerializeField] private float _hitBeatEffectDuration = 0.3f;
+        [SerializeField] private float _dashDelaySec;
         private SkeletonAnimation _skeletonAnimation;
         private string _currentAnimName;
         private bool _isDash;
@@ -208,9 +210,14 @@ namespace Player
                 float oldDrag = _rb.drag;
                 _rb.drag = 0f;
                 _isDash = true;
+                _canDash = false;
                 float dashTime = _dashForce / (_rb.mass * _dashTimeScaleFactor);
-                //Debug.Log($"Dash time sec: {dashTime}");
+                Debug.Log($"Dash time sec: {dashTime}");
                 StartCoroutine(ResetDashCoroutine(dashTime));
+                StartCoroutine(Helpers.CoroutineHelpers.InvokeWithDelay(() =>
+                {
+                    _canDash = true;
+                }, _dashDelaySec));
                 Dash();
                 _rb.drag = oldDrag;
             }

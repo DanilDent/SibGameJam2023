@@ -4243,10 +4243,10 @@ Tilemap:
   m_AnimatedTiles: {}
   m_TileAssetArray:
   - m_RefCount: 284
-    m_Data: {fileID: 11400000, guid: 0759668d0e1494c49ab597089e5e5236, type: 2}
+    m_Data: {fileID: 11400000, guid: 895e24aee871f554c85c25ef377c53e1, type: 2}
   m_TileSpriteArray:
   - m_RefCount: 284
-    m_Data: {fileID: 8131547090980123289, guid: cf76bdf34e0742348bec4f1456601b10, type: 3}
+    m_Data: {fileID: 21300000, guid: a1a7ce966f8f5bf458f774088c210fb9, type: 3}
   m_TileMatrixArray:
   - m_RefCount: 284
     m_Data:
@@ -4310,7 +4310,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &423500790
 Transform:
   m_ObjectHideFlags: 0
@@ -17489,10 +17489,10 @@ Tilemap:
   m_AnimatedTiles: {}
   m_TileAssetArray:
   - m_RefCount: 1122
-    m_Data: {fileID: 11400000, guid: 6bb2c0e16c5d2474187648aa67742ae8, type: 2}
+    m_Data: {fileID: 11400000, guid: 73a0696f77ab14642a9ba2c8278b304b, type: 2}
   m_TileSpriteArray:
   - m_RefCount: 1122
-    m_Data: {fileID: 6935165142171217264, guid: 7b8e06a767f7a8f499d107130ef518a4, type: 3}
+    m_Data: {fileID: 21300000, guid: 914ceab8d7ef7ea4eb80c4dea40297ff, type: 3}
   m_TileMatrixArray:
   - m_RefCount: 1122
     m_Data:
