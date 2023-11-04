@@ -1,14 +1,36 @@
+using Config;
 using Enemy;
+using Game;
 using Helpers;
+using Sound;
 using UnityEngine;
 
 namespace GameTime
 {
     public class GameTime : MonoSingleton<GameTime>
     {
-        [SerializeField] private float _clockFullTurnSec = 4f;
+        private GameConfigSO _config;
+
+        private void Start()
+        {
+            _config = ConfigContainer.Instance.Value;
+
+            _config = ConfigContainer.Instance.Value;
+
+            _numberOfSteps = _config.GameTime.NumberOfSteps;
+            _eps = _config.GameTime.EpsSec;
+
+            _eventBus = EventBusSingleton.Instance;
+
+            var track = MusicController.Instance.SetClip(0);
+            _clockFullTurnSec = track.ClockFullTurnSec;
+            MusicController.Instance.Play();
+            StartGameClock();
+        }
+
         [SerializeField] private int _numberOfSteps = 4;
         [SerializeField] private float _eps = 1e-2f;
+        private float _clockFullTurnSec = 4f;
         private int _fullTurns;
 
         public float TurnRatio
@@ -29,13 +51,6 @@ namespace GameTime
         private float _gameTimeSec;
 
         private bool _isClockStarted;
-
-        private void Start()
-        {
-            _eventBus = EventBusSingleton.Instance;
-
-            StartGameClock();
-        }
 
         private void StartGameClock()
         {

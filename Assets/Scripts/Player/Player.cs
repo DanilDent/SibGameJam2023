@@ -1,4 +1,6 @@
+using Config;
 using Enemy;
+using Game;
 using GameTime;
 using Helpers;
 using Spine.Unity;
@@ -10,6 +12,31 @@ namespace Player
 {
     public class Player : MonoBehaviour
     {
+        private GameConfigSO _config;
+        private PlayerSO _localConfig;
+
+        private void Start()
+        {
+            _config = ConfigContainer.Instance.Value;
+            _localConfig = _config.Player;
+
+            _movementSpeed = _localConfig.MovementSpeed;
+            _movementForce = _localConfig.MovementForce;
+            _dashForce = _localConfig.DashForce;
+            _attackDashForce = _localConfig.AttackDashForce;
+            _attackDashTimeScaleFactor = _localConfig.AttackDashTimeScaleFactor;
+            _dashTimeScaleFactor = _localConfig.DashTimeScaleFactor;
+            _attackSpeed = _localConfig.AttackSpeed;
+            _damage = _localConfig.Damage;
+
+            _eventBus = EventBusSingleton.Instance;
+            _rb = GetComponent<Rigidbody2D>();
+            _skeletonAnimation = GetComponentInChildren<SkeletonAnimation>();
+            _attackColliderTransform.gameObject.SetActive(false);
+
+            SubscribeBeatEffectsCommands();
+        }
+
         public enum BeatEffect
         {
             None,
@@ -28,8 +55,6 @@ namespace Player
         [SerializeField] private float _attackSpeed;
         [SerializeField] private float _damage;
         [SerializeField] private float _movementEpsThreshold = 1f;
-        [SerializeField] private float _attackAngle;
-        [SerializeField] private float _attackRadius;
         [SerializeField] private Transform _attackColliderTransform;
         private SkeletonAnimation _skeletonAnimation;
         private string _currentAnimName;
@@ -72,16 +97,6 @@ namespace Player
             _eventBus.Unsubscribe<ClockStepSignal>(HandleCanDash);
         }
         #endregion
-
-        private void Start()
-        {
-            _eventBus = EventBusSingleton.Instance;
-            _rb = GetComponent<Rigidbody2D>();
-            _skeletonAnimation = GetComponentInChildren<SkeletonAnimation>();
-            _attackColliderTransform.gameObject.SetActive(false);
-
-            SubscribeBeatEffectsCommands();
-        }
 
         private void OnDestroy()
         {
