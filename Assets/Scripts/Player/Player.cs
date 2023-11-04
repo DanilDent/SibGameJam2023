@@ -59,8 +59,8 @@ namespace Player
         [SerializeField] private float _attackDashForce;
         [SerializeField] private float _attackDashTimeScaleFactor;
         [SerializeField] private float _dashTimeScaleFactor;
-        [SerializeField] private float _attackSpeed;
         [SerializeField] private float _damage;
+        [SerializeField] private float _attackSpeed;
         [SerializeField] private float _movementEpsThreshold = 1f;
         [SerializeField] private Transform _attackColliderTransform;
         [SerializeField] private float _hitBeatEffectDuration = 0.3f;
@@ -76,6 +76,7 @@ namespace Player
 
         #region BeatEffectsCommands
         private bool _canDash = false;
+        private bool _canAttack = true;
         public void HandleCanDash(ClockStepSignal signal)
         {
             if (!_beatEffects.Contains(BeatEffect.CanDash))
@@ -195,7 +196,7 @@ namespace Player
             _movementInput = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0f);
             _movementInput = _movementInput.normalized;
 
-            if (Input.GetKeyDown(KeyCode.Space) && _canDash)
+            if (Input.GetKeyDown(KeyCode.Space) && _canDash && !_isDash)
             {
                 float oldDrag = _rb.drag;
                 _rb.drag = 0f;
@@ -207,14 +208,19 @@ namespace Player
                 _rb.drag = oldDrag;
             }
 
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && _canAttack)
             {
                 float oldDrag = _rb.drag;
                 _rb.drag = 0f;
                 _isAttack = true;
+                _canAttack = false;
                 float attackDashTimeSec = _attackDashForce / (_rb.mass * _attackDashTimeScaleFactor);
                 //Debug.Log($"Attack dash time sec: {attackDashTimeSec}");
                 StartCoroutine(ResetAttackDashCoroutine(attackDashTimeSec));
+                StartCoroutine(Helpers.CoroutineHelpers.InvokeWithDelay(() =>
+                {
+                    _canAttack = true;
+                }, _attackSpeed));
                 Attack();
                 _rb.drag = oldDrag;
             }
