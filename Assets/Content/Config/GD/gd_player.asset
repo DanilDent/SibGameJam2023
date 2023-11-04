@@ -9,8 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d315e04b83917245b713413c1249904, type: 3}
-  m_Name: dev_game_time
+  m_Script: {fileID: 11500000, guid: 6af4c81a4ed51ce489da26c302b13d2d, type: 3}
+  m_Name: gd_player
   m_EditorClassIdentifier: 
-  _numberOfSteps: 4
-  _epsSec: 0.1
+  MovementSpeed: 8
+  MovementForce: 1500000
+  DashForce: 15000
+  AttackDashForce: 7500
+  AttackDashTimeScaleFactor: 500
+  DashTimeScaleFactor: 1000
+  AttackSpeed: 0
+  Damage: 0

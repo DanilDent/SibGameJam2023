@@ -20,21 +20,28 @@ namespace Player
             _config = ConfigContainer.Instance.Value;
             _localConfig = _config.Player;
 
-            _movementSpeed = _localConfig.MovementSpeed;
-            _movementForce = _localConfig.MovementForce;
-            _dashForce = _localConfig.DashForce;
-            _attackDashForce = _localConfig.AttackDashForce;
-            _attackDashTimeScaleFactor = _localConfig.AttackDashTimeScaleFactor;
-            _dashTimeScaleFactor = _localConfig.DashTimeScaleFactor;
-            _attackSpeed = _localConfig.AttackSpeed;
-            _damage = _localConfig.Damage;
-
+            FillFromConfig(_localConfig);
             _eventBus = EventBusSingleton.Instance;
             _rb = GetComponent<Rigidbody2D>();
             _skeletonAnimation = GetComponentInChildren<SkeletonAnimation>();
             _attackColliderTransform.gameObject.SetActive(false);
 
             SubscribeBeatEffectsCommands();
+        }
+
+        public void FillFromConfig(PlayerSO config)
+        {
+            config.Init(this);
+
+            _hitBeatEffectDuration = config.HitBeatEffectDuration;
+            _movementSpeed = config.MovementSpeed;
+            _movementForce = config.MovementForce;
+            _dashForce = config.DashForce;
+            _attackDashForce = config.AttackDashForce;
+            _attackDashTimeScaleFactor = config.AttackDashTimeScaleFactor;
+            _dashTimeScaleFactor = config.DashTimeScaleFactor;
+            _attackSpeed = config.AttackSpeed;
+            _damage = config.Damage;
         }
 
         public enum BeatEffect
@@ -56,6 +63,7 @@ namespace Player
         [SerializeField] private float _damage;
         [SerializeField] private float _movementEpsThreshold = 1f;
         [SerializeField] private Transform _attackColliderTransform;
+        [SerializeField] private float _hitBeatEffectDuration = 0.3f;
         private SkeletonAnimation _skeletonAnimation;
         private string _currentAnimName;
         private bool _isDash;
@@ -76,13 +84,12 @@ namespace Player
             }
 
             _canDash = true;
-            float effectDuration = 0.2f;
             StartCoroutine(CoroutineHelpers.InvokeWithDelay(
             () =>
             {
                 _canDash = false;
             },
-            delay: effectDuration));
+            delay: _hitBeatEffectDuration));
         }
         #endregion
 
@@ -194,7 +201,7 @@ namespace Player
                 _rb.drag = 0f;
                 _isDash = true;
                 float dashTime = _dashForce / (_rb.mass * _dashTimeScaleFactor);
-                Debug.Log($"Dash time sec: {dashTime}");
+                //Debug.Log($"Dash time sec: {dashTime}");
                 StartCoroutine(ResetDashCoroutine(dashTime));
                 Dash();
                 _rb.drag = oldDrag;

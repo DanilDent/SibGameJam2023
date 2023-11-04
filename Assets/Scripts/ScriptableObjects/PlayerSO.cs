@@ -5,6 +5,7 @@ namespace Config
     [CreateAssetMenu(fileName = "New player config", menuName = "Config/Player config")]
     public class PlayerSO : ScriptableObject
     {
+        public float HitBeatEffectDuration = 0.3f;
         public float MovementSpeed;
         public float MovementForce;
         public float DashForce;
@@ -13,5 +14,22 @@ namespace Config
         public float DashTimeScaleFactor;
         public float AttackSpeed;
         public float Damage;
+
+        private Player.Player _player;
+
+        public void Init(Player.Player player)
+        {
+            _player = player;
+        }
+
+        public void OnValidate()
+        {
+            if (_player == null)
+            {
+                return;
+            }
+
+            _player.FillFromConfig(this);
+        }
     }
 }

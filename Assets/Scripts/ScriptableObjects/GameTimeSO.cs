@@ -1,3 +1,4 @@
+using Game;
 using UnityEngine;
 
 namespace Config
@@ -10,5 +11,20 @@ namespace Config
 
         [SerializeField] private int _numberOfSteps = 4;
         [SerializeField] private float _epsSec = 1e-2f;
+
+        private GameTime.GameTime _gt;
+        public void Init(GameTime.GameTime gt)
+        {
+            _gt = gt;
+        }
+
+        public void OnValidate()
+        {
+            if (_gt == null || ConfigContainer.Instance == null)
+                return;
+
+            _gt.Fill(ConfigContainer.Instance.Value);
+            _gt.Restart();
+        }
     }
 }

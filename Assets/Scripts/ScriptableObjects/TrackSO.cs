@@ -1,3 +1,4 @@
+using Game;
 using UnityEngine;
 
 namespace GameTime
@@ -11,5 +12,20 @@ namespace GameTime
 
         [SerializeField] private AudioClip _clip;
         [SerializeField] private float _clockFullTurnSec = 4f;
+
+        private GameTime _gt;
+        public void Init(GameTime gt)
+        {
+            _gt = gt;
+        }
+
+        public void OnValidate()
+        {
+            if (_gt == null || ConfigContainer.Instance == null)
+                return;
+
+            _gt.Fill(ConfigContainer.Instance.Value);
+            _gt.Restart();
+        }
     }
 }

@@ -14,6 +14,8 @@ namespace Sound
         [SerializeField] private TrackSO[] _tracks;
         [SerializeField] private float _defaultVolume = 0.5f;
 
+        private int _currentTrackIndex = 0;
+
         protected override void Awake()
         {
             base.Awake();
@@ -25,6 +27,7 @@ namespace Sound
         public void Play(float duration = 0f)
         {
             _audio.volume = 0;
+            _audio.Stop();
             _audio.Play();
             DOTween.To(() => _audio.volume, x => _audio.volume = x, _defaultVolume, duration);
         }
@@ -34,7 +37,12 @@ namespace Sound
             _audio.clip = clip;
         }
 
-        public TrackSO SetClip(int index)
+        public TrackSO GetCurrentTrack()
+        {
+            return GetTrack(_currentTrackIndex);
+        }
+
+        public TrackSO GetTrack(int index)
         {
             if (index < 0 || index >= _tracks.Length)
             {
@@ -42,6 +50,17 @@ namespace Sound
                 return null;
             }
 
+            return _tracks[index];
+        }
+
+        public TrackSO SetTrack(int index)
+        {
+            if (index < 0 || index >= _tracks.Length)
+            {
+                Debug.LogWarning($"Music controller:Invalid track index");
+                return null;
+            }
+            _currentTrackIndex = index;
             _audio.clip = _tracks[index].Clip;
             return _tracks[index];
         }

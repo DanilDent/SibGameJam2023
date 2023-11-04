@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0d315e04b83917245b713413c1249904, type: 3}
-  m_Name: dev_game_time
+  m_Name: gd_game_time
   m_EditorClassIdentifier: 
   _numberOfSteps: 4
-  _epsSec: 0.1
+  _epsSec: 0.05
