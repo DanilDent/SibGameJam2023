@@ -9,7 +9,7 @@ namespace JHelpers
         protected List<BaseStateOnSwitcher> _states = new();
         protected BaseStateOnSwitcher _currentState;
 
-        public abstract void Init();
+        public virtual void Init() { }
         
         public void SwitchState<T>() where T : BaseStateOnSwitcher
         {
