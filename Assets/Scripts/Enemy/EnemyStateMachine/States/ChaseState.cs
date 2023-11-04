@@ -34,7 +34,6 @@ namespace Enemy
 
         private bool CheckDistance()
         {
-            MonoBehaviour.print(Vector3.Distance(_enemyPhysics.transform.position, _target.position));
             return Vector3.Distance(_enemyPhysics.transform.position, _target.position) <= 1f;
         }
     }
