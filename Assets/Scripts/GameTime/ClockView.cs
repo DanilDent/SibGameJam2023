@@ -8,6 +8,7 @@ namespace GameTime
     {
 
         [SerializeField] private RectTransform _minuteHand;
+        [SerializeField] private RectTransform _hourHand;
         private GameTime _gameTime;
         private EventBusSingleton _eventBus;
 
@@ -36,6 +37,9 @@ namespace GameTime
             Sequence sequence = DOTween.Sequence();
             sequence.Append(transform.DOScale(1.5f, duration: 0.132f).SetEase(Ease.InCirc));
             sequence.Append(transform.DOScale(1f, duration: 0.132f).SetEase(Ease.OutCirc));
+
+            float angle = (_gameTime.FullTurns % 12) * (-360f / 12f);
+            _hourHand.transform.DORotate(new Vector3(0f, 0f, angle), duration: 0.25f);
         }
 
         private void OnClockStep(ClockStepSignal signal)

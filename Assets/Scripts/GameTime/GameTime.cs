@@ -9,6 +9,7 @@ namespace GameTime
         [SerializeField] private float _clockFullTurnSec = 4f;
         [SerializeField] private int _numberOfSteps = 4;
         [SerializeField] private float _eps = 1e-2f;
+        private int _fullTurns;
 
         public float TurnRatio
         {
@@ -19,6 +20,8 @@ namespace GameTime
                 return currentTurnTime / _clockFullTurnSec;
             }
         }
+
+        public int FullTurns => _fullTurns;
 
         private EventBusSingleton _eventBus;
 
@@ -54,8 +57,8 @@ namespace GameTime
 
         private void CheckForSteps()
         {
-            int fullTurns = Mathf.FloorToInt(_gameTimeSec / _clockFullTurnSec);
-            float currentTurnTime = _gameTimeSec - fullTurns * _clockFullTurnSec;
+            _fullTurns = Mathf.FloorToInt(_gameTimeSec / _clockFullTurnSec);
+            float currentTurnTime = _gameTimeSec - _fullTurns * _clockFullTurnSec;
 
             float decimalPartCurrentTime = currentTurnTime - (int)currentTurnTime;
             if (decimalPartCurrentTime < _eps)
