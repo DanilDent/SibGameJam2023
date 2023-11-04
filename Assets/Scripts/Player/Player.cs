@@ -30,6 +30,8 @@ namespace Player
 
             _eventBus.Subscribe<EnemyHited>(OnEnemyHited);
             SubscribeBeatEffectsCommands();
+
+            _canDash = !_beatEffects.Contains(BeatEffect.CanDash);
         }
 
         public void FillFromConfig(PlayerSO config)
@@ -255,7 +257,7 @@ namespace Player
             _currentHealth -= damage;
             Debug.Log("Player take damage: " + damage);
 
-            if(_currentHealth <= 0)
+            if (_currentHealth <= 0)
             {
                 Die();
             }

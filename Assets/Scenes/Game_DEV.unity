@@ -947,7 +947,7 @@ TilemapCollider2D:
   m_GameObject: {fileID: 39483748}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 5f25441e4314aad4cac96272484a1dcd, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -4453,7 +4453,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &430474810
 Transform:
   m_ObjectHideFlags: 0
@@ -4579,8 +4579,8 @@ MonoBehaviour:
   _attackDashForce: 7500
   _attackDashTimeScaleFactor: 500
   _dashTimeScaleFactor: 1000
-  _attackSpeed: 0
-  _damage: 0
+  _attackSpeed: 0.2
+  _damage: 5
   _movementEpsThreshold: 1
   _attackColliderTransform: {fileID: 1829967293}
   _hitBeatEffectDuration: 0.3
@@ -5004,7 +5004,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &986622443
 Transform:
   m_ObjectHideFlags: 0
@@ -5276,7 +5276,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1093432978
 Transform:
   m_ObjectHideFlags: 0
@@ -5794,7 +5794,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1425680950
 Transform:
   m_ObjectHideFlags: 0
@@ -6045,7 +6045,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1756565850
 Transform:
   m_ObjectHideFlags: 0
