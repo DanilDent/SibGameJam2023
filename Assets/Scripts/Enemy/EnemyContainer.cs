@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using Pathfinding;
 using UnityEngine;
 
 namespace Enemy
@@ -9,5 +8,7 @@ namespace Enemy
         [field: SerializeField] public EnemyPhysics EnemyPhysics;
         [field: SerializeField] public EnemyView EnemyView;
         [field: SerializeField] public EnemyStateMachine StateMachine;
+        [field: SerializeField] public EnemyAI EnemyAI;
+        [field: SerializeField] public Seeker Seeker;
     }
 }

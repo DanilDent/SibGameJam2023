@@ -8,10 +8,10 @@ namespace Enemy
     public class EnemyStateMachine : BaseStateMachineOnSwitchers
     {
         //insted Of vector3 use player for runtime culc 
-        public void InitEnemyStateMachine(Transform target, EnemyPhysics enemyPhysics, EnemyLogic enemyLogic, float moveSpeed)
+        public void InitEnemyStateMachine(EnemyContainer enemyContainer, Transform player)
         {
-            _states.Add(new ChaseState(this, target, enemyPhysics, moveSpeed));
-            _states.Add(new AttackState(this, enemyLogic, enemyPhysics, target));
+            _states.Add(new ChaseState(this, enemyContainer.EnemyAI));
+            _states.Add(new AttackState(this, enemyContainer.EnemyView.EnemyLogic, enemyContainer.EnemyPhysics, player));
             _currentState = _states[0];
             _currentState.Enter();
         }

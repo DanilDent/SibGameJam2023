@@ -10,6 +10,7 @@ namespace Enemy
         private Transform _target;
         private EnemyPhysics _enemyPos;
         private EnemyLogic _enemy;
+        private Coroutine _attackRoutine;
 
         public AttackState(IStateSwitcher switcher, EnemyLogic enemy, EnemyPhysics enemyPos, Transform target) : base(switcher)
         {
@@ -25,6 +26,7 @@ namespace Enemy
 
         public override void Exit()
         {
+            _enemyPos.StopAllCoroutines();
         }
 
         private bool CheckDistance()
@@ -38,16 +40,25 @@ namespace Enemy
             _enemy.Attack();
         }
 
+        public override void FixedUpdate()
+        {
+            if (CheckDistance())
+            {
+                if (_attackRoutine == null)
+                    _attackRoutine = _enemyPos.StartCoroutine(AttackCoroutine());
+            }
+            else
+            {
+                _switcher.SwitchState<ChaseState>();
+            }
+        }
+
         private IEnumerator AttackCoroutine()
         {
-            while (CheckDistance())
-            {
-                Attack();
-                //wait attackDelay
-                yield return new WaitForSeconds(1);
-            }
+            Attack();
+            yield return new WaitForSeconds(1);
+            _attackRoutine = null;
 
-            _switcher.SwitchState<ChaseState>();
         }
     }
 }

@@ -30,7 +30,8 @@ namespace Enemy
         private void InitEnemy(EnemyContainer enemy, EnemyLogic enemyLogic)
         {
             enemy.EnemyView.Init(enemyLogic);
-            enemy.StateMachine.InitEnemyStateMachine(_playerPos, enemy.EnemyPhysics, enemyLogic, enemyLogic.Config.MoveSpeed);
+            enemy.EnemyAI.Init(enemy.Seeker, enemy.EnemyPhysics.RB, _playerPos, enemy.EnemyView.EnemyLogic.Config.MoveSpeed);
+            enemy.StateMachine.InitEnemyStateMachine(enemy, _playerPos);
         }
 
         public void SpawnEnemy()
