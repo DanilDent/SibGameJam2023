@@ -66,6 +66,7 @@ namespace GameTime
         private float _gameTimeSec;
 
         private bool _isClockStarted;
+        private bool _isEventFired;
 
         private void StartGameClock()
         {
@@ -88,20 +89,20 @@ namespace GameTime
 
         private void CheckForSteps()
         {
-            _fullTurns = Mathf.FloorToInt(_gameTimeSec / _clockFullTurnSec);
+            int fullTurns = Mathf.FloorToInt(_gameTimeSec / _clockFullTurnSec);
             float currentTurnTime = _gameTimeSec - _fullTurns * _clockFullTurnSec;
 
             float[] stepTimes = new float[_numberOfSteps];
             for (int i = 0; i < _numberOfSteps; ++i)
             {
-                stepTimes[i] = (_clockFullTurnSec / _numberOfSteps) * i;
+                stepTimes[i] = (_clockFullTurnSec / _numberOfSteps) * (_numberOfSteps - i);
             }
 
             float closestStepTime = stepTimes[0];
             float decimPart = float.MaxValue;
             for (int i = 0; i < _numberOfSteps; ++i)
             {
-                float curDecimPart = Mathf.Abs(currentTurnTime - stepTimes[i]);
+                float curDecimPart = Mathf.Abs(stepTimes[i] - currentTurnTime);
                 if (curDecimPart < decimPart)
                 {
                     decimPart = curDecimPart;
@@ -109,16 +110,30 @@ namespace GameTime
                 }
             }
 
-            float decimalPartCurrentTime = Mathf.Abs(currentTurnTime - closestStepTime);
+            float decimalPartCurrentTime = Mathf.Abs(closestStepTime - currentTurnTime);
             if (decimalPartCurrentTime < _eps)
             {
+                //Debug.Log($"IsEventFired: {_isEventFired}");
+
                 int step = Array.IndexOf(stepTimes, closestStepTime);
-                if (step == 0)
+                if (step == 0 && !_isEventFired)
                 {
                     _eventBus.Invoke(new ClockFullTurnSignal());
+                    Debug.Log($"FULL TURN");
                 }
-                _eventBus.Invoke(new ClockStepSignal(step));
+                if (!_isEventFired)
+                {
+                    _eventBus.Invoke(new ClockStepSignal(step));
+                    _isEventFired = true;
+                    Debug.Log($"Clock step!");
+                }
             }
+            else
+            {
+                _isEventFired = false;
+            }
+
+            _fullTurns = fullTurns;
         }
     }
 }
