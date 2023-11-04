@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using JHelpers;
+using GameTime;
 
 namespace Enemy
 {
@@ -14,7 +15,7 @@ namespace Enemy
         [SerializeField] private List<EnemyConfig> _enemySpawnSuquance;
         [SerializeField] private List<Transform> _wayPoints;
         [Space(20)]
-        [SerializeField] private Transform _playerPos;
+        [SerializeField] private Player.Player _player;
 
         private int _spawnId;
         private int _wayPointId;
@@ -23,15 +24,26 @@ namespace Enemy
 
         private void Start()
         {
-            _objectPool = new ObjectPool<EnemyContainer>(_prefab, _count);
+            _objectPool = new ObjectPool<EnemyContainer>(_prefab, _count, true);
             _objectPool.Init(Vector3.zero, Quaternion.identity, transform);
+            EventBusSingleton.Instance.Subscribe<ClockFullTurnSignal>(OnClockFullTurn);
+        }
+
+        private void OnDestroy()
+        {
+            EventBusSingleton.Instance.Unsubscribe<ClockFullTurnSignal>(OnClockFullTurn);
         }
 
         private void InitEnemy(EnemyContainer enemy, EnemyLogic enemyLogic)
         {
             enemy.EnemyView.Init(enemyLogic);
-            enemy.EnemyAI.Init(enemy.Seeker, enemy.EnemyPhysics.RB, _playerPos, enemy.EnemyView.EnemyLogic.Config.MoveSpeed);
-            enemy.StateMachine.InitEnemyStateMachine(enemy, _playerPos);
+            enemy.EnemyAI.Init(enemy.Seeker, enemy.EnemyPhysics.RB, _player.transform, enemy.EnemyView.EnemyLogic.Config.MoveSpeed);
+            enemy.StateMachine.InitEnemyStateMachine(enemy, _player);
+        }
+
+        private void OnClockFullTurn(ClockFullTurnSignal signal)
+        {
+            SpawnEnemy();
         }
 
         public void SpawnEnemy()

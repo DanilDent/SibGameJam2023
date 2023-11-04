@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 115833427}
   - component: {fileID: 115833426}
   - component: {fileID: 115833428}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Walls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3700,6 +3700,7 @@ MonoBehaviour:
   _damage: 0
   _movementEpsThreshold: 1
   _attackColliderTransform: {fileID: 1469817576}
+  _hitBeatEffectDuration: 0.3
 --- !u!1 &687653643
 GameObject:
   m_ObjectHideFlags: 3
@@ -3919,6 +3920,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 590b775080b9fb243955d125f696def8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _clockFullTurnSec: 4
   _numberOfSteps: 4
   _eps: 0.05
 --- !u!4 &830112866

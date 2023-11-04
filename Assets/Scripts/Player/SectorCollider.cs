@@ -1,4 +1,5 @@
 using UnityEngine;
+using Enemy;
 
 namespace Player
 {
@@ -6,8 +7,8 @@ namespace Player
     {
         public void OnTriggerEnter2D(Collider2D collision)
         {
-            // Check for enemy here
-
+            if (collision.TryGetComponent(out EnemyContainer enemy))
+                EventBusSingleton.Instance.Invoke(new EnemyHited(enemy));
         }
     }
 }

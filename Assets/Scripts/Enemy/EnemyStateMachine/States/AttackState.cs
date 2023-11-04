@@ -7,16 +7,18 @@ namespace Enemy
     public class AttackState : BaseStateOnSwitcher
     {
         //must be player field
-        private Transform _target;
+        private Player.Player _target;
         private EnemyPhysics _enemyPos;
         private EnemyLogic _enemy;
         private Coroutine _attackRoutine;
+        private float _checkDistance;
 
-        public AttackState(IStateSwitcher switcher, EnemyLogic enemy, EnemyPhysics enemyPos, Transform target) : base(switcher)
+        public AttackState(IStateSwitcher switcher, EnemyLogic enemy, EnemyPhysics enemyPos, Player.Player target, float checkDistance) : base(switcher)
         {
             _enemyPos = enemyPos;
             _target = target;
             _enemy = enemy;
+            _checkDistance = checkDistance;
         }
 
         public override void Enter()
@@ -31,13 +33,13 @@ namespace Enemy
 
         private bool CheckDistance()
         {
-            return Vector2.Distance(_enemyPos.transform.position, _target.position) <= 1f;
+            return Vector2.Distance(_enemyPos.transform.position, _target.transform.position) <= _checkDistance;
         }
 
         //need player in param
         private void Attack()
         {
-            _enemy.Attack();
+            _enemy.Attack(_target);
         }
 
         public override void FixedUpdate()

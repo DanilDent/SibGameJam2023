@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using JHelpers;
 
@@ -7,11 +5,12 @@ namespace Enemy
 {
     public class EnemyStateMachine : BaseStateMachineOnSwitchers
     {
-        //insted Of vector3 use player for runtime culc 
-        public void InitEnemyStateMachine(EnemyContainer enemyContainer, Transform player)
+        [SerializeField] private float _checkDistance = 2f;
+
+        public void InitEnemyStateMachine(EnemyContainer enemyContainer, Player.Player player)
         {
-            _states.Add(new ChaseState(this, enemyContainer.EnemyAI));
-            _states.Add(new AttackState(this, enemyContainer.EnemyView.EnemyLogic, enemyContainer.EnemyPhysics, player));
+            _states.Add(new ChaseState(this, enemyContainer.EnemyAI, player.transform, _checkDistance));
+            _states.Add(new AttackState(this, enemyContainer.EnemyView.EnemyLogic, enemyContainer.EnemyPhysics, player, _checkDistance));
             _currentState = _states[0];
             _currentState.Enter();
         }

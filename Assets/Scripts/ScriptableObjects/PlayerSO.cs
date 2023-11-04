@@ -13,7 +13,8 @@ namespace Config
         public float AttackDashTimeScaleFactor;
         public float DashTimeScaleFactor;
         public float AttackSpeed;
-        public float Damage;
+        public int Damage;
+        public int Health;
 
         private Player.Player _player;
 

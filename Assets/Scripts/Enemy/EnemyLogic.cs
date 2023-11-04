@@ -31,9 +31,9 @@ namespace Enemy
         }
 
         //in param must be Player
-        public void Attack()
+        public void Attack(Player.Player player)
         {
-            MonoBehaviour.print("Attacked");
+            player.TakeDamage(Config.Damage);
         }
     }
 }

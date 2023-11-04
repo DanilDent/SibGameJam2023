@@ -15,6 +15,8 @@ namespace Player
         private GameConfigSO _config;
         private PlayerSO _localConfig;
 
+        private int _currentHealth;
+
         private void Start()
         {
             _config = ConfigContainer.Instance.Value;
@@ -26,6 +28,7 @@ namespace Player
             _skeletonAnimation = GetComponentInChildren<SkeletonAnimation>();
             _attackColliderTransform.gameObject.SetActive(false);
 
+            _eventBus.Subscribe<EnemyHited>(OnEnemyHited);
             SubscribeBeatEffectsCommands();
         }
 
@@ -42,6 +45,7 @@ namespace Player
             _dashTimeScaleFactor = config.DashTimeScaleFactor;
             _attackSpeed = config.AttackSpeed;
             _damage = config.Damage;
+            _currentHealth = config.Health;
         }
 
         public enum BeatEffect
@@ -60,7 +64,7 @@ namespace Player
         [SerializeField] private float _attackDashTimeScaleFactor;
         [SerializeField] private float _dashTimeScaleFactor;
         [SerializeField] private float _attackSpeed;
-        [SerializeField] private float _damage;
+        [SerializeField] private int _damage;
         [SerializeField] private float _movementEpsThreshold = 1f;
         [SerializeField] private Transform _attackColliderTransform;
         [SerializeField] private float _hitBeatEffectDuration = 0.3f;
@@ -107,6 +111,7 @@ namespace Player
 
         private void OnDestroy()
         {
+            _eventBus.Unsubscribe<EnemyHited>(OnEnemyHited);
             UnsubscribeBeatEffectsCommands();
         }
 
@@ -232,6 +237,27 @@ namespace Player
             _isAttack = false;
             _attackColliderTransform.rotation = Quaternion.identity;
             _attackColliderTransform.gameObject.SetActive(false);
+        }
+
+        private void OnEnemyHited(EnemyHited signal)
+        {
+            signal.EnemyContainer.EnemyView.EnemyLogic.TakeDamage(_damage);
+        }
+
+        public void TakeDamage(int damage)
+        {
+            _currentHealth -= damage;
+            Debug.Log("Player take damage: " + damage);
+
+            if(_currentHealth <= 0)
+            {
+                Die();
+            }
+        }
+
+        public void Die()
+        {
+            Debug.Log("Player dead");
         }
     }
 }
