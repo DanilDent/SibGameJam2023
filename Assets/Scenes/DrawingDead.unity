@@ -3512,6 +3512,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a6979449f7b2d044af06c9ea3d73614, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _beatEffects: 01000000
   _movementSpeed: 8
   _movementForce: 1500000
   _dashForce: 15000

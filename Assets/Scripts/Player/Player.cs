@@ -1,11 +1,24 @@
+using Enemy;
+using GameTime;
+using Helpers;
 using Spine.Unity;
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 namespace Player
 {
     public class Player : MonoBehaviour
     {
+        public enum BeatEffect
+        {
+            None,
+            CanDash
+        }
+
+        [Header("Beat effetcts")]
+        [SerializeField] private BeatEffect[] _beatEffects;
+
         [SerializeField] private float _movementSpeed;
         [SerializeField] private float _movementForce;
         [SerializeField] private float _dashForce;
@@ -26,11 +39,53 @@ namespace Player
         private Rigidbody2D _rb;
         private Vector3 _movementInput;
 
+        private EventBusSingleton _eventBus;
+
+        #region BeatEffectsCommands
+        private bool _canDash = false;
+        public void HandleCanDash(ClockStepSignal signal)
+        {
+            if (!_beatEffects.Contains(BeatEffect.CanDash))
+            {
+                return;
+            }
+
+            _canDash = true;
+            float effectDuration = 0.2f;
+            StartCoroutine(CoroutineHelpers.InvokeWithDelay(
+            () =>
+            {
+                _canDash = false;
+            },
+            delay: effectDuration));
+        }
+        #endregion
+
+        #region BeatEffectsController
+        private void SubscribeBeatEffectsCommands()
+        {
+            _eventBus.Subscribe<ClockStepSignal>(HandleCanDash);
+        }
+
+        private void UnsubscribeBeatEffectsCommands()
+        {
+            _eventBus.Unsubscribe<ClockStepSignal>(HandleCanDash);
+        }
+        #endregion
+
         private void Start()
         {
+            _eventBus = EventBusSingleton.Instance;
             _rb = GetComponent<Rigidbody2D>();
             _skeletonAnimation = GetComponentInChildren<SkeletonAnimation>();
             _attackColliderTransform.gameObject.SetActive(false);
+
+            SubscribeBeatEffectsCommands();
+        }
+
+        private void OnDestroy()
+        {
+            UnsubscribeBeatEffectsCommands();
         }
 
         private void Update()
@@ -118,7 +173,7 @@ namespace Player
             _movementInput = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0f);
             _movementInput = _movementInput.normalized;
 
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space) && _canDash)
             {
                 float oldDrag = _rb.drag;
                 _rb.drag = 0f;
