@@ -32,10 +32,11 @@ namespace JHelpers
 
             if (_signalCallbacks.ContainsKey(key))
             {
-                foreach (var obj in _signalCallbacks[key])
+                for (int i = 0; i < _signalCallbacks[key].Count; ++i)
                 {
-                    var callback = obj.Callback as Action<T>;
-                    callback?.Invoke(signal);
+                    var obj = _signalCallbacks[key][i];
+                    var callBack = obj.Callback as Action<T>;
+                    callBack?.Invoke(signal);
                 }
             }
         }

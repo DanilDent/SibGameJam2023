@@ -20,4 +20,5 @@ MonoBehaviour:
   AttackDashTimeScaleFactor: 500
   DashTimeScaleFactor: 1000
   AttackSpeed: 0.2
-  Damage: 0
+  Damage: 5
+  Health: 5

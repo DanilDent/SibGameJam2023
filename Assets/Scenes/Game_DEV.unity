@@ -4491,7 +4491,7 @@ MonoBehaviour:
   - {fileID: 1526035140}
   - {fileID: 2018107191}
   - {fileID: 1120136002}
-  _playerPos: {fileID: 576544782}
+  _player: {fileID: 576544783}
 --- !u!1 &500885127
 GameObject:
   m_ObjectHideFlags: 0
