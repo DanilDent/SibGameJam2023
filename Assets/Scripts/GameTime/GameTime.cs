@@ -23,10 +23,10 @@ namespace GameTime
             }
 
             Fill(_config);
-            Helpers.CoroutineHelpers.InvokeWithDelay(() =>
+            StartCoroutine(Helpers.CoroutineHelpers.InvokeWithDelay(() =>
             {
                 Restart();
-            }, 1f);
+            }, 5f));
         }
 
         public void Restart()

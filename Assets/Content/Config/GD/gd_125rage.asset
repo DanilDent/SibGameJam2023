@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06752ef0bbc9b254d99089eb69b69aeb, type: 3}
   m_Name: gd_125rage
   m_EditorClassIdentifier: 
-  _clip: {fileID: 8300000, guid: 2b6fbe778edcb1c4eb1be60baeff682e, type: 3}
-  _clockFullTurnSec: 4
+  _clip: {fileID: 8300000, guid: 0d7501cb90a0bfc4989b38e685be060d, type: 3}
+  _clockFullTurnSec: 3.75

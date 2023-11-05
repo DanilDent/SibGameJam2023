@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: gd_game_time
   m_EditorClassIdentifier: 
   _numberOfSteps: 4
-  _epsSec: 0.05
+  _epsSec: 0.3
