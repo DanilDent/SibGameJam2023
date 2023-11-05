@@ -3,7 +3,6 @@ using Enemy;
 using Game;
 using GameTime;
 using Helpers;
-using Spine.Unity;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
@@ -25,7 +24,7 @@ namespace Player
             FillFromConfig(_localConfig);
             _eventBus = EventBusSingleton.Instance;
             _rb = GetComponent<Rigidbody2D>();
-            _skeletonAnimation = GetComponentInChildren<SkeletonAnimation>();
+            _animator = GetComponentInChildren<Animator>();
             _attackColliderTransform.gameObject.SetActive(false);
 
             _eventBus.Subscribe<EnemyHited>(OnEnemyHited);
@@ -48,6 +47,7 @@ namespace Player
             _attackSpeed = config.AttackSpeed;
             _damage = config.Damage;
             _currentHealth = config.Health;
+            _dashDelaySec = config.DashDelaySec;
         }
 
         public enum BeatEffect
@@ -70,13 +70,16 @@ namespace Player
         [SerializeField] private float _movementEpsThreshold = 1f;
         [SerializeField] private Transform _attackColliderTransform;
         [SerializeField] private float _hitBeatEffectDuration = 0.3f;
-        private SkeletonAnimation _skeletonAnimation;
-        private string _currentAnimName;
+        [SerializeField] private float _dashDelaySec;
+        private Animator _animator;
+        private string _currentAnimState;
         private bool _isDash;
         private bool _isAttack;
 
         private Rigidbody2D _rb;
         private Vector3 _movementInput;
+        private int _dirX;
+        private int _dirY;
 
         private EventBusSingleton _eventBus;
 
@@ -121,39 +124,75 @@ namespace Player
         private void Update()
         {
             HandleInput();
+            HandleOrientation();
 
-            if (_isAttack && _currentAnimName != "attack")
+            if (_isAttack && _currentAnimState != "attack")
             {
-                _skeletonAnimation.AnimationState.ClearTracks();
-
-                _currentAnimName = "attack";
-                _skeletonAnimation.AnimationState.SetAnimation(0, _currentAnimName, true);
+                _animator.SetTrigger("AttackTrigger");
+                _currentAnimState = "attack";
 
                 return;
             }
-            else if (_isDash && _currentAnimName != "jump")
+            else if (_isDash && _currentAnimState != "jump")
             {
-                _skeletonAnimation.AnimationState.ClearTracks();
-
-                _currentAnimName = "jump";
-                _skeletonAnimation.AnimationState.SetAnimation(0, _currentAnimName, true);
-
+                _currentAnimState = "jump";
+                _animator.SetBool("IsDash", true);
                 return;
             }
-            else if (!_isDash && !_isAttack && _rb.velocity.magnitude > _movementEpsThreshold && _currentAnimName != "run")
+            else if (!_isDash && !_isAttack && _rb.velocity.magnitude > _movementEpsThreshold && _currentAnimState != "run")
             {
-                _skeletonAnimation.AnimationState.ClearTracks();
-
-                _currentAnimName = "run";
-                _skeletonAnimation.AnimationState.SetAnimation(0, _currentAnimName, true);
+                _currentAnimState = "run";
             }
-            else if (!_isDash && !_isAttack && _rb.velocity.magnitude < _movementEpsThreshold && _currentAnimName != "idle")
+            else if (!_isDash && !_isAttack && _rb.velocity.magnitude < _movementEpsThreshold && _currentAnimState != "idle")
             {
-                _skeletonAnimation.AnimationState.ClearTracks();
-
-                _currentAnimName = "idle";
-                _skeletonAnimation.AnimationState.SetAnimation(0, _currentAnimName, true);
+                _currentAnimState = "idle";
+                _animator.SetFloat("Speed", 0f);
             }
+
+            _animator.SetFloat("Speed", _movementInput == Vector3.zero ? 0f : 1f);
+        }
+
+        private void HandleOrientation()
+        {
+            if (_isAttack)
+            {
+                return;
+            }
+
+            if (Mathf.Abs(_movementInput.x) > 0f)
+            {
+                _dirX = (int)Mathf.Sign(_movementInput.x);
+                transform.right = Vector3.right * _dirX;
+            }
+            else
+            {
+                _dirX = 0;
+            }
+
+            if (Mathf.Abs(_movementInput.y) > 0f)
+            {
+                _dirY = (int)Mathf.Sign(_movementInput.y);
+                if (_dirY != 0)
+                {
+                    _animator.SetFloat("Direction", _dirY);
+                }
+            }
+            else
+            {
+                _dirY = 0;
+            }
+
+            //if (_movementInput != Vector3.zero && Mathf.Abs(_movementInput.y) > 0f)
+            //{
+            //    int dirY = Mathf.RoundToInt(_movementInput.y / Mathf.Abs(_movementInput.y));
+            //    _direction = -dirY;
+            //    _animator.SetFloat("Direction", -(float)dirY);
+            //}
+
+            //if (_movementInput != Vector3.zero && Mathf.Abs(_movementInput.x) > 0f)
+            //{
+            //    transform.rotation = Quaternion.Euler(0f, 90f - 90f * _movementInput.x / Mathf.Abs(_movementInput.x) * (_direction), 0f);
+            //}
         }
 
         private void Dash()
@@ -173,6 +212,11 @@ namespace Player
                 transform.rotation = Quaternion.Euler(0f, 90f - 90f * attackDashDir.x / Mathf.Abs(attackDashDir.x), 0f);
             }
 
+            if (attackDashDir != Vector3.zero && Mathf.Abs(attackDashDir.y) > 0f)
+            {
+                _animator.SetFloat("Direction", attackDashDir.y / Mathf.Abs(attackDashDir.y));
+            }
+
             _attackColliderTransform.transform.right = attackDashDir;
             _attackColliderTransform.gameObject.SetActive(true);
 
@@ -182,19 +226,17 @@ namespace Player
 
         private void FixedUpdate()
         {
-            if (_rb.velocity.magnitude < _movementSpeed)
+            float eps = 0.1f;
+            if (_rb.velocity.magnitude < (_movementSpeed - eps))
             {
                 _rb.AddForce(_movementInput * _movementForce * Time.deltaTime, ForceMode2D.Force);
             }
 
             if (_rb.velocity.magnitude > _movementSpeed && !_isDash && !_isAttack)
             {
+                //Debug.Log($"Before normalize velocity: {_rb.velocity.magnitude}");
                 _rb.velocity = _rb.velocity.normalized * _movementSpeed;
-            }
-
-            if (_movementInput != Vector3.zero && Mathf.Abs(_movementInput.x) > 0f)
-            {
-                transform.rotation = Quaternion.Euler(0f, 90f - 90f * _movementInput.x / Mathf.Abs(_movementInput.x), 0f);
+                //Debug.Log($"Normalize velocity: {_rb.velocity.magnitude}");
             }
         }
 
@@ -203,19 +245,24 @@ namespace Player
             _movementInput = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0f);
             _movementInput = _movementInput.normalized;
 
-            if (Input.GetKeyDown(KeyCode.Space) && _canDash && !_isDash)
+            if (!_isAttack && Input.GetKeyDown(KeyCode.Space) && _canDash && !_isDash)
             {
                 float oldDrag = _rb.drag;
                 _rb.drag = 0f;
                 _isDash = true;
+                _canDash = false;
                 float dashTime = _dashForce / (_rb.mass * _dashTimeScaleFactor);
-                //Debug.Log($"Dash time sec: {dashTime}");
+                Debug.Log($"Dash time sec: {dashTime}");
                 StartCoroutine(ResetDashCoroutine(dashTime));
+                StartCoroutine(Helpers.CoroutineHelpers.InvokeWithDelay(() =>
+                {
+                    _canDash = true;
+                }, _dashDelaySec));
                 Dash();
                 _rb.drag = oldDrag;
             }
 
-            if (Input.GetMouseButtonDown(0) && _canAttack)
+            if (!_isDash && Input.GetMouseButtonDown(0) && _canAttack)
             {
                 float oldDrag = _rb.drag;
                 _rb.drag = 0f;
@@ -236,6 +283,7 @@ namespace Player
         private IEnumerator ResetDashCoroutine(float time)
         {
             yield return new WaitForSeconds(time);
+            _animator.SetBool("IsDash", false);
             _isDash = false;
         }
 

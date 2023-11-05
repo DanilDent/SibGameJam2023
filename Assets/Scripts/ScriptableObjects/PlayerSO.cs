@@ -13,6 +13,7 @@ namespace Config
         public float AttackDashTimeScaleFactor;
         public float DashTimeScaleFactor;
         public float AttackSpeed;
+        public float DashDelaySec;
         public int Damage;
         public int Health;
 
