@@ -27,7 +27,6 @@ namespace Enemy
 
         public override void Exit()
         {
-            _enemyPos.StopAllCoroutines();
         }
 
         private bool CheckDistance()
@@ -49,16 +48,22 @@ namespace Enemy
             }
             else
             {
+                if (_attackRoutine != null)
+                {
+                    _enemyPos.StopCoroutine(_attackRoutine);
+                    _attackRoutine = null;
+                }
+
                 _switcher.SwitchState<ChaseState>();
             }
         }
 
         private IEnumerator AttackCoroutine()
         {
-            yield return new WaitForSeconds(.2f);
+            yield return new WaitForSeconds(_enemy.Config.AttackDelay);
             Attack();
             MonoBehaviour.print("attack");
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(_enemy.Config.AttackCD);
             _attackRoutine = null;
         }
     }

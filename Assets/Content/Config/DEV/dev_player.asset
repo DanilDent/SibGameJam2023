@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6af4c81a4ed51ce489da26c302b13d2d, type: 3}
   m_Name: dev_player
   m_EditorClassIdentifier: 
-  HitBeatEffectDuration: 0.3
+  HitBeatEffectDuration: 0.2
   MovementSpeed: 11.05
   MovementForce: 3183111
   DashForce: 40000
   AttackDashForce: 5887
   AttackDashTimeScaleFactor: 500
   DashTimeScaleFactor: 1800
-  AttackSpeed: 0.42
-  DashDelaySec: 0.3
+  AttackSpeed: 0
+  DashDelaySec: 0
   Damage: 1
   Health: 5

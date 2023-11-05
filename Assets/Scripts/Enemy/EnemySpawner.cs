@@ -1,18 +1,15 @@
 using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
-using JHelpers;
+using GameFlow;
 using GameTime;
 
 namespace Enemy
 {
     public class EnemySpawner : MonoBehaviour
     {
-        //[Header("Pool settings")]
-        //[SerializeField] private EnemyContainer _prefab;
-        //[SerializeField] private int _count;
-        [SerializeField] private int _spawnCountPerTick;
-
+        [SerializeField] private int _spawnCountPerTick = 1;
+        [SerializeField] private bool _spawnOnEvetyPointPerTick;
         [Space(20)]
         [SerializeField] private List<EnemyContainer> _enemySpawnSuquance;
         [SerializeField] private List<Transform> _wayPoints;
@@ -23,20 +20,18 @@ namespace Enemy
         private int _wayPointId;
         private Dictionary<EnemyLogic, EnemyContainer> _spawnEnemiesDic = new();
 
-        //private ObjectPool<EnemyContainer> _objectPool;
-
         private void Start()
         {
-            //_objectPool = new ObjectPool<EnemyContainer>(_prefab, _count, true);
-            //_objectPool.Init(Vector3.zero, Quaternion.identity, transform);
             EventBusSingleton.Instance.Subscribe<ClockFullTurnSignal>(OnClockFullTurn);
             EventBusSingleton.Instance.Subscribe<Die>(OnEnemyDie);
+            EventBusSingleton.Instance.Subscribe<LevelComplete>(OnLevelComplete);
         }
 
         private void OnDestroy()
         {
             EventBusSingleton.Instance.Unsubscribe<ClockFullTurnSignal>(OnClockFullTurn);
             EventBusSingleton.Instance.Unsubscribe<Die>(OnEnemyDie);
+            EventBusSingleton.Instance.Unsubscribe<LevelComplete>(OnLevelComplete);
         }
 
         private void InitEnemy(EnemyContainer enemy, EnemyLogic enemyLogic)
@@ -66,31 +61,49 @@ namespace Enemy
             DespawnEnemy(enemy);
         }
 
-        public void SpawnEnemy()
+        private void OnLevelComplete(LevelComplete signal)
         {
-            if(_spawnId >= _enemySpawnSuquance.Count)
+            foreach(var key in _spawnEnemiesDic.Keys)
+            {
+                Destroy(_spawnEnemiesDic[key].gameObject);
+            }
+
+            _spawnEnemiesDic.Clear();
+        }
+
+        private void Spawn()
+        {
+            if (_spawnId >= _enemySpawnSuquance.Count)
                 _spawnId = 0;
 
             if (_wayPointId >= _wayPoints.Count)
                 _wayPointId = 0;
 
-            for(int i = 0; i < _spawnCountPerTick; i++)
-            {
-                var enemy = Instantiate(_enemySpawnSuquance[_spawnId], transform);
-                EnemyLogic enemyLogic = new(enemy.EnemyConfig);
-                enemy.transform.position = _wayPoints[_wayPointId].position;
-                InitEnemy(enemy, enemyLogic);
-                _spawnEnemiesDic.Add(enemyLogic, enemy);
+            var enemy = Instantiate(_enemySpawnSuquance[_spawnId], transform);
+            EnemyLogic enemyLogic = new(enemy.EnemyConfig);
+            enemy.transform.position = _wayPoints[_wayPointId].position;
+            InitEnemy(enemy, enemyLogic);
+            _spawnEnemiesDic.Add(enemyLogic, enemy);
 
-                _spawnId++;
-                _wayPointId++;
+            _spawnId++;
+            _wayPointId++;
+        }
+
+        public void SpawnEnemy()
+        {
+            for (int i = 0; i < _spawnCountPerTick; i++)
+            {
+                if (_spawnOnEvetyPointPerTick)
+                    foreach (var point in _wayPoints)
+                        Spawn();
+                else
+                    Spawn();
             }
         }
 
         public void DespawnEnemy(EnemyContainer enemy)
         {
             Destroy(enemy.gameObject);
-            //_objectPool.DeactivateObject(enemy);
         }
     }
 }

@@ -29,10 +29,10 @@ namespace Enemy
             EnemyLogic = enemyLogic;
             SubsribeOnEvents();
         }
-        
+
         private void SubsribeOnEvents()
         {
-            EventBusSingleton.Instance.Subscribe<Die>(OnDie);
+            EventBusSingleton.Instance.Subscribe<Die>(OnDie, 10);
             EventBusSingleton.Instance.Subscribe<TakeDamage>(OnDamageTaken);
         }
 
@@ -58,8 +58,8 @@ namespace Enemy
         {
             if (signal.Enemy == EnemyLogic)
             {
-                if (signal.Enemy.CurrentHealth <= 0)
-                    return;
+                //    if (signal.Enemy.CurrentHealth <= 0)
+                //        return;
 
                 Sprite.DOColor(Color.red, .5f).OnComplete(() => Sprite.color = Color.white);
             }

@@ -31,7 +31,10 @@ namespace GameTime
             var track = MusicController.Instance.SetTrack(0);
             _clockFullTurnSec = track.ClockFullTurnSec;
             MusicController.Instance.Play();
-            StartGameClock();
+            StartCoroutine(Helpers.CoroutineHelpers.InvokeWithDelay(() =>
+            {
+                StartGameClock();
+            }, track.OffsetSec));
         }
 
         public void Fill(GameConfigSO config)
