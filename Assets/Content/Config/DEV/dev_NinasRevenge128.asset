@@ -9,8 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d315e04b83917245b713413c1249904, type: 3}
-  m_Name: dev_game_time
+  m_Script: {fileID: 11500000, guid: 06752ef0bbc9b254d99089eb69b69aeb, type: 3}
+  m_Name: dev_NinasRevenge128
   m_EditorClassIdentifier: 
-  _numberOfSteps: 8
-  _epsSec: 0.2
+  _clip: {fileID: 8300000, guid: fdfdced575d72274fa8e8f9cf0ec9f58, type: 3}
+  _clockFullTurnSec: 3.75
+  _offsetSec: 0.9375
