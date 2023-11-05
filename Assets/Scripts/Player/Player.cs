@@ -268,10 +268,6 @@ namespace Player
                 float dashTime = _dashForce / (_rb.mass * _dashTimeScaleFactor);
                 Debug.Log($"Dash time sec: {dashTime}");
                 StartCoroutine(ResetDashCoroutine(dashTime));
-                StartCoroutine(Helpers.CoroutineHelpers.InvokeWithDelay(() =>
-                {
-                    _canDash = true;
-                }, _dashDelaySec));
                 Dash();
                 _rb.drag = oldDrag;
             }
