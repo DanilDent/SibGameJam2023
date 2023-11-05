@@ -24,7 +24,7 @@ namespace Player
             FillFromConfig(_localConfig);
             _eventBus = EventBusSingleton.Instance;
             _rb = GetComponent<Rigidbody2D>();
-            _animator = GetComponentInChildren<Animator>();
+            //_animator = GetComponentInChildren<Animator>();
             _attackColliderTransform.gameObject.SetActive(false);
 
             _eventBus.Subscribe<EnemyHited>(OnEnemyHited);
@@ -71,7 +71,7 @@ namespace Player
         [SerializeField] private Transform _attackColliderTransform;
         [SerializeField] private float _hitBeatEffectDuration = 0.3f;
         [SerializeField] private float _dashDelaySec;
-        private Animator _animator;
+        [SerializeField] private Animator _animator;
         private string _currentAnimState;
         private bool _isDash;
         private bool _isAttack;
