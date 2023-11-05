@@ -4552,6 +4552,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spawnCountPerTick: 1
+  _spawnOnEvetyPointPerTick: 0
   _enemySpawnSuquance:
   - {fileID: -1605585390677383586, guid: 07614c0ca99503346813a90dd568aaaa, type: 3}
   - {fileID: -1605585390677383586, guid: 8eba2d8ce4b3b244986562beee7b5d0b, type: 3}

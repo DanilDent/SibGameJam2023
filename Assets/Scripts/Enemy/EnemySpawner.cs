@@ -9,7 +9,7 @@ namespace Enemy
     public class EnemySpawner : MonoBehaviour
     {
         [SerializeField] private int _spawnCountPerTick = 1;
-
+        [SerializeField] private bool _spawnOnEvetyPointPerTick;
         [Space(20)]
         [SerializeField] private List<EnemyContainer> _enemySpawnSuquance;
         [SerializeField] private List<Transform> _wayPoints;
@@ -59,35 +59,39 @@ namespace Enemy
             DespawnEnemy(enemy);
         }
 
+        private void Spawn()
+        {
+            if (_spawnId >= _enemySpawnSuquance.Count)
+                _spawnId = 0;
+
+            if (_wayPointId >= _wayPoints.Count)
+                _wayPointId = 0;
+
+            var enemy = Instantiate(_enemySpawnSuquance[_spawnId], transform);
+            EnemyLogic enemyLogic = new(enemy.EnemyConfig);
+            enemy.transform.position = _wayPoints[_wayPointId].position;
+            InitEnemy(enemy, enemyLogic);
+            _spawnEnemiesDic.Add(enemyLogic, enemy);
+
+            _spawnId++;
+            _wayPointId++;
+        }
+
         public void SpawnEnemy()
         {
             for (int i = 0; i < _spawnCountPerTick; i++)
             {
-
-                foreach(var point in _wayPoints)
-                {
-                    if (_spawnId >= _enemySpawnSuquance.Count)
-                        _spawnId = 0;
-
-                    if (_wayPointId >= _wayPoints.Count)
-                        _wayPointId = 0;
-
-                    var enemy = Instantiate(_enemySpawnSuquance[_spawnId], transform);
-                    EnemyLogic enemyLogic = new(enemy.EnemyConfig);
-                    enemy.transform.position = _wayPoints[_wayPointId].position;
-                    InitEnemy(enemy, enemyLogic);
-                    _spawnEnemiesDic.Add(enemyLogic, enemy);
-
-                    _spawnId++;
-                    _wayPointId++;
-                }
+                if (_spawnOnEvetyPointPerTick)
+                    foreach (var point in _wayPoints)
+                        Spawn();
+                else
+                    Spawn();
             }
         }
 
         public void DespawnEnemy(EnemyContainer enemy)
         {
             Destroy(enemy.gameObject);
-            //_objectPool.DeactivateObject(enemy);
         }
     }
 }
