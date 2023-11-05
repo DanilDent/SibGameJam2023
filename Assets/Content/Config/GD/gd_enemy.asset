@@ -9,8 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06752ef0bbc9b254d99089eb69b69aeb, type: 3}
-  m_Name: dev_125rage
+  m_Script: {fileID: 11500000, guid: a23ce95022983cd44ab4ca80b0ddbee2, type: 3}
+  m_Name: gd_enemy
   m_EditorClassIdentifier: 
-  _clip: {fileID: 8300000, guid: ebfa40fd64838454eb671580ab315624, type: 3}
-  _clockFullTurnSec: 4
+  <Health>k__BackingField: 2
+  <Damage>k__BackingField: 1
+  <MoveSpeed>k__BackingField: 1000000
+  <AttackDelay>k__BackingField: 0
