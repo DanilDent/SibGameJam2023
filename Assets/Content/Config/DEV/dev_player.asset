@@ -15,11 +15,11 @@ MonoBehaviour:
   HitBeatEffectDuration: 0.2
   MovementSpeed: 11.05
   MovementForce: 3183111
-  DashForce: 40000
+  DashForce: 25000
   AttackDashForce: 5887
   AttackDashTimeScaleFactor: 500
-  DashTimeScaleFactor: 1800
-  AttackSpeed: 0
-  DashDelaySec: 0
+  DashTimeScaleFactor: 1500
+  AttackSpeed: 0.25
+  DashDelaySec: 0.25
   Damage: 1
   Health: 5

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Game
 {
-    [DefaultExecutionOrder(-1)]
+    [DefaultExecutionOrder(-2)]
     public class ConfigContainer : MonoSingleton<ConfigContainer>
     {
         public GameConfigSO Value => _config;

@@ -1,4 +1,4 @@
-using Config;
+﻿using Config;
 using Enemy;
 using Game;
 using Helpers;
@@ -8,9 +8,37 @@ using UnityEngine;
 
 namespace GameTime
 {
+    [DefaultExecutionOrder(-1)]
     public class GameTime : MonoSingleton<GameTime>
     {
         private GameConfigSO _config;
+
+        public bool IsHitBeat
+        {
+            get
+            {
+                float currentTurnTime = _gameTimeSec;
+                float[] stepTimes = new float[_numberOfSteps];
+                for (int i = 0; i < _numberOfSteps; ++i)
+                {
+                    stepTimes[i] = (_clockFullTurnSec / _numberOfSteps) * (_numberOfSteps - i) + _fullTurns * _clockFullTurnSec;
+                }
+
+                float closestStepTime = stepTimes[0];
+                float decimPart = float.MaxValue;
+                for (int i = 0; i < _numberOfSteps; ++i)
+                {
+                    float curDecimPart = Mathf.Abs(stepTimes[i] - currentTurnTime);
+                    if (curDecimPart < decimPart)
+                    {
+                        decimPart = curDecimPart;
+                        closestStepTime = stepTimes[i];
+                    }
+                }
+
+                return Mathf.Abs(closestStepTime - currentTurnTime) < _eps;
+            }
+        }
 
         private void Start()
         {
@@ -24,6 +52,17 @@ namespace GameTime
 
             Fill(_config);
             Restart();
+
+            float[] stepTimes = new float[_numberOfSteps];
+            for (int i = 0; i < _numberOfSteps; ++i)
+            {
+                stepTimes[i] = (_clockFullTurnSec / _numberOfSteps) * (_numberOfSteps - i) + _fullTurns * _clockFullTurnSec;
+                Debug.Log($"StepTime: {stepTimes[i]}, -eps: {stepTimes[i] - _eps}, +eps: {stepTimes[i] + _eps}");
+            }
+
+            Debug.Log($"==================================== Я ЕБАЛ ЭТУ ХУЙНЮ =========================================" +
+                "===============================================================================================" +
+                "=================================================================================================");
         }
 
         public void Restart()
@@ -70,6 +109,8 @@ namespace GameTime
 
         private bool _isClockStarted;
         private bool _isEventFired;
+        private bool _isClockStepEnter;
+        private bool _isClockStepExit;
 
         private void StartGameClock()
         {
@@ -90,15 +131,16 @@ namespace GameTime
             CheckForSteps();
         }
 
+        private float _debguPrevStepTime = -1f;
         private void CheckForSteps()
         {
             int fullTurns = Mathf.FloorToInt(_gameTimeSec / _clockFullTurnSec);
-            float currentTurnTime = _gameTimeSec - _fullTurns * _clockFullTurnSec;
+            float currentTurnTime = _gameTimeSec;
 
             float[] stepTimes = new float[_numberOfSteps];
             for (int i = 0; i < _numberOfSteps; ++i)
             {
-                stepTimes[i] = (_clockFullTurnSec / _numberOfSteps) * (_numberOfSteps - i);
+                stepTimes[i] = (_clockFullTurnSec / _numberOfSteps) * (_numberOfSteps - i) + fullTurns * _clockFullTurnSec;
             }
 
             float closestStepTime = stepTimes[0];
@@ -112,24 +154,43 @@ namespace GameTime
                     closestStepTime = stepTimes[i];
                 }
             }
+            int step = Array.IndexOf(stepTimes, closestStepTime);
+
+            //Debug.Log($"game time: {currentTurnTime}");
 
             float decimalPartCurrentTime = Mathf.Abs(closestStepTime - currentTurnTime);
-            if (decimalPartCurrentTime < _eps)
+            if (currentTurnTime > closestStepTime - _eps && !_isClockStepEnter)
             {
-                int step = Array.IndexOf(stepTimes, closestStepTime);
-                if (step == 0 && !_isEventFired)
+                _eventBus.Invoke(new ClockStepEnterSignal(step));
+                //Debug.Log($"CLOCK STEP TIME DIFF: {currentTurnTime - (_debguPrevStepTime > 0f ? _debguPrevStepTime : 0)}");
+                _debguPrevStepTime = currentTurnTime;
+                _isClockStepEnter = true;
+                _isClockStepExit = false;
+                _isEventFired = false;
+            }
+
+            if (currentTurnTime > closestStepTime + _eps && !_isClockStepExit)
+            {
+                _eventBus.Invoke(new ClockStepExitSignal(step));
+                //Debug.Log($"CLOCK STEP TIME DIFF: {currentTurnTime - (_debguPrevStepTime > 0f ? _debguPrevStepTime : 0)}");
+                _debguPrevStepTime = currentTurnTime;
+                _isClockStepEnter = false;
+                _isClockStepExit = true;
+            }
+
+            float eps = 0.05f;
+            if (Mathf.Abs(currentTurnTime - closestStepTime) < eps && !_isEventFired)
+            {
+                if (step == 0)
                 {
                     _eventBus.Invoke(new ClockFullTurnSignal());
+                    _isEventFired = true;
                 }
-                if (!_isEventFired)
+                else
                 {
                     _eventBus.Invoke(new ClockStepSignal(step));
                     _isEventFired = true;
                 }
-            }
-            else
-            {
-                _isEventFired = false;
             }
 
             _fullTurns = fullTurns;

@@ -39,8 +39,8 @@ namespace GameTime
         private void OnClockFullTurn(ClockFullTurnSignal signal)
         {
             Sequence sequence = DOTween.Sequence();
-            sequence.Append(transform.DOScale(1.3f, duration: _gameTimeConfig.EpsSec / 2f).SetEase(Ease.InCirc));
-            sequence.Append(transform.DOScale(1f, duration: _gameTimeConfig.EpsSec / 2f).SetEase(Ease.OutCirc));
+            sequence.Append(transform.DOScale(1.3f, duration: _gameTimeConfig.EpsSec).SetEase(Ease.InCirc));
+            sequence.Append(transform.DOScale(1f, duration: _gameTimeConfig.EpsSec).SetEase(Ease.OutCirc));
 
             float angle = (_gameTime.FullTurns % 12) * (-360f / 12f);
             _hourHand.transform.DORotate(new Vector3(0f, 0f, angle), duration: 0.25f);
@@ -52,8 +52,8 @@ namespace GameTime
                 return;
 
             Sequence sequence = DOTween.Sequence();
-            sequence.Append(transform.DOScale(1.15f, duration: _gameTimeConfig.EpsSec / 2f).SetEase(Ease.InCirc));
-            sequence.Append(transform.DOScale(1f, duration: _gameTimeConfig.EpsSec / 2f).SetEase(Ease.OutCirc));
+            sequence.Append(transform.DOScale(1.15f, duration: _gameTimeConfig.EpsSec).SetEase(Ease.InCirc));
+            sequence.Append(transform.DOScale(1f, duration: _gameTimeConfig.EpsSec).SetEase(Ease.OutCirc));
         }
     }
 }
