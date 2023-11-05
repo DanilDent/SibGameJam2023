@@ -100,7 +100,7 @@ namespace Player
             {
                 _hitBeatNormal = false;
             },
-            delay: _hitBeatEffectDuration));
+            delay: _config.GameTime.EpsSec));
         }
 
         public void HandleCanDash(ClockStepSignal signal)
