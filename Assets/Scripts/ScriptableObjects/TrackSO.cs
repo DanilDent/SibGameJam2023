@@ -9,9 +9,11 @@ namespace GameTime
     {
         public AudioClip Clip => _clip;
         public float ClockFullTurnSec => _clockFullTurnSec;
+        public float OffsetSec => _offsetSec;
 
         [SerializeField] private AudioClip _clip;
         [SerializeField] private float _clockFullTurnSec = 4f;
+        [SerializeField] private float _offsetSec = 0f;
 
         private GameTime _gt;
         public void Init(GameTime gt)

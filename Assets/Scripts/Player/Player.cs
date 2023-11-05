@@ -3,6 +3,7 @@ using Enemy;
 using Game;
 using GameTime;
 using Helpers;
+using Sound;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
@@ -13,6 +14,8 @@ namespace Player
     {
         private GameConfigSO _config;
         private PlayerSO _localConfig;
+        private SFXController _sfxController;
+        private AudioSource _audioSource;
 
         private int _currentHealth;
 
@@ -20,6 +23,8 @@ namespace Player
         {
             _config = ConfigContainer.Instance.Value;
             _localConfig = _config.Player;
+            _sfxController = SFXController.Instance;
+            _audioSource = GetComponent<AudioSource>();
 
             FillFromConfig(_localConfig);
             _eventBus = EventBusSingleton.Instance;
@@ -29,8 +34,6 @@ namespace Player
 
             _eventBus.Subscribe<EnemyHited>(OnEnemyHited);
             SubscribeBeatEffectsCommands();
-
-            _canDash = !_beatEffects.Contains(BeatEffect.CanDash);
         }
 
         public void FillFromConfig(PlayerSO config)
@@ -48,12 +51,6 @@ namespace Player
             _damage = config.Damage;
             _currentHealth = config.Health;
             _dashDelaySec = config.DashDelaySec;
-        }
-
-        public enum BeatEffect
-        {
-            None,
-            CanDash
         }
 
         [Header("Beat effetcts")]
@@ -84,8 +81,28 @@ namespace Player
         private EventBusSingleton _eventBus;
 
         #region BeatEffectsCommands
-        private bool _canDash = false;
+        public enum BeatEffect
+        {
+            None,
+            CanDash,
+            CanAttack,
+        }
+
+        private bool _canDash = true;
         private bool _canAttack = true;
+        private bool _hitBeatNormal = false;
+
+        public void HandleHitBeat(ClockStepSignal signal)
+        {
+            _hitBeatNormal = true;
+            StartCoroutine(CoroutineHelpers.InvokeWithDelay(
+            () =>
+            {
+                _hitBeatNormal = false;
+            },
+            delay: _config.GameTime.EpsSec));
+        }
+
         public void HandleCanDash(ClockStepSignal signal)
         {
             if (!_beatEffects.Contains(BeatEffect.CanDash))
@@ -101,17 +118,40 @@ namespace Player
             },
             delay: _hitBeatEffectDuration));
         }
+
+        public void HandleCanAttack(ClockStepSignal signal)
+        {
+            if (!_beatEffects.Contains(BeatEffect.CanAttack))
+            {
+                return;
+            }
+
+            _canAttack = true;
+            StartCoroutine(CoroutineHelpers.InvokeWithDelay(
+            () =>
+            {
+                _canAttack = true;
+            },
+            delay: _hitBeatEffectDuration));
+        }
+
         #endregion
 
         #region BeatEffectsController
         private void SubscribeBeatEffectsCommands()
         {
-            _eventBus.Subscribe<ClockStepSignal>(HandleCanDash);
+            _eventBus.Subscribe<ClockStepSignal>(HandleHitBeat);
+
+            //_eventBus.Subscribe<ClockStepSignal>(HandleCanDash);
+            //_eventBus.Subscribe<ClockStepSignal>(HandleCanAttack);
         }
 
         private void UnsubscribeBeatEffectsCommands()
         {
-            _eventBus.Unsubscribe<ClockStepSignal>(HandleCanDash);
+            _eventBus.Unsubscribe<ClockStepSignal>(HandleHitBeat);
+
+            //_eventBus.Unsubscribe<ClockStepSignal>(HandleCanDash);
+            //_eventBus.Unsubscribe<ClockStepSignal>(HandleCanAttack);
         }
         #endregion
 
@@ -197,7 +237,9 @@ namespace Player
 
         private void Dash()
         {
+            _rb.velocity = Vector3.zero;
             _rb.AddForce((_movementInput == Vector3.zero ? transform.right : _movementInput.normalized) * _dashForce, ForceMode2D.Impulse);
+            _sfxController.PlaySFX("dash", _audioSource);
             //Debug.Log($"Dash force: {((_movementInput == Vector3.zero ? transform.right : _movementInput.normalized) * _dashForce).magnitude}");
         }
 
@@ -227,6 +269,7 @@ namespace Player
 
             _rb.velocity = Vector3.zero;
             _rb.AddForce(attackDashDir * _attackDashForce, ForceMode2D.Impulse);
+            _sfxController.PlaySFX("sword", _audioSource);
             //Debug.Log($"Attack dash force: {(attackDashDir * _attackDashForce).magnitude}");
         }
 
@@ -259,24 +302,19 @@ namespace Player
                 _movementInput = Vector3.zero;
             }
 
-            if (!_isAttack && Input.GetKeyDown(KeyCode.Space) && _canDash && !_isDash)
+            if (!_isAttack && Input.GetKeyDown(KeyCode.Space) && _canDash && !_isDash && (_beatEffects.Contains(BeatEffect.CanDash) ? _hitBeatNormal : true))
             {
                 float oldDrag = _rb.drag;
                 _rb.drag = 0f;
                 _isDash = true;
-                _canDash = false;
                 float dashTime = _dashForce / (_rb.mass * _dashTimeScaleFactor);
                 Debug.Log($"Dash time sec: {dashTime}");
                 StartCoroutine(ResetDashCoroutine(dashTime));
-                StartCoroutine(Helpers.CoroutineHelpers.InvokeWithDelay(() =>
-                {
-                    _canDash = true;
-                }, _dashDelaySec));
                 Dash();
                 _rb.drag = oldDrag;
             }
 
-            if (!_isDash && Input.GetMouseButtonDown(0) && _canAttack)
+            if (!_isDash && Input.GetMouseButtonDown(0) && _canAttack && !_isAttack && (_beatEffects.Contains(BeatEffect.CanAttack) ? _hitBeatNormal : true))
             {
                 float oldDrag = _rb.drag;
                 _rb.drag = 0f;

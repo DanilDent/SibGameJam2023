@@ -15,4 +15,4 @@ MonoBehaviour:
   GameTime: {fileID: 11400000, guid: 16f67a974d60f654ab44b2a5a2fa887d, type: 2}
   Tracks:
   - {fileID: 11400000, guid: 340f8f8e3872d0c4fb551fb414cc0d1f, type: 2}
-  Player: {fileID: 11400000, guid: 69c18a95980bc0249ac879e5348b6bd1, type: 2}
+  Player: {fileID: 11400000, guid: a3bd76ebb37a6f04b907da29941a2efb, type: 2}
