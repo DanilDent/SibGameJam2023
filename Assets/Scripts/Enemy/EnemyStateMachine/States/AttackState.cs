@@ -23,7 +23,6 @@ namespace Enemy
 
         public override void Enter()
         {
-            _enemyPos.StartCoroutine(AttackCoroutine());
         }
 
         public override void Exit()
@@ -36,7 +35,6 @@ namespace Enemy
             return Vector2.Distance(_enemyPos.transform.position, _target.transform.position) <= _checkDistance;
         }
 
-        //need player in param
         private void Attack()
         {
             _enemy.Attack(_target);
@@ -57,10 +55,11 @@ namespace Enemy
 
         private IEnumerator AttackCoroutine()
         {
+            yield return new WaitForSeconds(.2f);
             Attack();
+            MonoBehaviour.print("attack");
             yield return new WaitForSeconds(1);
             _attackRoutine = null;
-
         }
     }
 }

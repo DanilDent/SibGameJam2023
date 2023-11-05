@@ -73,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 10
-  m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
+  m_Sprite: {fileID: 6891357095817125983, guid: afb7602f2ec99fd4ba19c0fd8a9641fb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -101,6 +101,7 @@ GameObject:
   - component: {fileID: 8756997849035815152}
   - component: {fileID: 7399528948524648820}
   - component: {fileID: 2665210145882628892}
+  - component: {fileID: 7566153811983207811}
   m_Layer: 6
   m_Name: Enemy
   m_TagString: Untagged
@@ -141,6 +142,7 @@ MonoBehaviour:
   StateMachine: {fileID: 8756997849035815152}
   EnemyAI: {fileID: 2665210145882628892}
   Seeker: {fileID: 7399528948524648820}
+  EnemySpriteRotator: {fileID: 7566153811983207811}
 --- !u!114 &8493306137483299548
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -153,6 +155,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fec094dbffd7a84b8f3a7cae08c72f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <Sprite>k__BackingField: {fileID: 8570311592419546054}
+  <FadeDuraion>k__BackingField: 1
 --- !u!114 &3293656736462834252
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -189,9 +193,9 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!70 &7176609060909455521
 CapsuleCollider2D:
@@ -279,5 +283,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 690434ad49e8ccc4396b519425d06748, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7566153811983207811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6804852395791695763}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4e48263a49acae4db45908322b2be94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

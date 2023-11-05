@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 using JHelpers;
 using GameTime;
@@ -19,6 +20,7 @@ namespace Enemy
 
         private int _spawnId;
         private int _wayPointId;
+        private Dictionary<EnemyLogic, EnemyContainer> _spawnEnemiesDic = new();
 
         private ObjectPool<EnemyContainer> _objectPool;
 
@@ -27,16 +29,19 @@ namespace Enemy
             _objectPool = new ObjectPool<EnemyContainer>(_prefab, _count, true);
             _objectPool.Init(Vector3.zero, Quaternion.identity, transform);
             EventBusSingleton.Instance.Subscribe<ClockFullTurnSignal>(OnClockFullTurn);
+            EventBusSingleton.Instance.Subscribe<Die>(OnEnemyDie);
         }
 
         private void OnDestroy()
         {
             EventBusSingleton.Instance.Unsubscribe<ClockFullTurnSignal>(OnClockFullTurn);
+            EventBusSingleton.Instance.Unsubscribe<Die>(OnEnemyDie);
         }
 
         private void InitEnemy(EnemyContainer enemy, EnemyLogic enemyLogic)
         {
             enemy.EnemyView.Init(enemyLogic);
+            enemy.EnemySpriteRotator.Init(enemy.EnemyView.Sprite, enemy.EnemyPhysics.RB, _player.transform);
             enemy.EnemyAI.Init(enemy.Seeker, enemy.EnemyPhysics.RB, _player.transform, enemy.EnemyView.EnemyLogic.Config.MoveSpeed);
             enemy.StateMachine.InitEnemyStateMachine(enemy, _player);
         }
@@ -44,6 +49,19 @@ namespace Enemy
         private void OnClockFullTurn(ClockFullTurnSignal signal)
         {
             SpawnEnemy();
+        }
+
+        private void OnEnemyDie(Die signal)
+        {
+            var container = _spawnEnemiesDic[signal.Enemy];
+            container.ChangeActiveStatus(false);
+            StartCoroutine(DieCoroutine(container));
+        }
+
+        private IEnumerator DieCoroutine( EnemyContainer enemy)
+        {
+            yield return new WaitForSeconds(enemy.EnemyView.FadeDuraion);
+            DespawnEnemy(enemy);
         }
 
         public void SpawnEnemy()
@@ -58,6 +76,7 @@ namespace Enemy
             var enemy = _objectPool.ActivateObject();
             enemy.transform.position = _wayPoints[_wayPointId].position;
             InitEnemy(enemy, enemyLogic);
+            _spawnEnemiesDic.Add(enemyLogic, enemy);
 
             _spawnId++;
             _wayPointId++;

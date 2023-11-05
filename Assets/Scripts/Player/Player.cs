@@ -255,7 +255,7 @@ namespace Player
         public void TakeDamage(int damage)
         {
             _currentHealth -= damage;
-            Debug.Log("Player take damage: " + damage);
+            _eventBus.Invoke(new TakeDamage(this, damage));
 
             if (_currentHealth <= 0)
             {
@@ -265,7 +265,7 @@ namespace Player
 
         public void Die()
         {
-            Debug.Log("Player dead");
+            _eventBus.Invoke(new Die(this));
         }
     }
 }

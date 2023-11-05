@@ -5,7 +5,8 @@ namespace Enemy
 {
     public class EnemyAI : MonoBehaviour
     {
-        //player
+        public Vector3 LastForce { get; private set; }
+
         private Transform _playerPos;
         private Path _path;
         private int _curretnWaypoint;
@@ -44,7 +45,9 @@ namespace Enemy
                 return;
 
             Vector2 direction = ((Vector2)_path.vectorPath[_curretnWaypoint] - _rb.position).normalized;
-            _rb.AddForce(_speed * Time.deltaTime * direction);
+            Vector3 force = _speed * Time.deltaTime * direction;
+            _rb.AddForce(force);
+            LastForce = force;
             float distance = Vector2.Distance(_rb.position, _path.vectorPath[_curretnWaypoint]);
             
             if (distance < _nextWaypointDistance)

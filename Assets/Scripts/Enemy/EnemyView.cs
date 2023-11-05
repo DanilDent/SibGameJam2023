@@ -1,9 +1,14 @@
 using UnityEngine;
+using DG.Tweening;
 
 namespace Enemy
 {
     public class EnemyView : MonoBehaviour
     {
+        [field: SerializeField] public SpriteRenderer Sprite { get; private set; }
+
+        [field: SerializeField] public float FadeDuraion { get; private set; }
+
         public EnemyLogic EnemyLogic { get; private set; }
 
         //use in spawner
@@ -31,7 +36,7 @@ namespace Enemy
         {
             if (signal.Enemy == EnemyLogic)
             {
-                Debug.Log("enemy die");
+                Sprite.DOFade(0, FadeDuraion);
                 UnsubscribeFromEvents();
             }
         }
@@ -40,7 +45,7 @@ namespace Enemy
         {
             if (signal.Enemy == EnemyLogic)
             {
-                Debug.Log("enemy take damage");
+                Sprite.DOColor(Color.red, .5f).OnComplete(() => Sprite.color = Color.white);
             }
         }
     }
