@@ -75,7 +75,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Sprite>k__BackingField: {fileID: 114134181672929573}
-  <FadeDuraion>k__BackingField: 1.5
+  <FadeDuraion>k__BackingField: 1
   Animator: {fileID: 7375234927591716604}
 --- !u!114 &3293656736462834252
 MonoBehaviour:
@@ -164,7 +164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3757f99fa1c87d948bbdfe89cfe42811, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CheckDistance: 7
+  CheckDistance: 3.5
 --- !u!114 &7399528948524648820
 MonoBehaviour:
   m_ObjectHideFlags: 0

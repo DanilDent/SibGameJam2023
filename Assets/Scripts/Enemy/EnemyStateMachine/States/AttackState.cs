@@ -27,7 +27,6 @@ namespace Enemy
 
         public override void Exit()
         {
-            _enemyPos.StopAllCoroutines();
         }
 
         private bool CheckDistance()
@@ -49,6 +48,9 @@ namespace Enemy
             }
             else
             {
+                if (_attackRoutine != null)
+                    _attackRoutine = null;
+
                 _switcher.SwitchState<ChaseState>();
             }
         }

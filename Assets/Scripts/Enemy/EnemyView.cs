@@ -58,8 +58,8 @@ namespace Enemy
         {
             if (signal.Enemy == EnemyLogic)
             {
-                if (signal.Enemy.CurrentHealth <= 0)
-                    return;
+            //    if (signal.Enemy.CurrentHealth <= 0)
+            //        return;
 
                 Sprite.DOColor(Color.red, .5f).OnComplete(() => Sprite.color = Color.white);
             }

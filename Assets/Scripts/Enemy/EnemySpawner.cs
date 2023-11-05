@@ -8,10 +8,7 @@ namespace Enemy
 {
     public class EnemySpawner : MonoBehaviour
     {
-        //[Header("Pool settings")]
-        //[SerializeField] private EnemyContainer _prefab;
-        //[SerializeField] private int _count;
-        [SerializeField] private int _spawnCountPerTick;
+        [SerializeField] private int _spawnCountPerTick = 1;
 
         [Space(20)]
         [SerializeField] private List<EnemyContainer> _enemySpawnSuquance;
@@ -23,19 +20,15 @@ namespace Enemy
         private int _wayPointId;
         private Dictionary<EnemyLogic, EnemyContainer> _spawnEnemiesDic = new();
 
-        //private ObjectPool<EnemyContainer> _objectPool;
-
         private void Start()
         {
-            //_objectPool = new ObjectPool<EnemyContainer>(_prefab, _count, true);
-            //_objectPool.Init(Vector3.zero, Quaternion.identity, transform);
-            EventBusSingleton.Instance.Subscribe<ClockFullTurnSignal>(OnClockFullTurn);
+            EventBusSingleton.Instance.Subscribe<ClockStepSignal>(OnClockFullTurn);
             EventBusSingleton.Instance.Subscribe<Die>(OnEnemyDie);
         }
 
         private void OnDestroy()
         {
-            EventBusSingleton.Instance.Unsubscribe<ClockFullTurnSignal>(OnClockFullTurn);
+            EventBusSingleton.Instance.Unsubscribe<ClockStepSignal>(OnClockFullTurn);
             EventBusSingleton.Instance.Unsubscribe<Die>(OnEnemyDie);
         }
 
@@ -47,7 +40,7 @@ namespace Enemy
             enemy.StateMachine.InitEnemyStateMachine(enemy, _player);
         }
 
-        private void OnClockFullTurn(ClockFullTurnSignal signal)
+        private void OnClockFullTurn(ClockStepSignal signal)
         {
             SpawnEnemy();
         }
@@ -68,23 +61,23 @@ namespace Enemy
 
         public void SpawnEnemy()
         {
-            if(_spawnId >= _enemySpawnSuquance.Count)
+            if (_spawnId >= _enemySpawnSuquance.Count)
                 _spawnId = 0;
 
             if (_wayPointId >= _wayPoints.Count)
                 _wayPointId = 0;
 
-            for(int i = 0; i < _spawnCountPerTick; i++)
+            for (int i = 0; i < _spawnCountPerTick; i++)
             {
                 var enemy = Instantiate(_enemySpawnSuquance[_spawnId], transform);
                 EnemyLogic enemyLogic = new(enemy.EnemyConfig);
                 enemy.transform.position = _wayPoints[_wayPointId].position;
                 InitEnemy(enemy, enemyLogic);
                 _spawnEnemiesDic.Add(enemyLogic, enemy);
-
-                _spawnId++;
-                _wayPointId++;
             }
+
+            _spawnId++;
+            _wayPointId++;
         }
 
         public void DespawnEnemy(EnemyContainer enemy)

@@ -39,8 +39,7 @@ namespace Enemy
 
         private bool CheckDistance()
         {
-            MonoBehaviour.print(Vector2.Distance(_enemyAI.transform.position, _playerPos.transform.position) <= _checkDistance / 2);
-            return Vector2.Distance(_enemyAI.transform.position, _playerPos.transform.position) <= _checkDistance / 2;
+            return Vector2.Distance(_enemyAI.transform.position, _playerPos.transform.position) <= _checkDistance;
         }
     }
 }
