@@ -70,10 +70,17 @@ namespace GameTime
             var track = MusicController.Instance.SetTrack(0);
             _clockFullTurnSec = track.ClockFullTurnSec;
             MusicController.Instance.Play();
-            StartCoroutine(Helpers.CoroutineHelpers.InvokeWithDelay(() =>
+            if (track.OffsetSec > 0f)
+            {
+                StartCoroutine(Helpers.CoroutineHelpers.InvokeWithDelay(() =>
+                {
+                    StartGameClock();
+                }, track.OffsetSec));
+            }
+            else
             {
                 StartGameClock();
-            }, track.OffsetSec));
+            }
         }
 
         public void Fill(GameConfigSO config)
@@ -120,7 +127,7 @@ namespace GameTime
             _isClockStarted = true;
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             if (!_isClockStarted)
             {
@@ -134,13 +141,13 @@ namespace GameTime
         private float _debguPrevStepTime = -1f;
         private void CheckForSteps()
         {
-            int fullTurns = Mathf.FloorToInt(_gameTimeSec / _clockFullTurnSec);
+            _fullTurns = Mathf.FloorToInt(_gameTimeSec / _clockFullTurnSec);
             float currentTurnTime = _gameTimeSec;
 
             float[] stepTimes = new float[_numberOfSteps];
             for (int i = 0; i < _numberOfSteps; ++i)
             {
-                stepTimes[i] = (_clockFullTurnSec / _numberOfSteps) * (_numberOfSteps - i) + fullTurns * _clockFullTurnSec;
+                stepTimes[i] = (_clockFullTurnSec / _numberOfSteps) * (_numberOfSteps - i) + _fullTurns * _clockFullTurnSec;
             }
 
             float closestStepTime = stepTimes[0];
@@ -156,13 +163,13 @@ namespace GameTime
             }
             int step = Array.IndexOf(stepTimes, closestStepTime);
 
-            //Debug.Log($"game time: {currentTurnTime}");
+            Debug.Log($"game time: {currentTurnTime}");
 
             float decimalPartCurrentTime = Mathf.Abs(closestStepTime - currentTurnTime);
             if (currentTurnTime > closestStepTime - _eps && !_isClockStepEnter)
             {
                 _eventBus.Invoke(new ClockStepEnterSignal(step));
-                //Debug.Log($"CLOCK STEP TIME DIFF: {currentTurnTime - (_debguPrevStepTime > 0f ? _debguPrevStepTime : 0)}");
+                Debug.Log($"CLOCK STEP TIME DIFF: {currentTurnTime - (_debguPrevStepTime > 0f ? _debguPrevStepTime : 0)}");
                 _debguPrevStepTime = currentTurnTime;
                 _isClockStepEnter = true;
                 _isClockStepExit = false;
@@ -172,7 +179,7 @@ namespace GameTime
             if (currentTurnTime > closestStepTime + _eps && !_isClockStepExit)
             {
                 _eventBus.Invoke(new ClockStepExitSignal(step));
-                //Debug.Log($"CLOCK STEP TIME DIFF: {currentTurnTime - (_debguPrevStepTime > 0f ? _debguPrevStepTime : 0)}");
+                Debug.Log($"CLOCK STEP TIME DIFF: {currentTurnTime - (_debguPrevStepTime > 0f ? _debguPrevStepTime : 0)}");
                 _debguPrevStepTime = currentTurnTime;
                 _isClockStepEnter = false;
                 _isClockStepExit = true;
@@ -193,7 +200,7 @@ namespace GameTime
                 }
             }
 
-            _fullTurns = fullTurns;
+            //_fullTurns = fullTurns;
         }
     }
 }

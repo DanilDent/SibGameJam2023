@@ -195,6 +195,16 @@ namespace Player
         private void Update()
         {
             _hitBeatNormal = GameTime.GameTime.Instance.IsHitBeat;
+            if (_hitBeatNormal)
+            {
+                _hitBeatText.text = $"HIT";
+                _hitBeatText.color = Color.green;
+            }
+            else
+            {
+                _hitBeatText.text = $"HIT";
+                _hitBeatText.color = Color.red;
+            }
             HandleInput();
             HandleOrientation();
 
