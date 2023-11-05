@@ -3,6 +3,7 @@ using Enemy;
 using Game;
 using GameTime;
 using Helpers;
+using Sound;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
@@ -13,6 +14,8 @@ namespace Player
     {
         private GameConfigSO _config;
         private PlayerSO _localConfig;
+        private SFXController _sfxController;
+        private AudioSource _audioSource;
 
         private int _currentHealth;
 
@@ -20,6 +23,8 @@ namespace Player
         {
             _config = ConfigContainer.Instance.Value;
             _localConfig = _config.Player;
+            _sfxController = SFXController.Instance;
+            _audioSource = GetComponent<AudioSource>();
 
             FillFromConfig(_localConfig);
             _eventBus = EventBusSingleton.Instance;
@@ -197,7 +202,9 @@ namespace Player
 
         private void Dash()
         {
+            _rb.velocity = Vector3.zero;
             _rb.AddForce((_movementInput == Vector3.zero ? transform.right : _movementInput.normalized) * _dashForce, ForceMode2D.Impulse);
+            _sfxController.PlaySFX("dash", _audioSource);
             //Debug.Log($"Dash force: {((_movementInput == Vector3.zero ? transform.right : _movementInput.normalized) * _dashForce).magnitude}");
         }
 
@@ -227,6 +234,7 @@ namespace Player
 
             _rb.velocity = Vector3.zero;
             _rb.AddForce(attackDashDir * _attackDashForce, ForceMode2D.Impulse);
+            _sfxController.PlaySFX("sword", _audioSource);
             //Debug.Log($"Attack dash force: {(attackDashDir * _attackDashForce).magnitude}");
         }
 

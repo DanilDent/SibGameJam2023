@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GameTime: {fileID: 11400000, guid: 99da62e05b4595e449108b32f1b53f7d, type: 2}
   Tracks:
-  - {fileID: 11400000, guid: c7fed680bb43b9b478f17305caf4cb4b, type: 2}
+  - {fileID: 11400000, guid: 48bf556c39df95443b7fd04a8313626c, type: 2}
   Player: {fileID: 11400000, guid: 025007b27d2daad4db07cb8cb325510f, type: 2}
