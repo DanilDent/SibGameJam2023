@@ -679,8 +679,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f90ff5f6e94c0994b874bdfa0f0a416f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spawnCountPerTick: 1
-  _spawnOnEvetyPointPerTick: 0
+  _spawnCountPerTick: 2
+  _spawnOnEvetyPointPerTick: 1
   _enemySpawnSuquance:
   - {fileID: -1605585390677383586, guid: 07614c0ca99503346813a90dd568aaaa, type: 3}
   - {fileID: -1605585390677383586, guid: 8eba2d8ce4b3b244986562beee7b5d0b, type: 3}
@@ -990,7 +990,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &830836079
 Transform:
   m_ObjectHideFlags: 0
@@ -2420,7 +2420,7 @@ MonoBehaviour:
   data:
     dataString: UEsDBBQAAAgIAAAYIexpcrTRXgIAABIFAAALACQAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQF1VE1z2jAQ/SuMzk3GED5Cb60hpAcCE9rJxRdhrbEGWfLog68M/70r2cYOnZ4Q773dfbta+ZNwaUpIrdILzdlSMSDfe8SfybdeS77Cie6U3PALNJoPzmzuRTRo3qnlCvG+DzOqAKt5+kPuhBdHCDrJM6WLOdtBrIw1CGdUGEBKK+ujJUKfPXLCn4epDznjaTDxpwueplHviscUpAXdShthI6tUTqaCFiUwb7kVP01q9dM4yCQ2Uyu88VQJwU3thNhzGTqNaWkc9oECxil2Fsr3H0cI5MB3ufU+u+GrLDNga1Oanmdc44iqvOSnquZWULOvnB2ocL7SeBhMVTmX/9AP/UBnWhWvTdl+5EvYnKf7d3pOqbGduXbhWcd5mM+Rij3dCvjIQb6phVZOMiStdj7UGRjM2r+3zuIc0n2LV1bvQFf+/3Z8D9fQ/CkWvNh66nFYARuhwsDD3YPGq/mFhsNmmDoFot7FHwO/6a67QjXxwrWxSNVdSm9vq5z2UjIPM/PdOBsrLSHAtekSJBX2vMY09v4G77hO2TvmhfrHUhevueYN3IUEuNVH0R21VsfbZZlcHZdg8pWzgktoTXviDecUKymrBTNfSR+1cTqjaSdq5zj7ullk+DymUzrMJls22mYRe0ifh6Pp83gygXE0eKJ9ElaPS2yTinXls54OXppsk0tcs+YT0ltoWoZdZ5oeF/xSqI4/LjO1STWAXFUZmgkZ0FgEXyWbM47z2YC1XIbrJp8JESrdA0tuiZLQ6fxkNU3aLAkp+UFZjyQkDt+MhHj4tsprDQcOR1+8SXYl179QSwMEFAAACAgAABgh7I9xjVFtAAAAeAAAAAkAJABtZXRhLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQGrVipLLSrOzM9TslIw0TPSMzTXUVBKL0osyCgGihiCOKWZKSB2tJKJhVmiZaJJmnlSimlSmkGKbrKFiamlhZm5eaqZgZFxoqFSLFB9SWVBql9ibipET0BiSUZaZl5KZl66nntRZoo7yGil2FoAUEsBAi0AFAAACAgAABgh7GlytNFeAgAAEgUAAAsAJAAAAAAAAAAAAAAAAAAAAGdyYXBoMC5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0BUEsBAi0AFAAACAgAABgh7I9xjVFtAAAAeAAAAAkAJAAAAAAAAAAAAAAAqwIAAG1ldGEuanNvbgoAIAAAAAAAAQAYAACAPtXesZ0BAIA+1d6xnQEAgD7V3rGdAVBLBQYAAAAAAgACALgAAABjAwAAAAA=
     upgradeData: 
-    file_cachedStartup: {fileID: 0}
+    file_cachedStartup: {fileID: 4900000, guid: b88c4399baf059a40ba59cdf7f1e0021, type: 3}
     data_cachedStartup: 
     cacheStartup: 0
   showNavGraphs: 1
@@ -2610,7 +2610,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1719695639623909292, guid: 02a1269e85806d34aa54046d13f5bec2, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
