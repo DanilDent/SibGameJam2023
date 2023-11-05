@@ -22,13 +22,13 @@ namespace Enemy
 
         private void Start()
         {
-            EventBusSingleton.Instance.Subscribe<ClockStepSignal>(OnClockFullTurn);
+            EventBusSingleton.Instance.Subscribe<ClockFullTurnSignal>(OnClockFullTurn);
             EventBusSingleton.Instance.Subscribe<Die>(OnEnemyDie);
         }
 
         private void OnDestroy()
         {
-            EventBusSingleton.Instance.Unsubscribe<ClockStepSignal>(OnClockFullTurn);
+            EventBusSingleton.Instance.Unsubscribe<ClockFullTurnSignal>(OnClockFullTurn);
             EventBusSingleton.Instance.Unsubscribe<Die>(OnEnemyDie);
         }
 
@@ -40,7 +40,7 @@ namespace Enemy
             enemy.StateMachine.InitEnemyStateMachine(enemy, _player);
         }
 
-        private void OnClockFullTurn(ClockStepSignal signal)
+        private void OnClockFullTurn(ClockFullTurnSignal signal)
         {
             SpawnEnemy();
         }
@@ -61,23 +61,27 @@ namespace Enemy
 
         public void SpawnEnemy()
         {
-            if (_spawnId >= _enemySpawnSuquance.Count)
-                _spawnId = 0;
-
-            if (_wayPointId >= _wayPoints.Count)
-                _wayPointId = 0;
-
             for (int i = 0; i < _spawnCountPerTick; i++)
             {
-                var enemy = Instantiate(_enemySpawnSuquance[_spawnId], transform);
-                EnemyLogic enemyLogic = new(enemy.EnemyConfig);
-                enemy.transform.position = _wayPoints[_wayPointId].position;
-                InitEnemy(enemy, enemyLogic);
-                _spawnEnemiesDic.Add(enemyLogic, enemy);
-            }
 
-            _spawnId++;
-            _wayPointId++;
+                foreach(var point in _wayPoints)
+                {
+                    if (_spawnId >= _enemySpawnSuquance.Count)
+                        _spawnId = 0;
+
+                    if (_wayPointId >= _wayPoints.Count)
+                        _wayPointId = 0;
+
+                    var enemy = Instantiate(_enemySpawnSuquance[_spawnId], transform);
+                    EnemyLogic enemyLogic = new(enemy.EnemyConfig);
+                    enemy.transform.position = _wayPoints[_wayPointId].position;
+                    InitEnemy(enemy, enemyLogic);
+                    _spawnEnemiesDic.Add(enemyLogic, enemy);
+
+                    _spawnId++;
+                    _wayPointId++;
+                }
+            }
         }
 
         public void DespawnEnemy(EnemyContainer enemy)

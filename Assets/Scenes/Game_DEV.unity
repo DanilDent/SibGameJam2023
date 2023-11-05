@@ -4551,10 +4551,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f90ff5f6e94c0994b874bdfa0f0a416f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _prefab: {fileID: -1605585390677383586, guid: 07614c0ca99503346813a90dd568aaaa, type: 3}
-  _count: 30
+  _spawnCountPerTick: 1
   _enemySpawnSuquance:
-  - {fileID: 11400000, guid: 2a6778ddb3c1fdd41886a9eeb14be276, type: 2}
+  - {fileID: -1605585390677383586, guid: 07614c0ca99503346813a90dd568aaaa, type: 3}
+  - {fileID: -1605585390677383586, guid: 8eba2d8ce4b3b244986562beee7b5d0b, type: 3}
   _wayPoints:
   - {fileID: 1919559803}
   - {fileID: 1526035140}
@@ -4621,6 +4621,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1607042855}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &625864907 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 9218600278763215616, guid: 1ff9e6697483d874e84a85617b377d6a, type: 3}
+  m_PrefabInstance: {fileID: 1013257720}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &651258289
 GameObject:
   m_ObjectHideFlags: 0
@@ -5056,6 +5061,67 @@ CapsuleCollider2D:
   m_Offset: {x: 0.31779146, y: -0.034850597}
   m_Size: {x: 2.512681, y: 4.1082153}
   m_Direction: 0
+--- !u!1001 &1013257720
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1607042855}
+    m_Modifications:
+    - target: {fileID: 6602170637792798482, guid: 1ff9e6697483d874e84a85617b377d6a, type: 3}
+      propertyPath: _defaultVolume
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 7423864390418217964, guid: 1ff9e6697483d874e84a85617b377d6a, type: 3}
+      propertyPath: m_Name
+      value: SFXController
+      objectReference: {fileID: 0}
+    - target: {fileID: 9218600278763215616, guid: 1ff9e6697483d874e84a85617b377d6a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9218600278763215616, guid: 1ff9e6697483d874e84a85617b377d6a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9218600278763215616, guid: 1ff9e6697483d874e84a85617b377d6a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9218600278763215616, guid: 1ff9e6697483d874e84a85617b377d6a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9218600278763215616, guid: 1ff9e6697483d874e84a85617b377d6a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9218600278763215616, guid: 1ff9e6697483d874e84a85617b377d6a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9218600278763215616, guid: 1ff9e6697483d874e84a85617b377d6a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9218600278763215616, guid: 1ff9e6697483d874e84a85617b377d6a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9218600278763215616, guid: 1ff9e6697483d874e84a85617b377d6a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9218600278763215616, guid: 1ff9e6697483d874e84a85617b377d6a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 1ff9e6697483d874e84a85617b377d6a, type: 3}
 --- !u!1 &1093432977
 GameObject:
   m_ObjectHideFlags: 0
@@ -5700,6 +5766,7 @@ Transform:
   - {fileID: 430474810}
   - {fileID: 2051126112}
   - {fileID: 961169803}
+  - {fileID: 625864907}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1723299125

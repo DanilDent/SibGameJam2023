@@ -12,6 +12,8 @@ namespace Enemy
 
         public EnemyLogic EnemyLogic { get; private set; }
 
+        private bool _isDie;
+
         private const string DIE_TRIGGER = "DieTrigger";
         private const string SPAWN_TRIGGER = "SpawnTrigger";
         private const string CHASE_TRIGGER = "ChaseTrigger";
@@ -25,11 +27,12 @@ namespace Enemy
         //use in spawner
         public void Init(EnemyLogic enemyLogic)
         {
+            _isDie = false;
             Sprite.transform.localScale = new Vector3(-Sprite.transform.localScale.x, Sprite.transform.localScale.y);
             EnemyLogic = enemyLogic;
             SubsribeOnEvents();
         }
-        
+
         private void SubsribeOnEvents()
         {
             EventBusSingleton.Instance.Subscribe<Die>(OnDie);
@@ -48,6 +51,7 @@ namespace Enemy
         {
             if (signal.Enemy == EnemyLogic)
             {
+                _isDie = true;
                 Animator.SetTrigger(DIE_TRIGGER);
                 Sprite.DOFade(0, FadeDuraion);
                 UnsubscribeFromEvents();
@@ -58,8 +62,8 @@ namespace Enemy
         {
             if (signal.Enemy == EnemyLogic)
             {
-            //    if (signal.Enemy.CurrentHealth <= 0)
-            //        return;
+                //    if (signal.Enemy.CurrentHealth <= 0)
+                //        return;
 
                 Sprite.DOColor(Color.red, .5f).OnComplete(() => Sprite.color = Color.white);
             }
@@ -67,11 +71,17 @@ namespace Enemy
 
         public void ActivateChaseAnim()
         {
+            if (_isDie)
+                return;
+
             Animator.SetTrigger(CHASE_TRIGGER);
         }
 
         public void ActivateIdleAnim()
         {
+            if (_isDie)
+                return;
+
             Animator.SetTrigger(IDLE_TRIGGER);
         }
     }
