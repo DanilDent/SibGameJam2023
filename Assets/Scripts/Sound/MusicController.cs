@@ -61,6 +61,7 @@ namespace Sound
                 return null;
             }
             _currentTrackIndex = index;
+            _audio.loop = true;
             _audio.clip = _tracks[index].Clip;
             return _tracks[index];
         }
