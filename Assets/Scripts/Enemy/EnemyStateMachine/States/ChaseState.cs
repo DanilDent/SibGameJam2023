@@ -9,19 +9,25 @@ namespace Enemy
         private EnemyAI _enemyAI;
         private Transform _playerPos;
         private float _checkDistance;
+        private EnemyView _enemyView;
 
-        public ChaseState(IStateSwitcher switcher, EnemyAI enemy, Transform player, float checkDistance) : base(switcher)
+        public ChaseState(IStateSwitcher switcher, EnemyAI enemy, Transform player, float checkDistance, EnemyView enemyView) : base(switcher)
         {
             _enemyAI = enemy;
             _playerPos = player;
             _checkDistance = checkDistance;
+            _enemyView = enemyView;
         }
 
         public override void Enter() 
         {
+            _enemyView.ActivateChaseAnim();
         }
 
-        public override void Exit() { }
+        public override void Exit() 
+        {
+            _enemyView.ActivateIdleAnim();
+        }
 
         public override void FixedUpdate()
         {
@@ -33,7 +39,8 @@ namespace Enemy
 
         private bool CheckDistance()
         {
-            return Vector2.Distance(_enemyAI.transform.position, _playerPos.transform.position) <= _checkDistance;
+            MonoBehaviour.print(Vector2.Distance(_enemyAI.transform.position, _playerPos.transform.position) <= _checkDistance / 2);
+            return Vector2.Distance(_enemyAI.transform.position, _playerPos.transform.position) <= _checkDistance / 2;
         }
     }
 }

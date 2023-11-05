@@ -7,12 +7,12 @@ namespace Enemy
     {
         public EnemyConfig Config { get; private set; }
 
-        private int _currentHealth;
+        public int CurrentHealth { get; private set; }
 
         public EnemyLogic(EnemyConfig config)
         {
             Config = config;
-            _currentHealth = Config.Health;
+            CurrentHealth = Config.Health;
         }
 
         public void TakeDamage(int damage)
@@ -20,10 +20,10 @@ namespace Enemy
             if (damage <= 0)
                 throw new System.Exception("damage less than 0");
 
-            _currentHealth -= damage;
+            CurrentHealth -= damage;
             EventBusSingleton.Instance.Invoke(new TakeDamage(this, damage));
 
-            if (_currentHealth <= 0)
+            if (CurrentHealth <= 0)
             {
                 EventBusSingleton.Instance.Invoke(new Die(this));
             }
