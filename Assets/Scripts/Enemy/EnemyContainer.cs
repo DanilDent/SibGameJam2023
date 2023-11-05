@@ -5,12 +5,14 @@ namespace Enemy
 {
     public class EnemyContainer : MonoBehaviour
     {
-        [field: SerializeField] public EnemyPhysics EnemyPhysics;
-        [field: SerializeField] public EnemyView EnemyView;
-        [field: SerializeField] public EnemyStateMachine StateMachine;
-        [field: SerializeField] public EnemyAI EnemyAI;
-        [field: SerializeField] public Seeker Seeker;
-        [field: SerializeField] public EnemySpriteRotator EnemySpriteRotator;
+        [field: SerializeField] public EnemyPhysics EnemyPhysics { get; private set; }
+        [field: SerializeField] public EnemyView EnemyView { get; private set; }
+        [field: SerializeField] public EnemyStateMachine StateMachine { get; private set; }
+        [field: SerializeField] public EnemyAI EnemyAI { get; private set; }
+        [field: SerializeField] public Seeker Seeker { get; private set; }
+        [field: SerializeField] public EnemySpriteRotator EnemySpriteRotator { get; private set; }
+        [field: SerializeField] public EnemyConfig EnemyConfig { get; private set; } 
+        [field: SerializeField] public Collider2D Colider { get; set; } 
 
         private void OnEnable()
         {

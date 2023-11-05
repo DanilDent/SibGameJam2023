@@ -18,10 +18,10 @@ GameObject:
   - component: {fileID: 7399528948524648820}
   - component: {fileID: 2665210145882628892}
   - component: {fileID: 7566153811983207811}
-  - component: {fileID: 8193659433722693126}
-  - component: {fileID: 5499074693652681075}
+  - component: {fileID: 7375234927591716604}
+  - component: {fileID: 114134181672929573}
   m_Layer: 6
-  m_Name: Enemy
+  m_Name: Enemy 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -74,9 +74,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fec094dbffd7a84b8f3a7cae08c72f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Sprite>k__BackingField: {fileID: 5499074693652681075}
+  <Sprite>k__BackingField: {fileID: 114134181672929573}
   <FadeDuraion>k__BackingField: 1.5
-  Animator: {fileID: 8193659433722693126}
+  Animator: {fileID: 7375234927591716604}
 --- !u!114 &3293656736462834252
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -149,8 +149,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.050482646, y: -0.07377553}
-  m_Size: {x: 2.6577802, y: 2.6577802}
+  m_Offset: {x: -0.040471077, y: -0.060157776}
+  m_Size: {x: 2.2929516, y: 2.5922751}
   m_Direction: 0
 --- !u!114 &8756997849035815152
 MonoBehaviour:
@@ -217,7 +217,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4e48263a49acae4db45908322b2be94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!95 &8193659433722693126
+--- !u!95 &7375234927591716604
 Animator:
   serializedVersion: 5
   m_ObjectHideFlags: 0
@@ -227,7 +227,7 @@ Animator:
   m_GameObject: {fileID: 6804852395791695763}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 4fb3828ba976ad4458b5d8611e30d11d, type: 2}
+  m_Controller: {fileID: 9100000, guid: 1f91b581f4d64c04a89a6e1e5b33edb7, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -238,7 +238,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!212 &5499074693652681075
+--- !u!212 &114134181672929573
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -279,12 +279,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -1237706734, guid: ba230dc8164c49e40bc8a27a5f76d981, type: 3}
+  m_Sprite: {fileID: 1615827937, guid: 9cbdbfbeeccbf46408fb109624cc1de2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.32, y: 0.32}
+  m_Size: {x: 2.6666667, y: 2.6666667}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

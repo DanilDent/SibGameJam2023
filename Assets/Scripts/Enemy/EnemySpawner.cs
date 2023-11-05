@@ -8,12 +8,13 @@ namespace Enemy
 {
     public class EnemySpawner : MonoBehaviour
     {
-        [Header("Pool settings")]
-        [SerializeField] private EnemyContainer _prefab;
-        [SerializeField] private int _count;
-        
+        //[Header("Pool settings")]
+        //[SerializeField] private EnemyContainer _prefab;
+        //[SerializeField] private int _count;
+        [SerializeField] private int _spawnCountPerTick;
+
         [Space(20)]
-        [SerializeField] private List<EnemyConfig> _enemySpawnSuquance;
+        [SerializeField] private List<EnemyContainer> _enemySpawnSuquance;
         [SerializeField] private List<Transform> _wayPoints;
         [Space(20)]
         [SerializeField] private Player.Player _player;
@@ -22,12 +23,12 @@ namespace Enemy
         private int _wayPointId;
         private Dictionary<EnemyLogic, EnemyContainer> _spawnEnemiesDic = new();
 
-        private ObjectPool<EnemyContainer> _objectPool;
+        //private ObjectPool<EnemyContainer> _objectPool;
 
         private void Start()
         {
-            _objectPool = new ObjectPool<EnemyContainer>(_prefab, _count, true);
-            _objectPool.Init(Vector3.zero, Quaternion.identity, transform);
+            //_objectPool = new ObjectPool<EnemyContainer>(_prefab, _count, true);
+            //_objectPool.Init(Vector3.zero, Quaternion.identity, transform);
             EventBusSingleton.Instance.Subscribe<ClockFullTurnSignal>(OnClockFullTurn);
             EventBusSingleton.Instance.Subscribe<Die>(OnEnemyDie);
         }
@@ -54,11 +55,12 @@ namespace Enemy
         private void OnEnemyDie(Die signal)
         {
             var container = _spawnEnemiesDic[signal.Enemy];
+            _spawnEnemiesDic.Remove(signal.Enemy);
             container.ChangeActiveStatus(false);
             StartCoroutine(DieCoroutine(container));
         }
 
-        private IEnumerator DieCoroutine( EnemyContainer enemy)
+        private IEnumerator DieCoroutine(EnemyContainer enemy)
         {
             yield return new WaitForSeconds(enemy.EnemyView.FadeDuraion);
             DespawnEnemy(enemy);
@@ -72,19 +74,23 @@ namespace Enemy
             if (_wayPointId >= _wayPoints.Count)
                 _wayPointId = 0;
 
-            EnemyLogic enemyLogic = new(_enemySpawnSuquance[_spawnId]);
-            var enemy = _objectPool.ActivateObject();
-            enemy.transform.position = _wayPoints[_wayPointId].position;
-            InitEnemy(enemy, enemyLogic);
-            _spawnEnemiesDic.Add(enemyLogic, enemy);
+            for(int i = 0; i < _spawnCountPerTick; i++)
+            {
+                var enemy = Instantiate(_enemySpawnSuquance[_spawnId], transform);
+                EnemyLogic enemyLogic = new(enemy.EnemyConfig);
+                enemy.transform.position = _wayPoints[_wayPointId].position;
+                InitEnemy(enemy, enemyLogic);
+                _spawnEnemiesDic.Add(enemyLogic, enemy);
 
-            _spawnId++;
-            _wayPointId++;
+                _spawnId++;
+                _wayPointId++;
+            }
         }
 
         public void DespawnEnemy(EnemyContainer enemy)
         {
-            _objectPool.DeactivateObject(enemy);
+            Destroy(enemy.gameObject);
+            //_objectPool.DeactivateObject(enemy);
         }
     }
 }
