@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
-using JHelpers;
+using GameFlow;
 using GameTime;
 
 namespace Enemy
@@ -24,12 +24,14 @@ namespace Enemy
         {
             EventBusSingleton.Instance.Subscribe<ClockFullTurnSignal>(OnClockFullTurn);
             EventBusSingleton.Instance.Subscribe<Die>(OnEnemyDie);
+            EventBusSingleton.Instance.Subscribe<LevelComplete>(OnLevelComplete);
         }
 
         private void OnDestroy()
         {
             EventBusSingleton.Instance.Unsubscribe<ClockFullTurnSignal>(OnClockFullTurn);
             EventBusSingleton.Instance.Unsubscribe<Die>(OnEnemyDie);
+            EventBusSingleton.Instance.Unsubscribe<LevelComplete>(OnLevelComplete);
         }
 
         private void InitEnemy(EnemyContainer enemy, EnemyLogic enemyLogic)
@@ -57,6 +59,16 @@ namespace Enemy
         {
             yield return new WaitForSeconds(enemy.EnemyView.FadeDuraion);
             DespawnEnemy(enemy);
+        }
+
+        private void OnLevelComplete(LevelComplete signal)
+        {
+            foreach(var key in _spawnEnemiesDic.Keys)
+            {
+                Destroy(_spawnEnemiesDic[key].gameObject);
+            }
+
+            _spawnEnemiesDic.Clear();
         }
 
         private void Spawn()
