@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: NinasRevenge128
   m_EditorClassIdentifier: 
   _clip: {fileID: 8300000, guid: fdfdced575d72274fa8e8f9cf0ec9f58, type: 3}
-  _clockFullTurnSec: 4
+  _clockFullTurnSec: 3.75
