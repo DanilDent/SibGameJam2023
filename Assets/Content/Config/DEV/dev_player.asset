@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: dev_player
   m_EditorClassIdentifier: 
   HitBeatEffectDuration: 0.3
-  MovementSpeed: 8
+  MovementSpeed: 11.05
   MovementForce: 3183111
   DashForce: 15000
-  AttackDashForce: 7500
-  AttackDashTimeScaleFactor: 500
+  AttackDashForce: 5887
+  AttackDashTimeScaleFactor: 753.5
   DashTimeScaleFactor: 1611
-  AttackSpeed: 0.2
+  AttackSpeed: 0.3
   DashDelaySec: 0.3
   Damage: 1
   Health: 5

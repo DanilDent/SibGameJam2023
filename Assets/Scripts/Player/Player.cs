@@ -203,6 +203,11 @@ namespace Player
 
         private void Attack()
         {
+            if (_isDash || _isAttack)
+            {
+                return;
+            }
+
             Vector3 cursorWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector3 attackDashPoint = new Vector3(cursorWorldPosition.x, cursorWorldPosition.y, transform.position.z);
             Vector3 attackDashDir = (attackDashPoint - transform.position).normalized;
@@ -220,6 +225,7 @@ namespace Player
             _attackColliderTransform.transform.right = attackDashDir;
             _attackColliderTransform.gameObject.SetActive(true);
 
+            _rb.velocity = Vector3.zero;
             _rb.AddForce(attackDashDir * _attackDashForce, ForceMode2D.Impulse);
             //Debug.Log($"Attack dash force: {(attackDashDir * _attackDashForce).magnitude}");
         }
@@ -227,7 +233,7 @@ namespace Player
         private void FixedUpdate()
         {
             float eps = 0.1f;
-            if (_rb.velocity.magnitude < (_movementSpeed - eps))
+            if (!_isAttack && !_isDash && _rb.velocity.magnitude < (_movementSpeed - eps))
             {
                 _rb.AddForce(_movementInput * _movementForce * Time.deltaTime, ForceMode2D.Force);
             }
@@ -242,8 +248,16 @@ namespace Player
 
         private void HandleInput()
         {
-            _movementInput = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0f);
-            _movementInput = _movementInput.normalized;
+            if (!_isDash && !_isAttack)
+            {
+                _movementInput = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0f);
+                _movementInput = _movementInput.normalized;
+            }
+
+            if (_isDash || _isAttack)
+            {
+                _movementInput = Vector3.zero;
+            }
 
             if (!_isAttack && Input.GetKeyDown(KeyCode.Space) && _canDash && !_isDash)
             {
@@ -266,16 +280,16 @@ namespace Player
             {
                 float oldDrag = _rb.drag;
                 _rb.drag = 0f;
-                _isAttack = true;
                 _canAttack = false;
                 float attackDashTimeSec = _attackDashForce / (_rb.mass * _attackDashTimeScaleFactor);
                 //Debug.Log($"Attack dash time sec: {attackDashTimeSec}");
-                StartCoroutine(ResetAttackDashCoroutine(attackDashTimeSec));
+                StartCoroutine(ResetAttackDashCoroutine(_attackSpeed));
                 StartCoroutine(Helpers.CoroutineHelpers.InvokeWithDelay(() =>
                 {
                     _canAttack = true;
                 }, _attackSpeed));
                 Attack();
+                _isAttack = true;
                 _rb.drag = oldDrag;
             }
         }
