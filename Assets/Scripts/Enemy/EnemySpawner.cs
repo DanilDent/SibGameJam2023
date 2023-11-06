@@ -16,6 +16,8 @@ namespace Enemy
         [Space(20)]
         private Player.Player _player;
 
+        public bool CanSpawn = true;
+
         private int _spawnId;
         private int _wayPointId;
         private Dictionary<EnemyLogic, EnemyContainer> _spawnEnemiesDic = new();
@@ -96,6 +98,9 @@ namespace Enemy
 
         private void Spawn()
         {
+            if (!CanSpawn)
+                return;
+
             if (_spawnId >= _enemySpawnSuquance.Count)
                 _spawnId = 0;
 
