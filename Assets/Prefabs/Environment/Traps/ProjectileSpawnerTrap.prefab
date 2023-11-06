@@ -44,5 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c85acb11f48a0a7468491782cc24005d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ticksCountToActivate: 6
+  _ticksCountToActivate: 2
   _prefab: {fileID: 1949220818329928302, guid: c401a7e459de21844ae71d0d7c08ddc0, type: 3}
