@@ -23,6 +23,7 @@ namespace GameFlow
             EventBusSingleton.Instance.Subscribe<LevelComplete>(OnLevelComplete);
             EventBusSingleton.Instance.Subscribe<Player.Die>(OnPlayerDie);
             _currentLevel = Instantiate(_levels[_currentLevelIndex]);
+            _player = FindObjectOfType<Player.Player>();
             PathfinderHandler.Instance.BakePath();
         }
 
@@ -34,18 +35,20 @@ namespace GameFlow
 
         private void OnLevelComplete(LevelComplete signal)
         {
-            if (_currentLevelIndex >= _levels.Count)
+            if (_currentLevelIndex >= _levels.Count - 1)
                 return;
 
             Destroy(_currentLevel.gameObject);
-            _currentLevel = Instantiate(_levels[++_currentLevelIndex]);
-            PathfinderHandler.Instance.BakePath();
+            _currentLevelIndex++;
+            _currentLevel = Instantiate(_levels[_currentLevelIndex]);
             _player.transform.position = Vector3.zero;
+            StartCoroutine(WaitForLoad());
         }
 
         private void OnPlayerDie(Player.Die signal)
         {
             Debug.LogWarning("Invoke die");
+            EventBusSingleton.Instance.Invoke(new LevelFailed());
 
             if (_restartLevelOnPlayerDie)
             {
@@ -54,7 +57,6 @@ namespace GameFlow
                 PathfinderHandler.Instance.BakePath();
                 _currentLevel = level;
                 _player.transform.position = Vector3.zero;
-                EventBusSingleton.Instance.Invoke(new LevelComplete());
                 //restart watch
 
             }
@@ -64,6 +66,12 @@ namespace GameFlow
                 //PathfinderHandler.Instance.BakePath();
                 //_player.transform.position = Vector3.zero;
             }
+        }
+
+        private IEnumerator WaitForLoad()
+        {
+            yield return new WaitForSeconds(.25f);
+            PathfinderHandler.Instance.BakePath();
         }
     }
 }

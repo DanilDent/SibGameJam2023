@@ -60,7 +60,7 @@ MonoBehaviour:
   <EnemyAI>k__BackingField: {fileID: 2665210145882628892}
   <Seeker>k__BackingField: {fileID: 7399528948524648820}
   <EnemySpriteRotator>k__BackingField: {fileID: 7566153811983207811}
-  <EnemyConfig>k__BackingField: {fileID: 11400000, guid: 2a6778ddb3c1fdd41886a9eeb14be276, type: 2}
+  <EnemyConfig>k__BackingField: {fileID: 11400000, guid: e0eea4dfef35b57408f02f044a9e8447, type: 2}
   <Colider>k__BackingField: {fileID: 7176609060909455521}
 --- !u!114 &8493306137483299548
 MonoBehaviour:

@@ -16,6 +16,8 @@ namespace Enemy
         [Space(20)]
         private Player.Player _player;
 
+        public bool CanSpawn = true;
+
         private int _spawnId;
         private int _wayPointId;
         private Dictionary<EnemyLogic, EnemyContainer> _spawnEnemiesDic = new();
@@ -26,6 +28,7 @@ namespace Enemy
             EventBusSingleton.Instance.Subscribe<ClockFullTurnSignal>(OnClockFullTurn);
             EventBusSingleton.Instance.Subscribe<Die>(OnEnemyDie);
             EventBusSingleton.Instance.Subscribe<LevelComplete>(OnLevelComplete);
+            EventBusSingleton.Instance.Subscribe<LevelFailed>(OnLevelFailed);
         }
 
         private void OnDestroy()
@@ -33,6 +36,7 @@ namespace Enemy
             EventBusSingleton.Instance.Unsubscribe<ClockFullTurnSignal>(OnClockFullTurn);
             EventBusSingleton.Instance.Unsubscribe<Die>(OnEnemyDie);
             EventBusSingleton.Instance.Unsubscribe<LevelComplete>(OnLevelComplete);
+            EventBusSingleton.Instance.Unsubscribe<LevelFailed>(OnLevelFailed);
         }
 
         private void InitEnemy(EnemyContainer enemy, EnemyLogic enemyLogic)
@@ -50,10 +54,13 @@ namespace Enemy
 
         private void OnEnemyDie(Die signal)
         {
-            var container = _spawnEnemiesDic[signal.Enemy];
-            _spawnEnemiesDic.Remove(signal.Enemy);
-            container.ChangeActiveStatus(false);
-            StartCoroutine(DieCoroutine(container));
+            if (_spawnEnemiesDic.ContainsKey(signal.Enemy))
+            {
+                var container = _spawnEnemiesDic[signal.Enemy];
+                _spawnEnemiesDic.Remove(signal.Enemy);
+                //container.ChangeActiveStatus(false);
+                StartCoroutine(DieCoroutine(container));
+            }
         }
 
         private IEnumerator DieCoroutine(EnemyContainer enemy)
@@ -64,9 +71,26 @@ namespace Enemy
 
         private void OnLevelComplete(LevelComplete signal)
         {
-            foreach(var key in _spawnEnemiesDic.Keys)
+            DestroyAllEnemies();
+        }
+
+        private void OnLevelFailed(LevelFailed signal)
+        {
+            DestroyAllEnemies();
+        }
+
+        private void DestroyAllEnemies()
+        {
+            foreach (var key in _spawnEnemiesDic.Keys)
             {
-                Destroy(_spawnEnemiesDic[key].gameObject);
+                try
+                {
+                    Destroy(_spawnEnemiesDic[key].gameObject);
+                }
+                catch (System.Exception)
+                {
+                    return;
+                }
             }
 
             _spawnEnemiesDic.Clear();
@@ -74,6 +98,9 @@ namespace Enemy
 
         private void Spawn()
         {
+            if (!CanSpawn)
+                return;
+
             if (_spawnId >= _enemySpawnSuquance.Count)
                 _spawnId = 0;
 

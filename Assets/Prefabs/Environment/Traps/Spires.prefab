@@ -165,5 +165,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc4dab75a6a76e04ba52a0722293adf9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ticksCountToActivate: 2
+  _ticksCountToActivate: 6
   _damage: 1
