@@ -36,8 +36,8 @@ Transform:
   m_GameObject: {fileID: 6804852395791695763}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -0.5645, y: -0.5645, z: 0}
+  m_LocalScale: {x: 0.5767, y: 0.5767, z: 0.5767}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -60,7 +60,7 @@ MonoBehaviour:
   <EnemyAI>k__BackingField: {fileID: 2665210145882628892}
   <Seeker>k__BackingField: {fileID: 7399528948524648820}
   <EnemySpriteRotator>k__BackingField: {fileID: 7566153811983207811}
-  <EnemyConfig>k__BackingField: {fileID: 11400000, guid: 2a6778ddb3c1fdd41886a9eeb14be276, type: 2}
+  <EnemyConfig>k__BackingField: {fileID: 11400000, guid: 1bbc6f2e12c406c48a77c0067c0206ba, type: 2}
   <Colider>k__BackingField: {fileID: 7176609060909455521}
 --- !u!114 &8493306137483299548
 MonoBehaviour:

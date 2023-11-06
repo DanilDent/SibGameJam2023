@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d315e04b83917245b713413c1249904, type: 3}
   m_Name: gd_game_time
   m_EditorClassIdentifier: 
-  _numberOfSteps: 4
-  _epsSec: 0.2
+  _numberOfSteps: 8
+  _epsSec: 0.4
