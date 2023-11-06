@@ -17,12 +17,14 @@ namespace GameFlow
             yield return new WaitForSeconds(.001f);
             _cutsceenIndex = 0;
             StartCutscene();
-            EventBusSingleton.Instance.Subscribe<LevelLoaded>(OnLevelComplete);    
+            EventBusSingleton.Instance.Subscribe<LevelLoaded>(OnLevelLoaded);    
+            EventBusSingleton.Instance.Subscribe<LevelComplete>(OnLevelComplete);    
         }
 
         private void OnDestroy()
         {
-            EventBusSingleton.Instance.Unsubscribe<LevelLoaded>(OnLevelComplete);
+            EventBusSingleton.Instance.Unsubscribe<LevelLoaded>(OnLevelLoaded);
+            EventBusSingleton.Instance.Unsubscribe<LevelComplete>(OnLevelComplete);
         }
 
         private void StartCutscene()
@@ -33,13 +35,30 @@ namespace GameFlow
             _cutsceenIndex++;
         }
 
-        private void OnLevelComplete(LevelLoaded signal)
+        private void OnLevelLoaded(LevelLoaded signal)
         {
             if (_cutsceenIndex >= _cutsceens.Count)
                 return;
 
             StartCoroutine(_cutsceens[_cutsceenIndex].StartCutsceen(signal.Level._levelSpawner, _player));
             _cutsceenIndex++;
+        }
+
+        private void OnLevelComplete(LevelComplete signal)
+        {
+            if (_cutsceenIndex == 4)
+            {
+                StartCoroutine(FinalSceen());
+            }
+        }
+
+        private IEnumerator FinalSceen()
+        {
+            int health = _player._currentHealth;
+            _player._currentHealth = 100000;
+            yield return StartCoroutine(_cutsceens[_cutsceenIndex].StartCutsceen());
+            _player._currentHealth = health;
+            gameObject.SetActive(false);
         }
     }
 }

@@ -19,7 +19,7 @@ namespace Player
         private AudioSource _audioSource;
 
         private bool _canTakeDamage;
-        private int _currentHealth;
+        public int _currentHealth;
         private Coroutine _immuneCoroutine;
 
         public bool CanMove;

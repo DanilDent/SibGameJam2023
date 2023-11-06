@@ -21,6 +21,13 @@ namespace GameFlow
             spawnerToDeactivate.CanSpawn = true;
             _player.CanMove = true;
         }
+        
+        public IEnumerator StartCutsceen()
+        {
+            _imageSequance[0].gameObject.SetActive(true);
+            yield return StartCoroutine(SequanceCoroutine());
+            _imageSequance[_imageSequance.Count - 1].gameObject.SetActive(false);
+        }
 
         private IEnumerator SequanceCoroutine()
         {
