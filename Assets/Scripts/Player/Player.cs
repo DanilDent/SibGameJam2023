@@ -36,7 +36,8 @@ namespace Player
             _attackColliderTransform.gameObject.SetActive(false);
 
             _eventBus.Subscribe<EnemyHited>(OnEnemyHited);
-            _eventBus.Subscribe<LevelComplete>(ResetHealth);
+            _eventBus.Subscribe<LevelComplete>(OnLevelComplete);
+            _eventBus.Subscribe<LevelFailed>(OnLevelFailed);
             SubscribeBeatEffectsCommands();
             _canTakeDamage = true;
             _eventBus.Invoke(new TakeDamage(this, _currentHealth));
@@ -163,8 +164,8 @@ namespace Player
 
         private void OnDestroy()
         {
-            _eventBus.Unsubscribe<EnemyHited>(OnEnemyHited);
-            _eventBus.Unsubscribe<LevelComplete>(ResetHealth);
+            _eventBus.Unsubscribe<LevelComplete>(OnLevelComplete);
+            _eventBus.Unsubscribe<LevelFailed>(OnLevelFailed);
             UnsubscribeBeatEffectsCommands();
         }
 
@@ -373,7 +374,18 @@ namespace Player
             signal.EnemyContainer.EnemyView.EnemyLogic.TakeDamage(_damage);
         }
 
-        private void ResetHealth(LevelComplete signal)
+        private void OnLevelComplete(LevelComplete signal)
+        {
+
+            ResetHealth();
+        }   
+        
+        private void OnLevelFailed(LevelFailed signal)
+        {
+            ResetHealth();
+        }
+
+        private void ResetHealth()
         {
             _currentHealth = _localConfig.Health;
             _eventBus.Invoke(new TakeDamage(this, _currentHealth));
