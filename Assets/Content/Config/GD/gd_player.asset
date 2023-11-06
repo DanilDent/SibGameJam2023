@@ -22,4 +22,5 @@ MonoBehaviour:
   AttackSpeed: 0.42
   DashDelaySec: 0.3
   Damage: 1
-  Health: 5
+  Health: 15
+  ImmuneWindow: 0.5
