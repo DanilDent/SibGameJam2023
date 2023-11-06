@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{2BE86C4D-E594-4A3C-BD82-4B199A2062B5}" SchemaVersion="110">
+	<Events>
+		<WorkUnit Name="Default Work Unit" ID="{2BE86C4D-E594-4A3C-BD82-4B199A2062B5}" PersistMode="Standalone">
+			<ChildrenList>
+				<Event Name="Music" ID="{46C3C50C-7D7A-46E1-9AFA-58CB67826846}">
+					<ChildrenList>
+						<Action Name="" ID="{B027A278-0104-421A-B49C-F0615FFC812D}" ShortID="834602938">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Music" ID="{4A57EAAE-EF14-490C-BB40-00B22B77A0C1}" WorkUnitID="{E03D9E03-B322-4A47-9B91-A533FE0913AA}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Sword" ID="{764ADA11-9747-4F9C-A802-A7F1BFD85FDD}">
+					<ChildrenList>
+						<Action Name="" ID="{9F4895E7-AA77-4DD8-8054-E627A4D910DB}" ShortID="449261872">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="sword" ID="{CCAB308E-D948-499F-9291-1C8003F622F3}" WorkUnitID="{11AA43DC-C0B7-4A81-AB57-21E72208C80D}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Dash" ID="{34A6C970-2B10-4613-8CDB-CD4480B35A61}">
+					<ChildrenList>
+						<Action Name="" ID="{D2225887-56D8-4723-B4AC-EE97ED9041E5}" ShortID="196386342">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="dash" ID="{FD1F12F9-2EB2-45C6-BEA6-1D6DFD7B99C2}" WorkUnitID="{11AA43DC-C0B7-4A81-AB57-21E72208C80D}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Enemy" ID="{FF9E5128-F85D-4860-8169-6D9DC167F186}">
+					<ChildrenList>
+						<Action Name="" ID="{7EEAF0D0-913F-489D-A9AC-ABCEE5E7E755}" ShortID="402697354">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="enemy" ID="{14421DE5-062B-4444-AC2C-F272DA79CCC5}" WorkUnitID="{11AA43DC-C0B7-4A81-AB57-21E72208C80D}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+			</ChildrenList>
+		</WorkUnit>
+	</Events>
+</WwiseDocument>

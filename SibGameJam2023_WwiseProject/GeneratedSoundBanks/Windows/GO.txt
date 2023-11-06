@@ -1,0 +1,38 @@
+Event	ID	Name			Wwise Object Path	Notes
+	1942692385	Dash			\Default Work Unit\Dash	
+	2299321487	Enemy			\Default Work Unit\Enemy	
+	2454616260	Sword			\Default Work Unit\Sword	
+	3991942870	Music			\Default Work Unit\Music	
+
+State Group	ID	Name			Wwise Object Path	Notes
+	1021618141	MusicState			\Default Work Unit\MusicState	
+
+State	ID	Name	State Group			Notes
+	748895195	None	MusicState			
+	1281810935	Start	MusicState			
+	2044049779	Dead	MusicState			
+	3524678536	Section2	MusicState			
+	3524678537	Section3	MusicState			
+	3524678539	Section1	MusicState			
+	3524678542	Section4	MusicState			
+
+In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	19546593	2 SECTION 1	Y:\Desktop\Git\SibGameJam2023\SibGameJam2023_WwiseProject\.cache\Windows\SFX\2 SECTION 1_C58ED28F.wem		\Interactive Music Hierarchy\Music\Music\Section1\2 Section1\2 SECTION 1		739681
+	23514454	enemy	Y:\Desktop\Git\SibGameJam2023\SibGameJam2023_WwiseProject\.cache\Windows\SFX\enemy_B9A6BE81.wem		\Actor-Mixer Hierarchy\Default Work Unit\enemy		3730
+	25001811	7 SECTION 3 prt1 x2	Y:\Desktop\Git\SibGameJam2023\SibGameJam2023_WwiseProject\.cache\Windows\SFX\7 SECTION 3 prt1 x2_C58ED28F.wem		\Interactive Music Hierarchy\Music\Music\Section3\6 SECTION 3 prt1 x2\7 SECTION 3 prt1 x2		147056
+	127096924	7 SECTION 3 prt2 x2	Y:\Desktop\Git\SibGameJam2023\SibGameJam2023_WwiseProject\.cache\Windows\SFX\7 SECTION 3 prt2 x2_C58ED28F.wem		\Interactive Music Hierarchy\Music\Music\Section3\6 SECTION 3 prt2 x2\7 SECTION 3 prt2 x2		135192
+	323989090	Death	Y:\Desktop\Git\SibGameJam2023\SibGameJam2023_WwiseProject\.cache\Windows\SFX\Death_C58ED28F.wem		\Interactive Music Hierarchy\Music\Music\Dead\Death		119371
+	360350313	4 SECTION 2 prt1	Y:\Desktop\Git\SibGameJam2023\SibGameJam2023_WwiseProject\.cache\Windows\SFX\4 SECTION 2 prt1_C58ED28F.wem		\Interactive Music Hierarchy\Music\Music\Section2\4 SECTION 2 prt1 x2\4 SECTION 2 prt1		272496
+	533098659	1 Intro	Y:\Desktop\Git\SibGameJam2023\SibGameJam2023_WwiseProject\.cache\Windows\SFX\1 Intro_C58ED28F.wem		\Interactive Music Hierarchy\Music\Music\1 Intro\1 Intro		214200
+	611950928	7 SECTION 3 prt3	Y:\Desktop\Git\SibGameJam2023\SibGameJam2023_WwiseProject\.cache\Windows\SFX\7 SECTION 3 prt3_C58ED28F.wem		\Interactive Music Hierarchy\Music\Music\Section3\6 SECTION 3 prt3\7 SECTION 3 prt3		249399
+	615413510	5 SECTION 2 prt2	Y:\Desktop\Git\SibGameJam2023\SibGameJam2023_WwiseProject\.cache\Windows\SFX\5 SECTION 2 prt2_C58ED28F.wem		\Interactive Music Hierarchy\Music\Music\Section2\5 SECTION 2 prt2\5 SECTION 2 prt2		270583
+	616137905	9 SECTION BOSS prt3 x2	Y:\Desktop\Git\SibGameJam2023\SibGameJam2023_WwiseProject\.cache\Windows\SFX\9 SECTION BOSS prt3 x2_C58ED28F.wem		\Interactive Music Hierarchy\Music\Music\Section4\9 SECTION BOSS prt3 x2\9 SECTION BOSS prt3 x2		120197
+	770553491	6 Pause 2	Y:\Desktop\Git\SibGameJam2023\SibGameJam2023_WwiseProject\.cache\Windows\SFX\6 Pause 2_C58ED28F.wem		\Interactive Music Hierarchy\Music\Music\Section2\5 Pause2\6 Pause 2		209977
+	844220435	8 Pause 3	Y:\Desktop\Git\SibGameJam2023\SibGameJam2023_WwiseProject\.cache\Windows\SFX\8 Pause 3_C58ED28F.wem		\Interactive Music Hierarchy\Music\Music\Section3\7 Pause3\8 Pause 3		191319
+	870667075	9 SECTION BOSS prt2 x2	Y:\Desktop\Git\SibGameJam2023\SibGameJam2023_WwiseProject\.cache\Windows\SFX\9 SECTION BOSS prt2 x2_C58ED28F.wem		\Interactive Music Hierarchy\Music\Music\Section4\9 SECTION BOSS prt2 x2\9 SECTION BOSS prt2 x2		119593
+	907284687	sword	Y:\Desktop\Git\SibGameJam2023\SibGameJam2023_WwiseProject\.cache\Windows\SFX\sword_B9A6BE81.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\sword		4217
+	923424399	outro	Y:\Desktop\Git\SibGameJam2023\SibGameJam2023_WwiseProject\.cache\Windows\SFX\outro_C58ED28F.wem		\Interactive Music Hierarchy\Music\Music\Section4\10 Victory\outro		293946
+	1005465212	9 SECTION BOSS prt1	Y:\Desktop\Git\SibGameJam2023\SibGameJam2023_WwiseProject\.cache\Windows\SFX\9 SECTION BOSS prt1_C58ED28F.wem		\Interactive Music Hierarchy\Music\Music\Section4\9 SECTION BOSS prt1\9 SECTION BOSS prt1		221251
+	1057609034	dash	Y:\Desktop\Git\SibGameJam2023\SibGameJam2023_WwiseProject\.cache\Windows\SFX\dash_B9A6BE81.wem		\Actor-Mixer Hierarchy\Default Work Unit\Player\dash		4368
+	1062429904	3 Pause 1	Y:\Desktop\Git\SibGameJam2023\SibGameJam2023_WwiseProject\.cache\Windows\SFX\3 Pause 1_C58ED28F.wem		\Interactive Music Hierarchy\Music\Music\Section1\3 Pause1\3 Pause 1		226948
+

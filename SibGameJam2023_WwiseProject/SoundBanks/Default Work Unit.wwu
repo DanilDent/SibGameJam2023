@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{A615CE9F-03EC-46F1-8E08-83639CF3401E}" SchemaVersion="110">
+	<SoundBanks>
+		<WorkUnit Name="Default Work Unit" ID="{A615CE9F-03EC-46F1-8E08-83639CF3401E}" PersistMode="Standalone">
+			<ChildrenList>
+				<SoundBank Name="GO" ID="{D774E350-4742-4A5C-9F8B-92F64F302BCA}">
+					<ObjectInclusionList>
+						<ObjectRef Name="Dash" ID="{34A6C970-2B10-4613-8CDB-CD4480B35A61}" WorkUnitID="{2BE86C4D-E594-4A3C-BD82-4B199A2062B5}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Music" ID="{46C3C50C-7D7A-46E1-9AFA-58CB67826846}" WorkUnitID="{2BE86C4D-E594-4A3C-BD82-4B199A2062B5}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Enemy" ID="{FF9E5128-F85D-4860-8169-6D9DC167F186}" WorkUnitID="{2BE86C4D-E594-4A3C-BD82-4B199A2062B5}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Sword" ID="{764ADA11-9747-4F9C-A802-A7F1BFD85FDD}" WorkUnitID="{2BE86C4D-E594-4A3C-BD82-4B199A2062B5}" Origin="Manual" Filter="7"/>
+					</ObjectInclusionList>
+					<ObjectExclusionList/>
+					<GameSyncExclusionList/>
+				</SoundBank>
+			</ChildrenList>
+		</WorkUnit>
+	</SoundBanks>
+</WwiseDocument>

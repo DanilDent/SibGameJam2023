@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SoundBanksInfo Platform="Windows" BasePlatform="Windows" SchemaVersion="16" SoundBankVersion="145">
+	<RootPaths>
+		<ProjectRoot>../..</ProjectRoot>
+		<SourceFilesRoot>../../.cache/Windows</SourceFilesRoot>
+		<SoundBanksRoot>.</SoundBanksRoot>
+		<ExternalSourcesInputFile></ExternalSourcesInputFile>
+		<ExternalSourcesOutputRoot>.</ExternalSourcesOutputRoot>
+	</RootPaths>
+	<DialogueEvents/>
+	<SoundBanks>
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{3BB0A055-9577-9207-2854-F1CE6086D675}">
+			<ShortName>Init</ShortName>
+			<Path>Init.bnk</Path>
+			<Plugins>
+				<AudioDevices>
+					<Plugin Id="2317455096" Name="No_Output" LibName="No Output" LibId="11862023"/>
+					<Plugin Id="3859886410" Name="System" LibName="System" LibId="11403271"/>
+				</AudioDevices>
+			</Plugins>
+			<Busses>
+				<Bus Id="3803692087" Name="Master Audio Bus"/>
+			</Busses>
+			<StateGroups>
+				<StateGroup Id="1021618141" Name="MusicState">
+					<States>
+						<State Id="748895195" Name="None"/>
+						<State Id="1281810935" Name="Start"/>
+						<State Id="2044049779" Name="Dead"/>
+						<State Id="3524678536" Name="Section2"/>
+						<State Id="3524678537" Name="Section3"/>
+						<State Id="3524678539" Name="Section1"/>
+						<State Id="3524678542" Name="Section4"/>
+					</States>
+				</StateGroup>
+			</StateGroups>
+		</SoundBank>
+		<SoundBank Id="1786192775" Type="User" Language="SFX" Hash="{D599E98B-717B-8A2A-86B7-419297009369}">
+			<ShortName>GO</ShortName>
+			<Path>GO.bnk</Path>
+			<Media>
+				<File Id="19546593" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>2 SECTION 1.wav</ShortName>
+					<CachePath>SFX/2 SECTION 1_C58ED28F.wem</CachePath>
+				</File>
+				<File Id="23514454" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>enemy.wav</ShortName>
+					<CachePath>SFX/enemy_B9A6BE81.wem</CachePath>
+				</File>
+				<File Id="25001811" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>7 SECTION 3 prt1 x2.wav</ShortName>
+					<CachePath>SFX/7 SECTION 3 prt1 x2_C58ED28F.wem</CachePath>
+				</File>
+				<File Id="127096924" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>7 SECTION 3 prt2 x2.wav</ShortName>
+					<CachePath>SFX/7 SECTION 3 prt2 x2_C58ED28F.wem</CachePath>
+				</File>
+				<File Id="323989090" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Death.wav</ShortName>
+					<CachePath>SFX/Death_C58ED28F.wem</CachePath>
+				</File>
+				<File Id="360350313" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>4 SECTION 2 prt1.wav</ShortName>
+					<CachePath>SFX/4 SECTION 2 prt1_C58ED28F.wem</CachePath>
+				</File>
+				<File Id="533098659" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>1 Intro.wav</ShortName>
+					<CachePath>SFX/1 Intro_C58ED28F.wem</CachePath>
+				</File>
+				<File Id="611950928" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>7 SECTION 3 prt3.wav</ShortName>
+					<CachePath>SFX/7 SECTION 3 prt3_C58ED28F.wem</CachePath>
+				</File>
+				<File Id="615413510" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>5 SECTION 2 prt2.wav</ShortName>
+					<CachePath>SFX/5 SECTION 2 prt2_C58ED28F.wem</CachePath>
+				</File>
+				<File Id="616137905" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>9 SECTION BOSS prt3 x2.wav</ShortName>
+					<CachePath>SFX/9 SECTION BOSS prt3 x2_C58ED28F.wem</CachePath>
+				</File>
+				<File Id="770553491" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>6 Pause 2.wav</ShortName>
+					<CachePath>SFX/6 Pause 2_C58ED28F.wem</CachePath>
+				</File>
+				<File Id="844220435" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>8 Pause 3.wav</ShortName>
+					<CachePath>SFX/8 Pause 3_C58ED28F.wem</CachePath>
+				</File>
+				<File Id="870667075" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>9 SECTION BOSS prt2 x2.wav</ShortName>
+					<CachePath>SFX/9 SECTION BOSS prt2 x2_C58ED28F.wem</CachePath>
+				</File>
+				<File Id="907284687" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>sword.wav</ShortName>
+					<CachePath>SFX/sword_B9A6BE81.wem</CachePath>
+				</File>
+				<File Id="923424399" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>outro.wav</ShortName>
+					<CachePath>SFX/outro_C58ED28F.wem</CachePath>
+				</File>
+				<File Id="1005465212" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>9 SECTION BOSS prt1.wav</ShortName>
+					<CachePath>SFX/9 SECTION BOSS prt1_C58ED28F.wem</CachePath>
+				</File>
+				<File Id="1057609034" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>dash.wav</ShortName>
+					<CachePath>SFX/dash_B9A6BE81.wem</CachePath>
+				</File>
+				<File Id="1062429904" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>3 Pause 1.wav</ShortName>
+					<CachePath>SFX/3 Pause 1_C58ED28F.wem</CachePath>
+				</File>
+			</Media>
+			<Events>
+				<Event Id="1942692385" Name="Dash" DurationType="OneShot" DurationMin="0.4481438" DurationMax="0.5112262">
+					<MediaRefs>
+						<MediaRef Id="1057609034"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2299321487" Name="Enemy" DurationType="OneShot" DurationMin="0.42299145" DurationMax="0.55781823">
+					<MediaRefs>
+						<MediaRef Id="23514454"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3991942870" Name="Music" DurationType="Infinite">
+					<SwitchContainers>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="1021618141" Id="1281810935"/>
+							<MediaRefs>
+								<MediaRef Id="533098659"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="1021618141" Id="3524678539"/>
+							<MediaRefs>
+								<MediaRef Id="19546593"/>
+								<MediaRef Id="1062429904"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="1021618141" Id="2044049779"/>
+							<MediaRefs>
+								<MediaRef Id="323989090"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="1021618141" Id="3524678536"/>
+							<MediaRefs>
+								<MediaRef Id="360350313"/>
+								<MediaRef Id="615413510"/>
+								<MediaRef Id="770553491"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="1021618141" Id="3524678537"/>
+							<MediaRefs>
+								<MediaRef Id="25001811"/>
+								<MediaRef Id="127096924"/>
+								<MediaRef Id="611950928"/>
+								<MediaRef Id="844220435"/>
+							</MediaRefs>
+						</SwitchContainer>
+						<SwitchContainer>
+							<SwitchValue GroupType="State" GroupId="1021618141" Id="3524678542"/>
+							<MediaRefs>
+								<MediaRef Id="616137905"/>
+								<MediaRef Id="870667075"/>
+								<MediaRef Id="923424399"/>
+								<MediaRef Id="1005465212"/>
+							</MediaRefs>
+						</SwitchContainer>
+					</SwitchContainers>
+				</Event>
+				<Event Id="2454616260" Name="Sword" DurationType="OneShot" DurationMin="0.4481438" DurationMax="0.5112262">
+					<MediaRefs>
+						<MediaRef Id="907284687"/>
+					</MediaRefs>
+				</Event>
+			</Events>
+			<StateGroups>
+				<StateGroup Id="1021618141" Name="MusicState">
+					<States>
+						<State Id="748895195" Name="None"/>
+						<State Id="1281810935" Name="Start"/>
+						<State Id="2044049779" Name="Dead"/>
+						<State Id="3524678536" Name="Section2"/>
+						<State Id="3524678537" Name="Section3"/>
+						<State Id="3524678539" Name="Section1"/>
+						<State Id="3524678542" Name="Section4"/>
+					</States>
+				</StateGroup>
+			</StateGroups>
+		</SoundBank>
+	</SoundBanks>
+	<FileHash>{6C0A8347-497C-86CD-2F69-81704FCC3581}</FileHash>
+</SoundBanksInfo>
