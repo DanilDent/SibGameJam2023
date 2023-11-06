@@ -7,6 +7,7 @@ namespace GameFlow
     public class Level : MonoBehaviour
     {
         [SerializeField] private int _fullTicksCountToComplete;
+        [field: SerializeField] public EnemySpawner _levelSpawner;
 
         private int _fullTicksCurrentCount;
 
@@ -25,7 +26,7 @@ namespace GameFlow
             _fullTicksCurrentCount++;
 
             if(_fullTicksCurrentCount >= _fullTicksCountToComplete)
-                EventBusSingleton.Instance.Invoke(new LevelComplete());
+                EventBusSingleton.Instance.Invoke(new LevelComplete(this));
         }
     }
 }

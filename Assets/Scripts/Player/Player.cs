@@ -29,8 +29,11 @@ namespace Player
         private int _currentHealth;
         private Coroutine _immuneCoroutine;
 
+        public bool CanMove;
+
         private void Start()
         {
+            CanMove = true;
             _config = ConfigContainer.Instance.Value;
             _localConfig = _config.Player;
             _sfxController = SFXController.Instance;
@@ -43,7 +46,8 @@ namespace Player
             _attackColliderTransform.gameObject.SetActive(false);
 
             _eventBus.Subscribe<EnemyHited>(OnEnemyHited);
-            _eventBus.Subscribe<LevelComplete>(ResetHealth);
+            _eventBus.Subscribe<LevelComplete>(OnLevelComplete);
+            _eventBus.Subscribe<LevelFailed>(OnLevelFailed);
             SubscribeBeatEffectsCommands();
             _canTakeDamage = true;
             _eventBus.Invoke(new TakeDamage(this, _currentHealth));
@@ -200,6 +204,8 @@ namespace Player
             base.OnDestroy();
             _eventBus.Unsubscribe<EnemyHited>(OnEnemyHited);
             _eventBus.Unsubscribe<LevelComplete>(ResetHealth);
+            _eventBus.Unsubscribe<LevelComplete>(OnLevelComplete);
+            _eventBus.Unsubscribe<LevelFailed>(OnLevelFailed);
             UnsubscribeBeatEffectsCommands();
         }
 
@@ -216,6 +222,10 @@ namespace Player
                 _hitBeatText.text = $"HIT";
                 _hitBeatText.color = Color.red;
             }
+            
+            if (!CanMove)
+                return;
+
             HandleInput();
             HandleOrientation();
 
@@ -427,7 +437,18 @@ namespace Player
             signal.EnemyContainer.EnemyView.EnemyLogic.TakeDamage(_damage);
         }
 
-        private void ResetHealth(LevelComplete signal)
+        private void OnLevelComplete(LevelComplete signal)
+        {
+
+            ResetHealth();
+        }   
+        
+        private void OnLevelFailed(LevelFailed signal)
+        {
+            ResetHealth();
+        }
+
+        private void ResetHealth()
         {
             _currentHealth = _localConfig.Health;
             _eventBus.Invoke(new TakeDamage(this, _currentHealth));

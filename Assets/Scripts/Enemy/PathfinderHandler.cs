@@ -26,7 +26,8 @@ namespace Enemy
 
         public void BakePath()
         {
-            _pathfinder.Scan(_graph);
+            //_pathfinder.gra
+            AstarPath.active.Scan(); 
         }
     }
 }
