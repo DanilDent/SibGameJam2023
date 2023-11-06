@@ -58,6 +58,7 @@ namespace GameFlow
             _player._currentHealth = 100000;
             yield return StartCoroutine(_cutsceens[_cutsceenIndex].StartCutsceen());
             _player._currentHealth = health;
+            StopAllCoroutines();
             gameObject.SetActive(false);
         }
     }
