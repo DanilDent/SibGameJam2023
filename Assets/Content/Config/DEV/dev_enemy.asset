@@ -16,4 +16,4 @@ MonoBehaviour:
   <Damage>k__BackingField: 1
   <MoveSpeed>k__BackingField: 1000000
   <AttackDelay>k__BackingField: 0.5
-  <AttackCD>k__BackingField: 1
+  <AttackCD>k__BackingField: 0

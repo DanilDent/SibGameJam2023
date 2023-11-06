@@ -14,7 +14,7 @@ namespace Enemy
         [SerializeField] private List<EnemyContainer> _enemySpawnSuquance;
         [SerializeField] private List<Transform> _wayPoints;
         [Space(20)]
-        [SerializeField] private Player.Player _player;
+        private Player.Player _player;
 
         private int _spawnId;
         private int _wayPointId;
@@ -22,6 +22,7 @@ namespace Enemy
 
         private void Start()
         {
+            _player = FindObjectOfType<Player.Player>();
             EventBusSingleton.Instance.Subscribe<ClockFullTurnSignal>(OnClockFullTurn);
             EventBusSingleton.Instance.Subscribe<Die>(OnEnemyDie);
             EventBusSingleton.Instance.Subscribe<LevelComplete>(OnLevelComplete);

@@ -680,7 +680,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spawnCountPerTick: 2
-  _spawnOnEvetyPointPerTick: 1
+  _spawnOnEvetyPointPerTick: 0
   _enemySpawnSuquance:
   - {fileID: -1605585390677383586, guid: 07614c0ca99503346813a90dd568aaaa, type: 3}
   - {fileID: -1605585390677383586, guid: 8eba2d8ce4b3b244986562beee7b5d0b, type: 3}
@@ -689,7 +689,6 @@ MonoBehaviour:
   - {fileID: 1526035140}
   - {fileID: 2018107191}
   - {fileID: 1120136002}
-  _player: {fileID: 576544783}
 --- !u!4 &576544782 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6919661698669253996, guid: 973ebbdb7cb6ef14384a762b4ff30d6e, type: 3}
@@ -750,6 +749,67 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1607042855}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &618112690
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1905885770773788999, guid: 00a9092ce1b6a924796f3a488b6c80c7, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -5.74
+      objectReference: {fileID: 0}
+    - target: {fileID: 1905885770773788999, guid: 00a9092ce1b6a924796f3a488b6c80c7, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.59
+      objectReference: {fileID: 0}
+    - target: {fileID: 1905885770773788999, guid: 00a9092ce1b6a924796f3a488b6c80c7, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1905885770773788999, guid: 00a9092ce1b6a924796f3a488b6c80c7, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 1905885770773788999, guid: 00a9092ce1b6a924796f3a488b6c80c7, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1905885770773788999, guid: 00a9092ce1b6a924796f3a488b6c80c7, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1905885770773788999, guid: 00a9092ce1b6a924796f3a488b6c80c7, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 1905885770773788999, guid: 00a9092ce1b6a924796f3a488b6c80c7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1905885770773788999, guid: 00a9092ce1b6a924796f3a488b6c80c7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1905885770773788999, guid: 00a9092ce1b6a924796f3a488b6c80c7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 3101508515452920887, guid: 00a9092ce1b6a924796f3a488b6c80c7, type: 3}
+      propertyPath: _ticksCountToActivate
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4160235321830079387, guid: 00a9092ce1b6a924796f3a488b6c80c7, type: 3}
+      propertyPath: m_Name
+      value: Spires
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 00a9092ce1b6a924796f3a488b6c80c7, type: 3}
 --- !u!4 &625864907 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9218600278763215616, guid: 1ff9e6697483d874e84a85617b377d6a, type: 3}
@@ -990,7 +1050,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &830836079
 Transform:
   m_ObjectHideFlags: 0
@@ -1018,6 +1078,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb6402efc465a744687692296e7f96bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _restartLevelOnPlayerDie: 0
+  _battleSceneIndex: 0
   _levels:
   - {fileID: 1027998561126300625, guid: 02a1269e85806d34aa54046d13f5bec2, type: 3}
   - {fileID: 1027998561126300625, guid: 4bb3b15c4cba90346858aeeddb1005f2, type: 3}
@@ -2610,7 +2672,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1719695639623909292, guid: 02a1269e85806d34aa54046d13f5bec2, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2688,3 +2750,4 @@ SceneRoots:
   - {fileID: 5602449290682184024}
   - {fileID: 1122694463}
   - {fileID: 651258293}
+  - {fileID: 618112690}
