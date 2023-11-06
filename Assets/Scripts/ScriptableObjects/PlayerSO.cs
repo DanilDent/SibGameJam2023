@@ -16,6 +16,7 @@ namespace Config
         public float DashDelaySec;
         public int Damage;
         public int Health;
+        public float ImmuneWindow;
 
         private Player.Player _player;
 

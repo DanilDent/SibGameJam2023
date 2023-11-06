@@ -7,6 +7,7 @@ using Sound;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
+using GameFlow;
 
 namespace Player
 {
@@ -17,7 +18,9 @@ namespace Player
         private SFXController _sfxController;
         private AudioSource _audioSource;
 
+        private bool _canTakeDamage;
         private int _currentHealth;
+        private Coroutine _immuneCoroutine;
 
         private void Start()
         {
@@ -33,7 +36,10 @@ namespace Player
             _attackColliderTransform.gameObject.SetActive(false);
 
             _eventBus.Subscribe<EnemyHited>(OnEnemyHited);
+            _eventBus.Subscribe<LevelComplete>(ResetHealth);
             SubscribeBeatEffectsCommands();
+            _canTakeDamage = true;
+            _eventBus.Invoke(new TakeDamage(this, _currentHealth));
         }
 
         public void FillFromConfig(PlayerSO config)
@@ -158,6 +164,7 @@ namespace Player
         private void OnDestroy()
         {
             _eventBus.Unsubscribe<EnemyHited>(OnEnemyHited);
+            _eventBus.Unsubscribe<LevelComplete>(ResetHealth);
             UnsubscribeBeatEffectsCommands();
         }
 
@@ -237,6 +244,11 @@ namespace Player
 
         private void Dash()
         {
+            if (_immuneCoroutine != null)
+                StopCoroutine(_immuneCoroutine);
+
+             _immuneCoroutine = StartCoroutine(ImmuneCoroutine());
+
             _rb.velocity = Vector3.zero;
             _rb.AddForce((_movementInput == Vector3.zero ? transform.right : _movementInput.normalized) * _dashForce, ForceMode2D.Impulse);
             _sfxController.PlaySFX("dash", _audioSource);
@@ -347,15 +359,36 @@ namespace Player
             _attackColliderTransform.gameObject.SetActive(false);
         }
 
+        private IEnumerator ImmuneCoroutine()
+        {
+            _canTakeDamage = false;
+            //Debug.LogWarning("In immune coroutine");
+            yield return new WaitForSeconds(_localConfig.ImmuneWindow);
+            _immuneCoroutine = null;
+            _canTakeDamage = true;
+        }
+
         private void OnEnemyHited(EnemyHited signal)
         {
             signal.EnemyContainer.EnemyView.EnemyLogic.TakeDamage(_damage);
         }
 
+        private void ResetHealth(LevelComplete signal)
+        {
+            _currentHealth = _localConfig.Health;
+            _eventBus.Invoke(new TakeDamage(this, _currentHealth));
+        }
+
         public void TakeDamage(int damage)
         {
+            if (!_canTakeDamage)
+                return;
+
+            if (_immuneCoroutine == null)
+                _immuneCoroutine = StartCoroutine(ImmuneCoroutine());
+
             _currentHealth -= damage;
-            _eventBus.Invoke(new TakeDamage(this, damage));
+            _eventBus.Invoke(new TakeDamage(this, _currentHealth));
 
             if (_currentHealth <= 0)
             {
@@ -363,7 +396,7 @@ namespace Player
             }
         }
 
-        public void Die()
+        private void Die()
         {
             _eventBus.Invoke(new Die(this));
         }
