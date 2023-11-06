@@ -27,7 +27,7 @@ namespace GameTime
                 return;
 
             _gt.Fill(ConfigContainer.Instance.Value);
-            _gt.Restart();
+            //_gt.Restart();
         }
     }
 }

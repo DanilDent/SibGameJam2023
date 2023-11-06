@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06752ef0bbc9b254d99089eb69b69aeb, type: 3}
   m_Name: NinasRevenge128
   m_EditorClassIdentifier: 
-  _clip: {fileID: 8300000, guid: fdfdced575d72274fa8e8f9cf0ec9f58, type: 3}
+  _clip: {fileID: 8300000, guid: fd09c9ed96141e44c86e5e431a179623, type: 3}
   _clockFullTurnSec: 7.5
   _offsetSec: 0

@@ -4,6 +4,7 @@ using Game;
 using Helpers;
 using Sound;
 using System;
+using System.Collections;
 using UnityEngine;
 
 namespace GameTime
@@ -34,7 +35,7 @@ namespace GameTime
             }
 
             Fill(_config);
-            Restart();
+            StartCoroutine(RestartCoroutine());
 
             double[] stepTimes = new double[_numberOfSteps];
             for (int i = 0; i < _numberOfSteps; ++i)
@@ -48,12 +49,16 @@ namespace GameTime
                 "=================================================================================================");
         }
 
-        public void Restart()
+        public IEnumerator RestartCoroutine()
         {
             var track = MusicController.Instance.SetTrack(0);
             _clockFullTurnSec = track.ClockFullTurnSec;
+            MusicController.Instance.Play();
             StartGameClock();
-            MusicController.Instance.PlayScheduled(AudioSettings.dspTime + track.OffsetSec);
+            yield return new WaitForSecondsRealtime(MusicController.Instance.Audio.clip.length);
+            MusicController.Instance.Stop();
+            MusicController.Instance.SetTrack(1);
+            MusicController.Instance.Play(loop: true);
         }
 
         public void Fill(GameConfigSO config)

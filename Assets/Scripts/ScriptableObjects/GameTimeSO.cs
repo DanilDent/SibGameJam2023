@@ -24,7 +24,7 @@ namespace Config
                 return;
 
             _gt.Fill(ConfigContainer.Instance.Value);
-            _gt.Restart();
+            //_gt.Restart();
         }
     }
 }
