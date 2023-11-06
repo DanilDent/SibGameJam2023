@@ -6,16 +6,21 @@ using Helpers;
 using Sound;
 using System.Collections;
 using System.Linq;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Player
 {
-    public class Player : MonoBehaviour
+    public class Player : MonoSingleton<Player>
     {
+        [SerializeField] private TextMeshProUGUI _hitBeatText;
+
         private GameConfigSO _config;
         private PlayerSO _localConfig;
         private SFXController _sfxController;
         private AudioSource _audioSource;
+        public bool UserAreadyHitBit = false;
 
         private int _currentHealth;
 
@@ -95,12 +100,35 @@ namespace Player
         public void HandleHitBeat(ClockStepSignal signal)
         {
             _hitBeatNormal = true;
+            _hitBeatText.text = $"HIT";
+            _hitBeatText.color = Color.green;
+            Debug.Log($"HIT BEAT TRUE");
             StartCoroutine(CoroutineHelpers.InvokeWithDelay(
             () =>
             {
                 _hitBeatNormal = false;
+                _hitBeatText.text = "NOT HIT";
+                _hitBeatText.color = Color.red;
+                Debug.Log($"HIT BEAT FALSE");
+
             },
-            delay: _config.GameTime.EpsSec));
+            delay: _config.GameTime.EpsSec * 2f));
+        }
+
+        public void HandleClockStepEnter(ClockStepEnterSignal signal)
+        {
+            _hitBeatNormal = true;
+            _hitBeatText.text = $"HIT";
+            _hitBeatText.color = Color.green;
+            Debug.Log($"HIT BEAT TRUE");
+        }
+
+        public void HandleClockStepExit(ClockStepExitSignal signal)
+        {
+            _hitBeatNormal = false;
+            _hitBeatText.text = "NOT HIT";
+            _hitBeatText.color = Color.red;
+            Debug.Log($"HIT BEAT FALSE");
         }
 
         public void HandleCanDash(ClockStepSignal signal)
@@ -140,7 +168,9 @@ namespace Player
         #region BeatEffectsController
         private void SubscribeBeatEffectsCommands()
         {
-            _eventBus.Subscribe<ClockStepSignal>(HandleHitBeat);
+            //_eventBus.Subscribe<ClockStepSignal>(HandleHitBeat);
+            //_eventBus.Subscribe<ClockStepEnterSignal>(HandleClockStepEnter);
+            //_eventBus.Subscribe<ClockStepExitSignal>(HandleClockStepExit);
 
             //_eventBus.Subscribe<ClockStepSignal>(HandleCanDash);
             //_eventBus.Subscribe<ClockStepSignal>(HandleCanAttack);
@@ -148,21 +178,35 @@ namespace Player
 
         private void UnsubscribeBeatEffectsCommands()
         {
-            _eventBus.Unsubscribe<ClockStepSignal>(HandleHitBeat);
+            //_eventBus.Unsubscribe<ClockStepSignal>(HandleHitBeat);
+            //_eventBus.Unsubscribe<ClockStepEnterSignal>(HandleClockStepEnter);
+            //_eventBus.Unsubscribe<ClockStepExitSignal>(HandleClockStepExit);
 
             //_eventBus.Unsubscribe<ClockStepSignal>(HandleCanDash);
             //_eventBus.Unsubscribe<ClockStepSignal>(HandleCanAttack);
         }
         #endregion
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
+            base.OnDestroy();
             _eventBus.Unsubscribe<EnemyHited>(OnEnemyHited);
             UnsubscribeBeatEffectsCommands();
         }
 
         private void Update()
         {
+            _hitBeatNormal = GameTime.GameTime.Instance.IsHitBeat && !UserAreadyHitBit;
+            if (_hitBeatNormal)
+            {
+                _hitBeatText.text = $"HIT";
+                _hitBeatText.color = Color.green;
+            }
+            else
+            {
+                _hitBeatText.text = $"HIT";
+                _hitBeatText.color = Color.red;
+            }
             HandleInput();
             HandleOrientation();
 
@@ -306,12 +350,19 @@ namespace Player
             {
                 float oldDrag = _rb.drag;
                 _rb.drag = 0f;
-                _isDash = true;
+                _canDash = false;
                 float dashTime = _dashForce / (_rb.mass * _dashTimeScaleFactor);
                 Debug.Log($"Dash time sec: {dashTime}");
                 StartCoroutine(ResetDashCoroutine(dashTime));
+                StartCoroutine(Helpers.CoroutineHelpers.InvokeWithDelay(() =>
+                {
+                    _canDash = true;
+
+                }, _dashDelaySec));
                 Dash();
+                _isDash = true;
                 _rb.drag = oldDrag;
+                UserAreadyHitBit = true;
             }
 
             if (!_isDash && Input.GetMouseButtonDown(0) && _canAttack && !_isAttack && (_beatEffects.Contains(BeatEffect.CanAttack) ? _hitBeatNormal : true))
@@ -320,7 +371,7 @@ namespace Player
                 _rb.drag = 0f;
                 _canAttack = false;
                 float attackDashTimeSec = _attackDashForce / (_rb.mass * _attackDashTimeScaleFactor);
-                //Debug.Log($"Attack dash time sec: {attackDashTimeSec}");
+                Debug.Log($"Attack dash time sec: {attackDashTimeSec}");
                 StartCoroutine(ResetAttackDashCoroutine(_attackSpeed));
                 StartCoroutine(Helpers.CoroutineHelpers.InvokeWithDelay(() =>
                 {
@@ -329,6 +380,7 @@ namespace Player
                 Attack();
                 _isAttack = true;
                 _rb.drag = oldDrag;
+                UserAreadyHitBit = true;
             }
         }
 
