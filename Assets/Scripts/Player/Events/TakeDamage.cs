@@ -4,11 +4,11 @@ namespace Player
 {
     public class TakeDamage : PlayerSignal
     {
-        public readonly int Damage;
+        public readonly int CurrentHealth;
 
-        public TakeDamage(Player player, int damage) : base(player)
+        public TakeDamage(Player player, int currentHealth) : base(player)
         {
-            Damage = damage;
+            CurrentHealth = currentHealth;
         }
     }
 }

@@ -22,7 +22,7 @@ namespace Player
 
         private void OnDamageTaken(TakeDamage signal)
         {
-            _hpBar.value -= signal.Damage;
+            _hpBar.value = signal.CurrentHealth;
         }
 
         private void OnDie(Die signal)

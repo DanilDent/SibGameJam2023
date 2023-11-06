@@ -45,9 +45,9 @@ namespace Trap
                 enemy.EnemyLogic.TakeDamage(_damage);
             }
 
-            if (collision.TryGetComponent(out Player.Player _) || collision.TryGetComponent(out EnemyView _))
-                if (_animCoroutine == null)
-                    _animCoroutine = StartCoroutine(PlayAnim(CLOSE_TRIGGER));
+            //if (collision.TryGetComponent(out Player.Player _) || collision.TryGetComponent(out EnemyView _))
+            //    if (_animCoroutine == null)
+            //        _animCoroutine = StartCoroutine(PlayAnim(CLOSE_TRIGGER));
         }
 
         private IEnumerator PlayAnim(string AnimTrigger)
@@ -58,6 +58,13 @@ namespace Trap
             _animCoroutine = null;
         }
 
+        private IEnumerator CloseAnim()
+        {
+            yield return StartCoroutine(PlayAnim(OPEN_TRIGGER));
+            yield return new WaitForSeconds(.1f);
+            yield return StartCoroutine(PlayAnim(CLOSE_TRIGGER));
+        }
+
         private void OnClockTick(ClockStepSignal signal)
         {
             _currentTicksCountToActivate++;
@@ -65,7 +72,7 @@ namespace Trap
             if (_currentTicksCountToActivate == _ticksCountToActivate)
             {
                 _currentTicksCountToActivate = 0;
-                StartCoroutine(PlayAnim(OPEN_TRIGGER));
+                StartCoroutine(CloseAnim());
             }
         }
     }
