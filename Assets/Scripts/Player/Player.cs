@@ -22,8 +22,11 @@ namespace Player
         private int _currentHealth;
         private Coroutine _immuneCoroutine;
 
+        public bool CanMove;
+
         private void Start()
         {
+            CanMove = true;
             _config = ConfigContainer.Instance.Value;
             _localConfig = _config.Player;
             _sfxController = SFXController.Instance;
@@ -171,6 +174,9 @@ namespace Player
 
         private void Update()
         {
+            if (!CanMove)
+                return;
+
             HandleInput();
             HandleOrientation();
 

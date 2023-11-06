@@ -11,13 +11,15 @@ namespace GameFlow
         [SerializeField] private List<Image> _imageSequance;
         [SerializeField] private float _delayBetweenFrames;
 
-        public IEnumerator StartCutsceen(EnemySpawner spawnerToDeactivate)
+        public IEnumerator StartCutsceen(EnemySpawner spawnerToDeactivate, Player.Player _player)
         {
+            _player.CanMove = false;
             spawnerToDeactivate.CanSpawn = false;
             _imageSequance[0].gameObject.SetActive(true);
             yield return StartCoroutine(SequanceCoroutine());
             _imageSequance[_imageSequance.Count - 1].gameObject.SetActive(false);
             spawnerToDeactivate.CanSpawn = true;
+            _player.CanMove = true;
         }
 
         private IEnumerator SequanceCoroutine()

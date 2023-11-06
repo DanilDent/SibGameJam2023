@@ -9,9 +9,11 @@ namespace GameFlow
     {
         [SerializeField] private List<Cutsceen> _cutsceens;
         private int _cutsceenIndex;
+        private Player.Player _player;
 
         private IEnumerator Start()
         {
+            _player = FindFirstObjectByType<Player.Player>();
             yield return new WaitForSeconds(.001f);
             _cutsceenIndex = 0;
             StartCutscene();
@@ -27,7 +29,7 @@ namespace GameFlow
         {
             Level firstLevel = FindObjectOfType<Level>();
 
-            StartCoroutine(_cutsceens[_cutsceenIndex].StartCutsceen(firstLevel._levelSpawner));
+            StartCoroutine(_cutsceens[_cutsceenIndex].StartCutsceen(firstLevel._levelSpawner, _player));
             _cutsceenIndex++;
         }
 
@@ -36,7 +38,7 @@ namespace GameFlow
             if (_cutsceenIndex >= _cutsceens.Count)
                 return;
 
-            StartCoroutine(_cutsceens[_cutsceenIndex].StartCutsceen(signal.Level._levelSpawner));
+            StartCoroutine(_cutsceens[_cutsceenIndex].StartCutsceen(signal.Level._levelSpawner, _player));
             _cutsceenIndex++;
         }
     }
