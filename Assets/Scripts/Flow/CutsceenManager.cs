@@ -17,12 +17,12 @@ namespace GameFlow
             yield return new WaitForSeconds(.001f);
             _cutsceenIndex = 0;
             StartCutscene();
-            EventBusSingleton.Instance.Subscribe<LevelComplete>(OnLevelComplete);    
+            EventBusSingleton.Instance.Subscribe<LevelLoaded>(OnLevelComplete);    
         }
 
         private void OnDestroy()
         {
-            EventBusSingleton.Instance.Unsubscribe<LevelComplete>(OnLevelComplete);
+            EventBusSingleton.Instance.Unsubscribe<LevelLoaded>(OnLevelComplete);
         }
 
         private void StartCutscene()
@@ -33,7 +33,7 @@ namespace GameFlow
             _cutsceenIndex++;
         }
 
-        private void OnLevelComplete(LevelComplete signal)
+        private void OnLevelComplete(LevelLoaded signal)
         {
             if (_cutsceenIndex >= _cutsceens.Count)
                 return;

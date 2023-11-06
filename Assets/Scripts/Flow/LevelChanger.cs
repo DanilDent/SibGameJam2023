@@ -72,6 +72,7 @@ namespace GameFlow
         {
             yield return new WaitForSeconds(.25f);
             PathfinderHandler.Instance.BakePath();
+            EventBusSingleton.Instance.Invoke(new LevelLoaded(_currentLevel));
         }
     }
 }
