@@ -156,16 +156,8 @@ namespace GameTime
             if (Math.Abs(currentTurnTime - closestStepTime) < mathEps && !_isEventFired)
             {
                 // We are exactly at current step
-                if (step == 0)
-                {
-                    _eventBus.Invoke(new ClockFullTurnSignal());
-                    _isEventFired = true;
-                }
-                else
-                {
-                    _eventBus.Invoke(new ClockStepSignal(step));
-                    _isEventFired = true;
-                }
+                _eventBus.Invoke(new ClockStepSignal(step));
+                _isEventFired = true;
 
                 Debug.Log($"CLOCK STEP TIME EVENT: {_gameTimeSec}, STEP: {step}");
             }
@@ -185,6 +177,11 @@ namespace GameTime
                 Player.Player.Instance.UserAreadyHitBit = false;
                 _fullTurns = (int)(_gameTimeSec / _clockFullTurnSec);
                 Debug.Log($"New full turns: {_fullTurns}");
+                if (step == 0)
+                {
+                    _eventBus.Invoke(new ClockFullTurnSignal());
+                    _isEventFired = true;
+                }
             }
         }
     }
