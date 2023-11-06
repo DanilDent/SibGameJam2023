@@ -1,4 +1,5 @@
 using Config;
+using DG.Tweening;
 using Enemy;
 using Game;
 using GameTime;
@@ -21,6 +22,7 @@ namespace Player
         private SFXController _sfxController;
         private AudioSource _audioSource;
         public bool UserAreadyHitBit = false;
+        private SpriteRenderer _charRenderer;
 
         private int _currentHealth;
 
@@ -35,6 +37,7 @@ namespace Player
             _eventBus = EventBusSingleton.Instance;
             _rb = GetComponent<Rigidbody2D>();
             //_animator = GetComponentInChildren<Animator>();
+            _charRenderer = GetComponent<SpriteRenderer>();
             _attackColliderTransform.gameObject.SetActive(false);
 
             _eventBus.Subscribe<EnemyHited>(OnEnemyHited);
@@ -406,6 +409,12 @@ namespace Player
 
         public void TakeDamage(int damage)
         {
+            if (damage > 0)
+            {
+                DG.Tweening.Sequence sequence = DOTween.Sequence();
+                sequence.Append(_charRenderer.DOColor(Color.red, duration: 0.1f).SetEase(Ease.InCirc));
+                sequence.Append(_charRenderer.DOColor(Color.red, duration: 0.1f).SetEase(Ease.OutCirc));
+            }
             _currentHealth -= damage;
             _eventBus.Invoke(new TakeDamage(this, damage));
 
