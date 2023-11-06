@@ -32,6 +32,14 @@ namespace Sound
             DOTween.To(() => _audio.volume, x => _audio.volume = x, _defaultVolume, duration);
         }
 
+        public void PlayScheduled(double time, float duration = 0f)
+        {
+            _audio.volume = 0;
+            _audio.Stop();
+            _audio.PlayScheduled(time);
+            DOTween.To(() => _audio.volume, x => _audio.volume = x, _defaultVolume, duration);
+        }
+
         public void SetClip(AudioClip clip)
         {
             _audio.clip = clip;

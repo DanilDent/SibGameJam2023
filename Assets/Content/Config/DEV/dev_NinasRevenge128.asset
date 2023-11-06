@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _clip: {fileID: 8300000, guid: 276da798ad05d6240915f81372471a65, type: 3}
   _clockFullTurnSec: 3.75
-  _offsetSec: 0.46875
+  _offsetSec: 0

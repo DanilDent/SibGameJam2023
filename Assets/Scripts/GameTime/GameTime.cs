@@ -12,31 +12,14 @@ namespace GameTime
     public class GameTime : MonoSingleton<GameTime>
     {
         private GameConfigSO _config;
+        private double CurrentBeat;
+        private int CurrentBeatNumb;
 
         public bool IsHitBeat
         {
             get
             {
-                float currentTurnTime = _gameTimeSec;
-                float[] stepTimes = new float[_numberOfSteps];
-                for (int i = 0; i < _numberOfSteps; ++i)
-                {
-                    stepTimes[i] = (_clockFullTurnSec / _numberOfSteps) * (_numberOfSteps - i) + _fullTurns * _clockFullTurnSec;
-                }
-
-                float closestStepTime = stepTimes[0];
-                float decimPart = float.MaxValue;
-                for (int i = 0; i < _numberOfSteps; ++i)
-                {
-                    float curDecimPart = Mathf.Abs(stepTimes[i] - currentTurnTime);
-                    if (curDecimPart < decimPart)
-                    {
-                        decimPart = curDecimPart;
-                        closestStepTime = stepTimes[i];
-                    }
-                }
-
-                return Mathf.Abs(closestStepTime - currentTurnTime) < _eps;
+                return _isClockStepEnter;
             }
         }
 
@@ -53,11 +36,11 @@ namespace GameTime
             Fill(_config);
             Restart();
 
-            float[] stepTimes = new float[_numberOfSteps];
+            double[] stepTimes = new double[_numberOfSteps];
             for (int i = 0; i < _numberOfSteps; ++i)
             {
                 stepTimes[i] = (_clockFullTurnSec / _numberOfSteps) * (_numberOfSteps - i) + _fullTurns * _clockFullTurnSec;
-                Debug.Log($"StepTime: {stepTimes[i]}, -eps: {stepTimes[i] - _eps}, +eps: {stepTimes[i] + _eps}");
+                Debug.Log($"StepTime: {stepTimes[i]}, -eps: {stepTimes[i] - _userEps}, +eps: {stepTimes[i] + _userEps}");
             }
 
             Debug.Log($"==================================== Я ЕБАЛ ЭТУ ХУЙНЮ =========================================" +
@@ -69,40 +52,30 @@ namespace GameTime
         {
             var track = MusicController.Instance.SetTrack(0);
             _clockFullTurnSec = track.ClockFullTurnSec;
-            MusicController.Instance.Play();
-            if (track.OffsetSec > 0f)
-            {
-                StartCoroutine(Helpers.CoroutineHelpers.InvokeWithDelay(() =>
-                {
-                    StartGameClock();
-                }, track.OffsetSec));
-            }
-            else
-            {
-                StartGameClock();
-            }
+            StartGameClock();
+            MusicController.Instance.PlayScheduled(AudioSettings.dspTime + track.OffsetSec);
         }
 
         public void Fill(GameConfigSO config)
         {
             _numberOfSteps = config.GameTime.NumberOfSteps;
-            _eps = config.GameTime.EpsSec;
+            _userEps = config.GameTime.EpsSec;
 
             var track = MusicController.Instance.GetCurrentTrack();
             _clockFullTurnSec = track.ClockFullTurnSec;
         }
 
-        [SerializeField] private float _clockFullTurnSec = 4f;
+        [SerializeField] private double _clockFullTurnSec = 4f;
         [SerializeField] private int _numberOfSteps = 4;
-        [SerializeField] private float _eps = 1e-2f;
+        [SerializeField] private double _userEps = 1e-2f;
         private int _fullTurns;
 
-        public float TurnRatio
+        public double TurnRatio
         {
             get
             {
-                int fullTurns = Mathf.FloorToInt(_gameTimeSec / _clockFullTurnSec);
-                float currentTurnTime = _gameTimeSec - fullTurns * _clockFullTurnSec;
+                int fullTurns = (int)(_gameTimeSec / _clockFullTurnSec);
+                double currentTurnTime = _gameTimeSec - fullTurns * _clockFullTurnSec;
                 return currentTurnTime / _clockFullTurnSec;
             }
         }
@@ -111,8 +84,8 @@ namespace GameTime
 
         private EventBusSingleton _eventBus;
 
-        private float _startTimeSec;
-        private float _gameTimeSec;
+        private double _startTimeSec;
+        private double _gameTimeSec;
 
         private bool _isClockStarted;
         private bool _isEventFired;
@@ -123,38 +96,39 @@ namespace GameTime
         {
             _fullTurns = 0;
             _gameTimeSec = 0f;
-            _startTimeSec = Time.time;
+            _startTimeSec = AudioSettings.dspTime;
+            CurrentBeat = 0f;
+            CurrentBeatNumb = 0;
             _isClockStarted = true;
         }
 
-        private void FixedUpdate()
+        private void Update()
         {
             if (!_isClockStarted)
             {
                 return;
             }
 
-            _gameTimeSec = Time.time - _startTimeSec;
+            _gameTimeSec = AudioSettings.dspTime - _startTimeSec;
             CheckForSteps();
         }
 
-        private float _debguPrevStepTime = -1f;
+        private double _debguPrevStepTime = -1f;
         private void CheckForSteps()
         {
-            _fullTurns = Mathf.FloorToInt(_gameTimeSec / _clockFullTurnSec);
-            float currentTurnTime = _gameTimeSec;
+            double currentTurnTime = _gameTimeSec;
 
-            float[] stepTimes = new float[_numberOfSteps];
+            double[] stepTimes = new double[_numberOfSteps];
             for (int i = 0; i < _numberOfSteps; ++i)
             {
                 stepTimes[i] = (_clockFullTurnSec / _numberOfSteps) * (_numberOfSteps - i) + _fullTurns * _clockFullTurnSec;
             }
 
-            float closestStepTime = stepTimes[0];
-            float decimPart = float.MaxValue;
+            double closestStepTime = stepTimes[0];
+            double decimPart = double.MaxValue;
             for (int i = 0; i < _numberOfSteps; ++i)
             {
-                float curDecimPart = Mathf.Abs(stepTimes[i] - currentTurnTime);
+                double curDecimPart = Math.Abs(stepTimes[i] - currentTurnTime);
                 if (curDecimPart < decimPart)
                 {
                     decimPart = curDecimPart;
@@ -163,31 +137,25 @@ namespace GameTime
             }
             int step = Array.IndexOf(stepTimes, closestStepTime);
 
-            Debug.Log($"game time: {currentTurnTime}");
+            //Debug.Log($"game time: {currentTurnTime}");
 
-            float decimalPartCurrentTime = Mathf.Abs(closestStepTime - currentTurnTime);
-            if (currentTurnTime > closestStepTime - _eps && !_isClockStepEnter)
+            double decimalPartCurrentTime = Math.Abs(closestStepTime - currentTurnTime);
+            double mathEps = 0.02f;
+
+            if (currentTurnTime > closestStepTime - _userEps && currentTurnTime < closestStepTime + _userEps && !_isClockStepEnter)
             {
+                // First time come inside current step
                 _eventBus.Invoke(new ClockStepEnterSignal(step));
-                Debug.Log($"CLOCK STEP TIME DIFF: {currentTurnTime - (_debguPrevStepTime > 0f ? _debguPrevStepTime : 0)}");
+                Debug.Log($"CLOCK STEP TIME ENTER: {_gameTimeSec}, STEP: {step}");
                 _debguPrevStepTime = currentTurnTime;
                 _isClockStepEnter = true;
                 _isClockStepExit = false;
                 _isEventFired = false;
             }
 
-            if (currentTurnTime > closestStepTime + _eps && !_isClockStepExit)
+            if (Math.Abs(currentTurnTime - closestStepTime) < mathEps && !_isEventFired)
             {
-                _eventBus.Invoke(new ClockStepExitSignal(step));
-                Debug.Log($"CLOCK STEP TIME DIFF: {currentTurnTime - (_debguPrevStepTime > 0f ? _debguPrevStepTime : 0)}");
-                _debguPrevStepTime = currentTurnTime;
-                _isClockStepEnter = false;
-                _isClockStepExit = true;
-            }
-
-            float eps = 0.05f;
-            if (Mathf.Abs(currentTurnTime - closestStepTime) < eps && !_isEventFired)
-            {
+                // We are exactly at current step
                 if (step == 0)
                 {
                     _eventBus.Invoke(new ClockFullTurnSignal());
@@ -198,9 +166,26 @@ namespace GameTime
                     _eventBus.Invoke(new ClockStepSignal(step));
                     _isEventFired = true;
                 }
+
+                Debug.Log($"CLOCK STEP TIME EVENT: {_gameTimeSec}, STEP: {step}");
+            }
+            else if (_isClockStepEnter)
+            {
+                //Debug.Log($"Inside current step: {_gameTimeSec}");
             }
 
-            //_fullTurns = fullTurns;
+            if (currentTurnTime > closestStepTime + _userEps && !_isClockStepExit && _isClockStepEnter)
+            {
+                // We leave user range of the current step
+                _eventBus.Invoke(new ClockStepExitSignal(step));
+                Debug.Log($"CLOCK STEP TIME EXIT: {_gameTimeSec}, STEP: {step}");
+                _debguPrevStepTime = currentTurnTime;
+                _isClockStepExit = true;
+                _isClockStepEnter = false;
+                Player.Player.Instance.UserAreadyHitBit = false;
+                _fullTurns = (int)(_gameTimeSec / _clockFullTurnSec);
+                Debug.Log($"New full turns: {_fullTurns}");
+            }
         }
     }
 }

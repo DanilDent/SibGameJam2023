@@ -271,7 +271,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _clockFullTurnSec: 4
   _numberOfSteps: 4
-  _eps: 0.05
+  _userEps: 0.009999999776482582
 --- !u!1 &366400081
 GameObject:
   m_ObjectHideFlags: 0
@@ -635,8 +635,8 @@ MonoBehaviour:
   m_VerticalAxis: Vertical
   m_SubmitButton: Submit
   m_CancelButton: Cancel
-  m_InputActionsPerSecond: 120
-  m_RepeatDelay: 0.1
+  m_InputActionsPerSecond: 300
+  m_RepeatDelay: 0.05
   m_ForceModuleActive: 0
 --- !u!114 &590622568
 MonoBehaviour:
@@ -2361,7 +2361,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f90ff5f6e94c0994b874bdfa0f0a416f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spawnCountPerTick: 0
+  _prefab: {fileID: 0}
+  _count: 0
   _enemySpawnSuquance:
   - {fileID: 0}
   _wayPoints:

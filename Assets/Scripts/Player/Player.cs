@@ -12,7 +12,7 @@ using UnityEngine;
 
 namespace Player
 {
-    public class Player : MonoBehaviour
+    public class Player : MonoSingleton<Player>
     {
         [SerializeField] private TextMeshProUGUI _hitBeatText;
 
@@ -20,6 +20,7 @@ namespace Player
         private PlayerSO _localConfig;
         private SFXController _sfxController;
         private AudioSource _audioSource;
+        public bool UserAreadyHitBit = false;
 
         private int _currentHealth;
 
@@ -186,15 +187,16 @@ namespace Player
         }
         #endregion
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
+            base.OnDestroy();
             _eventBus.Unsubscribe<EnemyHited>(OnEnemyHited);
             UnsubscribeBeatEffectsCommands();
         }
 
         private void Update()
         {
-            _hitBeatNormal = GameTime.GameTime.Instance.IsHitBeat;
+            _hitBeatNormal = GameTime.GameTime.Instance.IsHitBeat && !UserAreadyHitBit;
             if (_hitBeatNormal)
             {
                 _hitBeatText.text = $"HIT";
@@ -360,6 +362,7 @@ namespace Player
                 Dash();
                 _isDash = true;
                 _rb.drag = oldDrag;
+                UserAreadyHitBit = true;
             }
 
             if (!_isDash && Input.GetMouseButtonDown(0) && _canAttack && !_isAttack && (_beatEffects.Contains(BeatEffect.CanAttack) ? _hitBeatNormal : true))
@@ -377,6 +380,7 @@ namespace Player
                 Attack();
                 _isAttack = true;
                 _rb.drag = oldDrag;
+                UserAreadyHitBit = true;
             }
         }
 

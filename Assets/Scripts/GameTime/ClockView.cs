@@ -33,7 +33,7 @@ namespace GameTime
 
         private void Update()
         {
-            _minuteHand.transform.rotation = Quaternion.Euler(0f, 0f, -(_gameTime.TurnRatio * 360f));
+            _minuteHand.transform.rotation = Quaternion.Euler(0f, 0f, -(float)(_gameTime.TurnRatio * 360f));
         }
 
         private void OnClockFullTurn(ClockFullTurnSignal signal)
